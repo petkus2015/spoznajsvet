@@ -1,0 +1,151 @@
+/* Spoznaj Svet – Letenky. Farby preberá z témy (CSS premenné), inak použije vlastné. */
+.svl {
+	--svl-accent: var(--c-accent, #1f7a73);
+	--svl-accent-ink: var(--c-on-accent, #fff);
+	--svl-ink: var(--c-ink, #0e2a30);
+	--svl-heading: var(--c-heading, #0e2a30);
+	--svl-text: var(--c-text, #10262b);
+	--svl-muted: var(--c-muted, #5b6f73);
+	--svl-surface: var(--c-surface, #fff);
+	--svl-soft: var(--c-soft, #eef3f2);
+	--svl-line: var(--c-line, #e2e8e7);
+	--svl-gold: var(--c-gold, #d9b77e);
+	--svl-radius: var(--radius-l, 22px);
+	--svl-shadow: var(--shadow-card, 0 10px 30px -12px rgba(14, 42, 48, .25));
+	color: var(--svl-text);
+	font-variant-numeric: tabular-nums;
+}
+.svl *, .svl *::before, .svl *::after { box-sizing: border-box; }
+.svl a { color: inherit; }
+
+/* Stav aktualizácie */
+.svl-status {
+	display: inline-flex; flex-wrap: wrap; align-items: center; gap: .35rem;
+	margin: 0 0 1.25rem; padding: .45rem .85rem; border-radius: 999px;
+	background: var(--svl-soft); color: var(--svl-muted); font-size: .8rem; line-height: 1.3;
+}
+.svl-status[hidden] { display: none; }
+.svl-status time { color: var(--svl-text); font-weight: 600; }
+.svl-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: svl-pulse 2s infinite; }
+@keyframes svl-pulse { 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+.svl--fresh { animation: svl-in .5s ease; }
+@keyframes svl-in { from { opacity: .4; } to { opacity: 1; } }
+
+.svl-block + .svl-block { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.svl-head { margin-bottom: 1.25rem; }
+.svl-eyebrow { margin: 0 0 .25rem; color: var(--svl-accent); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.svl-title { margin: 0; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.15; }
+.svl-lead { margin: .4rem 0 0; color: var(--svl-muted); }
+.svl-muted { color: var(--svl-muted); }
+
+/* Exotika */
+.svl-exo-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .svl-exo-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
+
+.svl-exo { display: flex; flex-direction: column; background: var(--svl-surface); border-radius: var(--svl-radius); box-shadow: var(--svl-shadow); overflow: hidden; border: 1px solid var(--svl-line); }
+.svl-exo__hero {
+	position: relative; display: flex; flex-direction: column; justify-content: space-between;
+	min-height: 190px; padding: 1rem; color: #fff;
+	background: linear-gradient(135deg, #0e2a30 0%, #1f7a73 60%, #d9b77e 130%);
+}
+.svl-exo[data-dest="DXB"] .svl-exo__hero { background: linear-gradient(135deg, #2a1d10 0%, #b5773a 60%, #f1cf8c 130%); }
+.svl-exo[data-dest="AUH"] .svl-exo__hero { background: linear-gradient(135deg, #102033 0%, #2c6e9b 60%, #e8d5b0 130%); }
+.svl-exo__hero.has-img { background: #0e2a30 var(--svl-img) center / cover no-repeat; }
+.svl-exo__hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 35%, rgba(4,20,24,.75) 100%); pointer-events: none; }
+.svl-exo__top, .svl-exo__bottom { position: relative; z-index: 1; }
+.svl-exo__top { display: flex; justify-content: space-between; gap: .5rem; align-items: flex-start; }
+.svl-glass { display: inline-flex; align-items: center; gap: .3rem; padding: .35rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 600; background: rgba(255,255,255,.18); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.25); }
+.svl-exo__city { margin: 0; color: #fff; font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.05; letter-spacing: .01em; }
+.svl-exo__from { margin: .25rem 0 0; font-size: .9rem; opacity: .9; }
+.svl-exo__from strong { font-size: 1.25rem; opacity: 1; }
+
+.svl-badge { display: inline-block; padding: .3rem .6rem; border-radius: 999px; background: var(--svl-gold); color: #2a1d10; font-size: .7rem; font-weight: 700; letter-spacing: .02em; }
+.svl-badge--float { position: absolute; top: -.55rem; left: 3.2rem; }
+
+.svl-exo__list { list-style: none; margin: 0; padding: .25rem 0; }
+.svl-flight {
+	display: grid; grid-template-columns: 1fr auto; grid-template-areas: "info price" "cta cta";
+	gap: .5rem .75rem; padding: .9rem 1rem; border-top: 1px solid var(--svl-line);
+}
+.svl-exo__list > .svl-flight:first-child { border-top: 0; }
+.svl-flight__route { display: none; }
+.svl-flight__info { grid-area: info; display: flex; flex-direction: column; gap: .1rem; font-size: .85rem; min-width: 0; }
+.svl-flight__info strong { font-size: .95rem; }
+.svl-flight__price { grid-area: price; text-align: right; line-height: 1.1; }
+.svl-flight__price strong { display: block; font-size: 1.25rem; color: var(--svl-heading); }
+.svl-flight__price small, .svl-eu__price small { color: var(--svl-muted); font-size: .72rem; }
+.svl-flight__cta { grid-area: cta; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.svl-flight--empty .svl-flight__cta { justify-content: flex-start; }
+.svl-btn {
+	display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: .5rem 1.1rem;
+	border-radius: 999px; background: var(--svl-accent); color: var(--svl-accent-ink) !important; font-weight: 600; font-size: .85rem;
+	text-decoration: none; transition: transform .15s ease, filter .15s ease;
+}
+.svl-btn:hover { filter: brightness(1.08); }
+.svl-btn:active { transform: scale(.97); }
+.svl-link { display: inline-flex; align-items: center; min-height: 36px; padding: .35rem .85rem; border-radius: 999px; border: 1px solid var(--svl-line); font-size: .82rem; font-weight: 600; text-decoration: none; }
+.svl-link:hover { border-color: var(--svl-accent); color: var(--svl-accent); }
+.svl-compare { display: inline-flex; gap: .75rem; font-size: .78rem; }
+.svl-compare a { color: var(--svl-muted); text-decoration: underline; text-underline-offset: 3px; }
+.svl-compare a:hover { color: var(--svl-accent); }
+
+@media (min-width: 560px) {
+	.svl-flight { grid-template-columns: auto 1fr auto; grid-template-areas: "route info price" "route cta cta"; }
+	.svl-flight__route { grid-area: route; display: flex; flex-direction: column; align-items: center; gap: .1rem; font-size: .72rem; font-weight: 700; color: var(--svl-muted); letter-spacing: .06em; padding-top: .1rem; }
+	.svl-flight__plane { width: 1px; height: 22px; background: repeating-linear-gradient(to bottom, var(--svl-line) 0 3px, transparent 3px 6px); }
+}
+
+.svl-exo__more { border-top: 1px solid var(--svl-line); }
+.svl-exo__more summary { cursor: pointer; padding: .8rem 1rem; font-size: .85rem; font-weight: 600; color: var(--svl-accent); list-style: none; }
+.svl-exo__more summary::-webkit-details-marker { display: none; }
+.svl-exo__more summary::after { content: " ↓"; }
+.svl-exo__more[open] summary::after { content: " ↑"; }
+
+/* Toolbar / chipy */
+.svl-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem; margin-bottom: 1rem; }
+.svl-chips { display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 2px; }
+.svl-chips::-webkit-scrollbar { display: none; }
+.svl-chip {
+	flex: 0 0 auto; min-height: 38px; padding: .45rem .95rem; border-radius: 999px; border: 1px solid var(--svl-line);
+	background: var(--svl-surface); color: var(--svl-text); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer;
+	transition: background .15s, color .15s, border-color .15s;
+}
+.svl-chip:hover { border-color: var(--svl-accent); }
+.svl-chip.is-active { background: var(--svl-heading); border-color: var(--svl-heading); color: var(--svl-surface); }
+.svl-chip:focus-visible, .svl-btn:focus-visible, .svl-more:focus-visible { outline: 3px solid var(--svl-gold); outline-offset: 2px; }
+
+/* Európa */
+.svl-eu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .svl-eu-list { grid-template-columns: repeat(2, 1fr); gap: .8rem; } }
+@media (min-width: 1100px) { .svl:not(.svl--compact) .svl-eu-list { grid-template-columns: repeat(3, 1fr); } }
+.svl-block--europe:not(.is-js) .svl-eu[data-best="0"] { display: none; }
+.svl-eu { position: relative; background: var(--svl-surface); border: 1px solid var(--svl-line); border-radius: 18px; transition: transform .15s ease, box-shadow .15s ease; }
+.svl-eu:hover { transform: translateY(-2px); box-shadow: var(--svl-shadow); }
+.svl-eu[hidden] { display: none; }
+.svl-eu__main { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .8rem; padding: .85rem 1rem .4rem; text-decoration: none; }
+.svl-eu__flag { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: var(--svl-soft); font-size: 1.5rem; line-height: 1; }
+.svl-eu__text { display: flex; flex-direction: column; min-width: 0; }
+.svl-eu__city { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.svl-eu__meta, .svl-eu__when { font-size: .78rem; color: var(--svl-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.svl-eu__when { color: var(--svl-text); }
+.svl-eu__price { text-align: right; line-height: 1.1; }
+.svl-eu__price strong { display: block; font-size: 1.2rem; color: var(--svl-accent); }
+.svl-eu .svl-compare { padding: 0 1rem .7rem calc(1rem + 44px + .8rem); }
+
+.svl-more {
+	display: flex; margin: 1.25rem auto 0; min-height: 44px; padding: .6rem 1.4rem; border-radius: 999px;
+	border: 1px solid var(--svl-heading); background: transparent; color: var(--svl-heading); font: inherit; font-weight: 600; cursor: pointer;
+}
+.svl-more:hover { background: var(--svl-heading); color: var(--svl-surface); }
+.svl-more[hidden] { display: none; }
+.svl-empty { padding: 1.25rem; border-radius: 18px; background: var(--svl-soft); color: var(--svl-muted); }
+.svl-note { margin: 1.5rem 0 0; font-size: .75rem; color: var(--svl-muted); }
+
+/* Kompaktné (úvodná stránka) */
+.svl--compact .svl-exo__hero { min-height: 150px; }
+.svl--compact .svl-note { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+	.svl-dot, .svl--fresh { animation: none; }
+	.svl-eu, .svl-btn { transition: none; }
+}
