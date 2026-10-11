@@ -28,8 +28,8 @@
 			"defaultFontSizes": false,
 			"fluid": true,
 			"fontFamilies": [
-				{ "slug": "sans", "name": "Plus Jakarta Sans", "fontFamily": "\"Plus Jakarta Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif" },
-				{ "slug": "serif", "name": "Playfair Display", "fontFamily": "\"Playfair Display\", Georgia, \"Times New Roman\", serif" }
+				{ "slug": "sans", "name": "Manrope", "fontFamily": "\"Manrope\", system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif" },
+				{ "slug": "serif", "name": "Instrument Serif", "fontFamily": "\"Instrument Serif\", Georgia, \"Times New Roman\", serif" }
 			],
 			"fontSizes": [
 				{ "slug": "small", "name": "Malé", "size": "0.875rem" },

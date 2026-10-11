@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,11 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 
 == Changelog ==
 
+= 1.2.0 =
+* Nové moderné písmo Manrope + Instrument Serif, pribalené v téme (bez Google Fonts).
+* Výber z 3 kombinácií písma v Prispôsobení.
+* Nové texty (sólo cestovanie aj v partii), štítky v sekcii O mne.
+
 = 1.1.0 =
 * Kompatibilita s WordPress 7.1, pridaný theme.json (farby a písma v editore).
 * Spodná navigácia na mobile je stále viditeľná.
@@ -38,4 +43,4 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 == Copyright ==
 
 Spoznaj Svet, (C) 2026 Spoznaj Svet. Licencia GPLv2 or later.
-Ikony podľa Lucide (ISC). Písma Plus Jakarta Sans a Playfair Display (SIL Open Font License) z Google Fonts.
+Ikony podľa Lucide (ISC). Písma Manrope, Instrument Serif, Figtree, Fraunces, Plus Jakarta Sans a Playfair Display (SIL Open Font License), pribalené v assets/fonts.

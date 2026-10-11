@@ -77,7 +77,7 @@ Otvorená stránka s letenkami si nové ceny načíta sama, bez obnovenia.
   Vlastné položky: menu „Spodná navigácia“, ikonu určíte CSS triedou položky (`ikona-home`, `ikona-globe`, `ikona-plane`, `ikona-book`, `ikona-search`, `ikona-user`, `ikona-map`).
 - Tmavý „teal“ hero s kartami krajín (karusel), karty článkov s fotkou (štýl „My trips“), sklenené (glass) prvky, tmavý režim podľa systému.
 - `theme.json`: farby, písma a veľkosti témy sú dostupné aj v blokovom editore.
-- Písma: Plus Jakarta Sans + Playfair Display (Google Fonts). Vypnutie (napr. kvôli GDPR a lokálnemu hostovaniu): `add_filter( 'sst_google_fonts', '__return_false' );`
+- Písma sú pribalené v téme (žiadne Google Fonts → rýchlejšie a bez GDPR problémov). Predvolené **Manrope + Instrument Serif**, prepnúť sa dá v *Prispôsobiť → Spoznaj Svet → Písmo* (aj Figtree + Fraunces alebo pôvodné Plus Jakarta Sans + Playfair Display).
 
 ## Náhľad
 

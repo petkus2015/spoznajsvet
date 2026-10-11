@@ -18,8 +18,11 @@
 	--c-muted: #5e7277;
 	--c-line: #dfe7e6;
 
-	--font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-	--font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+	/* Písmo sa dá zmeniť v Prispôsobení (inc/setup.php prepíše tieto premenné). */
+	--font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+	--serif-weight: 400;
+	--serif-scale: 1.12;
 
 	--radius-s: 12px;
 	--radius-m: 18px;
@@ -92,7 +95,7 @@ a { color: var(--c-accent); text-underline-offset: 3px; }
 a:hover { color: var(--c-accent-2); }
 h1, h2, h3, h4 { color: var(--c-heading); line-height: 1.2; font-weight: 700; letter-spacing: -.01em; margin: 0 0 .5em; }
 em { font-style: italic; }
-h1 em, h2 em, .section-title em, .page-hero__title em { font-family: var(--font-serif); font-weight: 500; }
+h1 em, h2 em, .section-title em, .page-hero__title em { font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1em * var(--serif-scale)); letter-spacing: 0; }
 button { font: inherit; }
 :focus-visible { outline: 3px solid var(--c-gold); outline-offset: 2px; border-radius: 6px; }
 
@@ -180,7 +183,7 @@ button { font: inherit; }
 .brand:hover { color: inherit; }
 .brand__img { max-height: 44px; width: auto; }
 .brand__text { font-size: 1.05rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.brand__text em { font-family: var(--font-serif); font-weight: 500; font-size: 1.25em; letter-spacing: .02em; text-transform: none; color: var(--c-gold); }
+.brand__text em { font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1.25em * var(--serif-scale)); letter-spacing: .02em; text-transform: none; color: var(--c-gold); }
 .logo-mark { flex: 0 0 auto; }
 
 .site-header__actions { display: flex; align-items: center; gap: .35rem; }
@@ -305,7 +308,7 @@ button { font: inherit; }
 	font-size: clamp(2.9rem, 13vw, 6.2rem);
 }
 .hero__title-accent {
-	display: block; font-family: var(--font-serif); font-weight: 500; font-style: italic;
+	display: block; font-family: var(--font-serif); font-weight: var(--serif-weight); font-style: italic;
 	font-size: clamp(3.2rem, 14vw, 6.8rem); color: #fff; margin-top: -.05em;
 }
 .hero__title-accent::first-letter { color: var(--c-gold); }
@@ -508,7 +511,7 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .entry-content figcaption { font-size: .85rem; color: var(--c-muted); text-align: center; margin-top: .5rem; }
 .entry-content blockquote {
 	margin-inline: 0; padding: .5rem 0 .5rem 1.25rem; border-left: 3px solid var(--c-gold);
-	font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; color: var(--c-heading);
+	font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1.3rem * var(--serif-scale)); font-style: italic; color: var(--c-heading);
 }
 .entry-content ul, .entry-content ol { padding-left: 1.25rem; }
 .entry-content li + li { margin-top: .35rem; }
@@ -533,6 +536,9 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .about__photo { overflow: hidden; border-radius: var(--radius-m); aspect-ratio: 4 / 3; background: var(--c-soft); }
 .about__photo img { width: 100%; height: 100%; object-fit: cover; }
 .about__text p { color: var(--c-muted); }
+.about__tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.about__tags li { padding: .35rem .8rem; border-radius: 999px; background: var(--c-soft); color: var(--c-heading); font-size: .82rem; font-weight: 600; }
+.about__tags li:first-child { background: var(--c-heading); color: var(--c-surface); }
 .about__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1rem; }
 @media (min-width: 820px) {
 	.about { grid-template-columns: 340px 1fr; gap: 3rem; padding: 2rem; }
@@ -606,7 +612,7 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 }
 .search-overlay.is-open .search-overlay__panel { transform: none; }
 .search-overlay__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; color: var(--c-heading); }
-.search-overlay__title { margin: 0; font-family: var(--font-serif); font-size: 1.5rem; }
+.search-overlay__title { margin: 0; font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1.5rem * var(--serif-scale)); }
 .search-overlay__label { margin: 1.25rem 0 .5rem; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c-muted); }
 @media (min-width: 768px) { .search-overlay { padding-top: 12vh; } }
 

@@ -28,7 +28,7 @@ add_action(
 				'flex-width'  => true,
 			)
 		);
-		add_editor_style( 'assets/css/editor.css' );
+		add_editor_style( array( 'assets/css/fonts.css', 'assets/css/editor.css' ) );
 
 		add_image_size( 'sst-card', 720, 900, true );
 		add_image_size( 'sst-wide', 1200, 750, true );
@@ -49,18 +49,69 @@ if ( ! isset( $content_width ) ) {
 	$content_width = 760;
 }
 
+/**
+ * Kombinácie písiem (Vzhľad → Prispôsobiť → Spoznaj Svet → Písmo).
+ * Všetky sú pribalené v téme – stránka nevolá Google Fonts (rýchlejšie, bez GDPR starostí).
+ */
+function sst_font_presets() {
+	return array(
+		'moderny'    => array(
+			'label'        => 'Moderné – Manrope + Instrument Serif (odporúčané)',
+			'sans'         => 'Manrope',
+			'serif'        => 'Instrument Serif',
+			'serif_weight' => 400,
+			'serif_scale'  => 1.12,
+			'preload'      => array( 'manrope-latin-wght-normal.woff2', 'manrope-latin-ext-wght-normal.woff2' ),
+		),
+		'priatelsky' => array(
+			'label'        => 'Priateľské – Figtree + Fraunces',
+			'sans'         => 'Figtree',
+			'serif'        => 'Fraunces',
+			'serif_weight' => 500,
+			'serif_scale'  => 1,
+			'preload'      => array( 'figtree-latin-wght-normal.woff2', 'figtree-latin-ext-wght-normal.woff2' ),
+		),
+		'klasicky'   => array(
+			'label'        => 'Pôvodné – Plus Jakarta Sans + Playfair Display',
+			'sans'         => 'Plus Jakarta Sans',
+			'serif'        => 'Playfair Display',
+			'serif_weight' => 500,
+			'serif_scale'  => 1,
+			'preload'      => array( 'plus-jakarta-sans-latin-wght-normal.woff2', 'plus-jakarta-sans-latin-ext-wght-normal.woff2' ),
+		),
+	);
+}
+
+function sst_font_preset() {
+	$presets = sst_font_presets();
+	$key     = get_theme_mod( 'sst_font', 'moderny' );
+	return $presets[ $key ] ?? $presets['moderny'];
+}
+
+function sst_font_stacks() {
+	$f = sst_font_preset();
+	return array(
+		'sans'  => '"' . $f['sans'] . '", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+		'serif' => '"' . $f['serif'] . '", Georgia, "Times New Roman", serif',
+	);
+}
+
 add_action(
 	'wp_enqueue_scripts',
 	static function () {
-		if ( apply_filters( 'sst_google_fonts', true ) ) {
-			wp_enqueue_style(
-				'sst-fonts',
-				'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap',
-				array(),
-				null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-			);
-		}
-		wp_enqueue_style( 'sst-theme', SST_URI . '/assets/css/theme.css', array(), SST_VERSION );
+		$stacks = sst_font_stacks();
+		wp_enqueue_style( 'sst-fonts', SST_URI . '/assets/css/fonts.css', array(), SST_VERSION );
+		wp_enqueue_style( 'sst-theme', SST_URI . '/assets/css/theme.css', array( 'sst-fonts' ), SST_VERSION );
+		wp_add_inline_style(
+			'sst-theme',
+			sprintf(
+				':root{--font-sans:%s;--font-serif:%s;--serif-weight:%d;--serif-scale:%s}',
+				$stacks['sans'],
+				$stacks['serif'],
+				(int) sst_font_preset()['serif_weight'],
+				(float) sst_font_preset()['serif_scale']
+			)
+		);
 		wp_enqueue_script( 'sst-theme', SST_URI . '/assets/js/theme.js', array(), SST_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
 
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -69,20 +120,45 @@ add_action(
 	}
 );
 
-add_filter(
-	'wp_resource_hints',
-	static function ( $urls, $relation ) {
-		if ( 'preconnect' === $relation && apply_filters( 'sst_google_fonts', true ) ) {
-			$urls[] = 'https://fonts.googleapis.com';
-			$urls[] = array(
-				'href'        => 'https://fonts.gstatic.com',
-				'crossorigin' => 'anonymous',
-			);
+/** Prednačítanie hlavného písma – text sa vykreslí hneď, bez preblikávania. */
+add_action(
+	'wp_head',
+	static function () {
+		foreach ( sst_font_preset()['preload'] as $file ) {
+			printf( '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n", esc_url( SST_URI . '/assets/fonts/' . $file ) );
 		}
-		return $urls;
 	},
-	10,
 	2
+);
+
+/** Písma v blokovom editore podľa zvolenej kombinácie (theme.json predvoľby). */
+add_filter(
+	'wp_theme_json_data_theme',
+	static function ( $theme_json ) {
+		$stacks = sst_font_stacks();
+		$f      = sst_font_preset();
+		return $theme_json->update_with(
+			array(
+				'version'  => 3,
+				'settings' => array(
+					'typography' => array(
+						'fontFamilies' => array(
+							array(
+								'slug'       => 'sans',
+								'name'       => $f['sans'],
+								'fontFamily' => $stacks['sans'],
+							),
+							array(
+								'slug'       => 'serif',
+								'name'       => $f['serif'],
+								'fontFamily' => $stacks['serif'],
+							),
+						),
+					),
+				),
+			)
+		);
+	}
 );
 
 add_action(

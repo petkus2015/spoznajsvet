@@ -24,6 +24,14 @@ $about = get_page_by_path( 'o-mne' );
 				<p class="eyebrow">O mne</p>
 				<h2 class="section-title"><?php echo esc_html( sst_mod( 'sst_about_title' ) ); ?></h2>
 				<p><?php echo esc_html( sst_mod( 'sst_about_text' ) ); ?></p>
+				<?php $sst_tags = array_filter( array_map( 'trim', explode( ',', (string) sst_mod( 'sst_about_tags' ) ) ) ); ?>
+				<?php if ( $sst_tags ) : ?>
+					<ul class="about__tags">
+						<?php foreach ( $sst_tags as $sst_tag ) : ?>
+							<li><?php echo esc_html( $sst_tag ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
 				<div class="about__actions">
 					<?php if ( $about ) : ?>
 						<a class="btn btn--primary" href="<?php echo esc_url( get_permalink( $about ) ); ?>">Viac o mne</a>

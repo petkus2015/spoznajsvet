@@ -1,5 +1,17 @@
-/* Štýly editora – aby text v editore vyzeral ako na webe. */
-body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 1.07rem; line-height: 1.65; color: #1a2e33; }
-h1, h2, h3, h4 { color: #0e2a30; line-height: 1.2; }
-blockquote { border-left: 3px solid #d9b77e; padding-left: 1.25rem; font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 1.3rem; }
+/* Štýly editora – aby text v editore vyzeral ako na webe (písmo podľa Prispôsobenia). */
+body {
+	font-family: var(--wp--preset--font-family--sans, system-ui, sans-serif);
+	font-size: 1.07rem;
+	line-height: 1.65;
+	color: #1a2e33;
+}
+h1, h2, h3, h4 { color: #0e2a30; line-height: 1.2; font-weight: 700; letter-spacing: -.01em; }
+h1 em, h2 em, h3 em { font-family: var(--wp--preset--font-family--serif, Georgia, serif); font-weight: 400; }
+blockquote {
+	border-left: 3px solid #d9b77e;
+	padding-left: 1.25rem;
+	font-family: var(--wp--preset--font-family--serif, Georgia, serif);
+	font-style: italic;
+	font-size: 1.4rem;
+}
 a { color: #1f7a73; }

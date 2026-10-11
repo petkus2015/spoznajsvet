@@ -9,13 +9,14 @@ defined( 'ABSPATH' ) || exit;
 
 function sst_mod_defaults() {
 	return array(
-		'sst_hero_eyebrow'  => 'Osobný cestovateľský blog',
+		'sst_hero_eyebrow'  => 'Najčastejšie sólo · rád aj v partii',
 		'sst_hero_title'    => 'Spoznaj',
 		'sst_hero_accent'   => 'svet',
-		'sst_hero_text'     => 'Príbehy, tipy a itineráre z krajín a miest, ktoré som navštívil – a najlacnejšie letenky, ako sa tam dostať.',
-		'sst_about_title'   => 'Ahoj, som cestovateľ zo Slovenska',
-		'sst_about_text'    => 'Cestujem s batohom aj s rodinou, lacno aj pohodlne. Na tomto blogu zdieľam všetko, čo by som chcel vedieť pred cestou – od itinerárov cez ceny až po miesta, ktoré v sprievodcoch nenájdete.',
-		'sst_footer_text'   => 'Spoznaj Svet – osobný cestovateľský blog.',
+		'sst_hero_text'     => 'Batoh, letenka za pár eur a chuť zablúdiť. Väčšinou cestujem sám, no rád vyrazím s kýmkoľvek alebo s malou partiou. Tu nájdeš príbehy, itineráre a tipy z miest, kde som bol, aj to, ako sa tam dostať lacno.',
+		'sst_about_title'   => 'Ahoj, som cestovateľ, ktorý sa nebojí vyraziť aj sám',
+		'sst_about_text'    => 'Najčastejšie cestujem sólo. Sám si určujem tempo, ľahšie sa dám do reči s miestnymi a zažijem veci, ktoré by som v skupine prehliadol. Nie som však samotár: rád cestujem s kýmkoľvek, kto má chuť objavovať, aj s menšou partiou. Na blogu nájdeš úprimné tipy pre sólo cestovateľov aj skupinky. Koľko čo stojí, kde je bezpečne, kde sa oplatí prespať a ako lacno letieť.',
+		'sst_about_tags'    => 'Najčastejšie sólo, Rád aj v partii, Lacné letenky, Overené tipy',
+		'sst_footer_text'   => 'Sólo aj v partii. Príbehy, itineráre a lacné letenky zo Slovenska do celého sveta.',
 		'sst_home_flights'  => 1,
 	);
 }
@@ -37,6 +38,7 @@ add_action(
 		);
 
 		$sections = array(
+			'sst_typo'   => 'Písmo',
 			'sst_hero'   => 'Úvodný banner',
 			'sst_about'  => 'O mne',
 			'sst_social' => 'Sociálne siete',
@@ -59,6 +61,7 @@ add_action(
 			'sst_hero_text'    => array( 'sst_hero', 'Text', 'textarea' ),
 			'sst_about_title'  => array( 'sst_about', 'Nadpis', 'text' ),
 			'sst_about_text'   => array( 'sst_about', 'Text', 'textarea' ),
+			'sst_about_tags'   => array( 'sst_about', 'Štítky (oddelené čiarkou)', 'text' ),
 			'sst_instagram'    => array( 'sst_social', 'Instagram URL', 'url' ),
 			'sst_facebook'     => array( 'sst_social', 'Facebook URL', 'url' ),
 			'sst_youtube'      => array( 'sst_social', 'YouTube URL', 'url' ),
@@ -103,6 +106,26 @@ add_action(
 				)
 			);
 		}
+
+		$wp->add_setting(
+			'sst_font',
+			array(
+				'default'           => 'moderny',
+				'sanitize_callback' => static function ( $v ) {
+					return array_key_exists( $v, sst_font_presets() ) ? $v : 'moderny';
+				},
+			)
+		);
+		$wp->add_control(
+			'sst_font',
+			array(
+				'section'     => 'sst_typo',
+				'label'       => 'Kombinácia písiem',
+				'description' => 'Písma sú uložené priamo v téme, takže sa nenačítavajú z Google.',
+				'type'        => 'radio',
+				'choices'     => wp_list_pluck( sst_font_presets(), 'label' ),
+			)
+		);
 
 		$wp->add_setting(
 			'sst_home_flights',
