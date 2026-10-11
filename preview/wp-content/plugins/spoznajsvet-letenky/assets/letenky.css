@@ -128,6 +128,10 @@
 	.svl-rank__pos { display: none; }
 }
 
+.svl-eu__split { font-size: .75rem; color: var(--svl-muted); }
+.svl-breakdown { display: block; color: var(--svl-muted); font-size: .7rem; white-space: nowrap; }
+.svl-source { display: block; opacity: .8; }
+.svl-eu__price small, .svl-flight__price small, .svl-rank__price small { display: block; }
 .svl-exo__airline { display: block; font-size: .82rem; opacity: .9; }
 .svl-airline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .3rem; font-size: .82rem; color: var(--svl-text); }
 .svl-airline__logo { width: 22px; height: 22px; border-radius: 6px; background: #fff; object-fit: contain; box-shadow: 0 0 0 1px var(--svl-line); }

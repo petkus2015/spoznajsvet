@@ -35,7 +35,7 @@ $deal    = sst_cheapest_flight_to( $term );
 			<?php endif; ?>
 			<?php if ( $deal ) : ?>
 				<li class="stats__deal">
-					<a href="<?php echo esc_url( $deal['url'] ); ?>"><?php echo sst_icon( 'plane', 16 ); // phpcs:ignore ?> letenky od <strong><?php echo esc_html( $deal['price'] ); ?></strong></a>
+					<a href="<?php echo esc_url( $deal['url'] ); ?>"><?php echo sst_icon( 'plane', 16 ); // phpcs:ignore ?> letenka tam aj späť od <strong><?php echo esc_html( $deal['price'] ); ?></strong></a>
 				</li>
 			<?php endif; ?>
 		</ul>

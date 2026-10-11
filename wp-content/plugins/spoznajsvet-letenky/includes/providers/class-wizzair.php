@@ -224,6 +224,8 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 				if ( null === $best || $p1 + $p2 < $best['price'] ) {
 					$best = array(
 						'price'  => $p1 + $p2,
+						'out'    => $p1,
+						'back'   => $p2,
 						'depart' => $dep,
 						'return' => $ret,
 					);
@@ -243,6 +245,8 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 					'depart'       => $best['depart'],
 					'return'       => $best['return'],
 					'price'        => $best['price'],
+					'price_out'    => $best['out'],
+					'price_back'   => $best['back'],
 					'stops'        => 0,
 					'airline'      => 'Wizz Air',
 					'airline_code' => 'W6',

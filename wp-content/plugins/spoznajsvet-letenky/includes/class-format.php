@@ -29,6 +29,9 @@ class SVL_Format {
 			'depart'       => substr( $d['depart'], 0, 10 ),
 			'return'       => $return,
 			'price'        => round( (float) $d['price'], 2 ),
+			// Rozpis spiatočnej ceny (ak ho zdroj pozná): let tam + let späť.
+			'price_out'    => isset( $d['price_out'] ) ? round( (float) $d['price_out'], 2 ) : null,
+			'price_back'   => isset( $d['price_back'] ) ? round( (float) $d['price_back'], 2 ) : null,
 			'currency'     => 'EUR',
 			'stops'        => isset( $d['stops'] ) ? (int) $d['stops'] : null,
 			'airline'      => $d['airline'] ?? '',
@@ -51,6 +54,14 @@ class SVL_Format {
 			esc_attr( $code ),
 			(int) $size
 		);
+	}
+
+	/** „tam 23 € + späť 30 €“ – len ak zdroj rozpis pozná. */
+	public static function breakdown( array $d ) {
+		if ( empty( $d['price_out'] ) || empty( $d['price_back'] ) ) {
+			return '';
+		}
+		return 'tam ' . self::price( $d['price_out'] ) . ' + späť ' . self::price( $d['price_back'] );
 	}
 
 	public static function price( $value ) {

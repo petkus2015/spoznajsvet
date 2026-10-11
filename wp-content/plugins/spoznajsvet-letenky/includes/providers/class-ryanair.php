@@ -61,7 +61,10 @@ class SVL_Provider_Ryanair extends SVL_Provider {
 					if ( empty( $f['arrivalAirport']['iataCode'] ) || empty( $in['departureDate'] ) ) {
 						continue;
 					}
-					// Cena spolu tam aj späť (summary), inak súčet oboch smerov.
+					// Rozpis: cena letu tam a letu späť.
+					$p_out  = ! empty( $f['price']['value'] ) ? SVL_Currency::to_eur( $f['price']['value'], $f['price']['currencyCode'] ?? 'EUR' ) : null;
+					$p_back = ! empty( $in['price']['value'] ) ? SVL_Currency::to_eur( $in['price']['value'], $in['price']['currencyCode'] ?? 'EUR' ) : null;
+					// Celková cena tam aj späť (summary), inak súčet oboch smerov.
 					if ( ! empty( $fare['summary']['price']['value'] ) ) {
 						$price = SVL_Currency::to_eur( $fare['summary']['price']['value'], $fare['summary']['price']['currencyCode'] ?? 'EUR' );
 					} elseif ( ! empty( $f['price']['value'] ) && ! empty( $in['price']['value'] ) ) {
@@ -89,6 +92,8 @@ class SVL_Provider_Ryanair extends SVL_Provider {
 							'depart'       => $date,
 							'return'       => $ret,
 							'price'        => $price,
+							'price_out'    => $p_out,
+							'price_back'   => $p_back,
 							'stops'        => 0,
 							'airline'      => 'Ryanair',
 							'airline_code' => 'FR',

@@ -120,7 +120,7 @@ class SVL_Render {
 			}
 			?>
 			<p class="svl-note">
-				Ceny sú za 1 osobu v EUR a menia sa každú chvíľu – pred kúpou ich vždy overte.
+				Všetky ceny sú celkové ceny spiatočnej letenky (tam aj späť) za 1 osobu v EUR. Menia sa každú chvíľu – pred kúpou ich vždy overte.
 				Zdroje: Ryanair, Wizz Air, Aviasales · porovnanie: Kayak, momondo.
 			</p>
 		</section>
@@ -261,7 +261,10 @@ class SVL_Render {
 					</span>
 					<span class="svl-rank__price">
 						<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-						<small>spiatočná</small>
+						<small>celkom tam aj späť</small>
+						<?php if ( SVL_Format::breakdown( $d ) ) : ?>
+							<small class="svl-breakdown"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></small>
+						<?php endif; ?>
 						<?php echo self::go( $d['url'] ? $d['url'] : $links['kayak'], 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					</span>
 				</li>
@@ -299,7 +302,7 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from">spiatočná od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
+						<p class="svl-exo__from">tam aj späť od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
 							<?php if ( $min['airline'] ) : ?>
 								<span class="svl-exo__airline">s <?php echo esc_html( $min['airline'] ); ?></span>
 							<?php endif; ?>
@@ -357,7 +360,11 @@ class SVL_Render {
 			</div>
 			<div class="svl-flight__price">
 				<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-				<small><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
+				<small>celkom tam aj späť</small>
+				<?php if ( SVL_Format::breakdown( $d ) ) : ?>
+					<small class="svl-breakdown"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></small>
+				<?php endif; ?>
+				<small class="svl-source"><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
 			</div>
 			<div class="svl-flight__cta">
 				<?php echo self::go( $url, 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
@@ -424,10 +431,14 @@ class SVL_Render {
 									<strong class="svl-eu__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
 									<span class="svl-eu__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
 									<span class="svl-eu__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) ); ?><?php if ( $nights ) : ?> <span class="svl-eu__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span><?php endif; ?></span>
+									<?php if ( SVL_Format::breakdown( $d ) ) : ?>
+										<span class="svl-eu__split"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></span>
+									<?php endif; ?>
 								</span>
 								<span class="svl-eu__price">
 									<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-									<small>spiatočná · <?php echo esc_html( $d['airline'] ? $d['airline'] : SVL_Format::source_label( $d['source'] ) ); ?></small>
+									<small>celkom tam aj späť</small>
+									<small class="svl-source"><?php echo esc_html( $d['airline'] ? $d['airline'] : SVL_Format::source_label( $d['source'] ) ); ?></small>
 								</span>
 							</button>
 							<?php if ( $d['low'] ) : ?>

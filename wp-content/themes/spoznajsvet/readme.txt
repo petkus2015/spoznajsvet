@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.10.0
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,10 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.11.0 =
+* Všetky letenky sú spiatočné a pri každej je celková cena „celkom tam aj späť“.
+* Rozpis ceny „tam X € + späť Y €“ (Ryanair a Wizz Air), štítok na stránke krajiny „letenka tam aj späť od …“.
 
 = 1.10.0 =
 * Responzívne fotky v článkoch: nikdy nepretečú obrazovku ani sa nedeformujú (aj fotky
