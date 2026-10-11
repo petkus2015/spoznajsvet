@@ -95,6 +95,15 @@
 	.svl-flight__plane { width: 1px; height: 22px; background: repeating-linear-gradient(to bottom, var(--svl-line) 0 3px, transparent 3px 6px); }
 }
 
+.svl-exo__airline { display: block; font-size: .82rem; opacity: .9; }
+.svl-airline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .3rem; font-size: .82rem; color: var(--svl-text); }
+.svl-airline__logo { width: 22px; height: 22px; border-radius: 6px; background: #fff; object-fit: contain; box-shadow: 0 0 0 1px var(--svl-line); }
+.svl-airline__name { font-weight: 700; }
+.svl-stops { padding: .1rem .5rem; border-radius: 999px; background: var(--svl-soft); color: var(--svl-muted); font-size: .72rem; font-weight: 600; }
+.svl-stops.is-direct { background: color-mix(in srgb, #22c55e 16%, transparent); color: #15803d; }
+.svl-admin-note { margin: 0 0 1.25rem; padding: 1rem 1.15rem; border-radius: 16px; border: 1px dashed var(--svl-gold); background: color-mix(in srgb, var(--svl-gold) 12%, var(--svl-surface)); font-size: .88rem; line-height: 1.5; }
+.svl-admin-note ol { margin: .5rem 0 0; padding-left: 1.2rem; }
+.svl-admin-note a { color: var(--svl-accent); font-weight: 600; }
 .svl-exo__more { border-top: 1px solid var(--svl-line); }
 .svl-exo__more summary { cursor: pointer; padding: .8rem 1rem; font-size: .85rem; font-weight: 600; color: var(--svl-accent); list-style: none; }
 .svl-exo__more summary::-webkit-details-marker { display: none; }

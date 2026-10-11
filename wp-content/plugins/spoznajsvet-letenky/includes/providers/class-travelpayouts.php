@@ -75,6 +75,7 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 				'price'       => $row['price'],
 				'stops'       => isset( $row['transfers'] ) ? (int) $row['transfers'] : null,
 				'airline'     => $airlines[ $code ] ?? $code,
+				'airline_code' => $code,
 				'url'         => $this->link( $row['link'] ?? '' ),
 			)
 		);
@@ -93,6 +94,7 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 			$pairs,
 			function ( $pair ) use ( $months ) {
 				list( $o, $d ) = $pair;
+				$limit         = strtotime( '+' . $months . ' months' );
 				$rows          = $this->query(
 					array(
 						'origin'      => $o,
@@ -101,17 +103,23 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 						'limit'       => 30,
 					)
 				);
-				$out   = array();
-				$limit = strtotime( '+' . $months . ' months' );
+				// Záloha: staršie API „najlacnejšie lety“ (podľa počtu prestupov) – často má dáta aj tam, kde nové nie.
+				if ( ! $rows ) {
+					$rows = $this->cheap( $o, $d );
+				}
+				$out = array();
 				foreach ( $rows as $row ) {
-					if ( empty( $row['price'] ) || empty( $row['departure_at'] ) || strtotime( $row['departure_at'] ) > $limit ) {
+					if ( empty( $row['price'] ) || empty( $row['departure_at'] ) || strtotime( $row['departure_at'] ) > $limit || strtotime( $row['departure_at'] ) < time() ) {
 						continue;
 					}
 					// Z/do rovnakej destinácie (napr. BKK/DMK) zapíšeme pod konfigurovaný kód mesta.
 					$row['destination'] = $d;
 					$deal               = $this->to_deal( 'exotika', $row, $o );
 					$deal['origin']     = $o;
-					$out[]              = $deal;
+					if ( ! $deal['url'] ) {
+						$deal['url'] = $this->search_link( $o, $d, $deal['depart'], $deal['return'] );
+					}
+					$out[] = $deal;
 					if ( count( $out ) >= 3 ) {
 						break;
 					}
@@ -119,6 +127,51 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 				return $out;
 			}
 		);
+	}
+
+	/**
+	 * GET /v1/prices/cheap – vráti najlacnejšie spiatočné lety s aerolinkou, zoskupené podľa počtu prestupov.
+	 *
+	 * @return array Riadky v rovnakom tvare ako prices_for_dates.
+	 */
+	private function cheap( $origin, $dest ) {
+		$token = (string) SVL_Settings::get( 'tp_token' );
+		$json  = $this->get_json(
+			add_query_arg(
+				array(
+					'origin'      => $origin,
+					'destination' => $dest,
+					'currency'    => 'eur',
+					'token'       => $token,
+				),
+				'https://api.travelpayouts.com/v1/prices/cheap'
+			),
+			array( 'X-Access-Token' => $token )
+		);
+		$rows = array();
+		foreach ( (array) ( $json['data'] ?? array() ) as $by_stops ) {
+			foreach ( (array) $by_stops as $stops => $r ) {
+				if ( ! is_array( $r ) ) {
+					continue;
+				}
+				$r['transfers'] = (int) $stops;
+				$r['origin']    = $origin;
+				$rows[]         = $r;
+			}
+		}
+		usort(
+			$rows,
+			static function ( $a, $b ) {
+				return ( $a['price'] ?? 0 ) <=> ( $b['price'] ?? 0 );
+			}
+		);
+		return $rows;
+	}
+
+	/** Odkaz na vyhľadávanie Aviasales pre konkrétne dátumy (ak API odkaz nevrátilo). */
+	private function search_link( $o, $d, $depart, $return ) {
+		$path = '/search/' . $o . gmdate( 'dm', strtotime( $depart ) ) . $d . ( $return ? gmdate( 'dm', strtotime( $return ) ) : '' ) . '1';
+		return $this->link( $path );
 	}
 
 	private function fetch_europe() {

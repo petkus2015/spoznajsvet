@@ -126,7 +126,7 @@ class SVL_Store {
 				if ( ! in_array( $d['destination'], $exotic, true ) ) {
 					continue;
 				}
-				$key = implode( '|', array( $d['group'], $d['origin'], $d['destination'], $d['source'], $d['depart'], $d['return'] ) );
+				$key = implode( '|', array( $d['group'], $d['origin'], $d['destination'], $d['source'], $d['depart'], $d['return'], $d['airline_code'] ?? '' ) );
 			} else {
 				if ( in_array( $d['destination'], $eu_origins, true ) || $d['origin'] === $d['destination'] ) {
 					continue;

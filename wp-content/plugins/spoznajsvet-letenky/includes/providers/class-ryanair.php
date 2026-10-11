@@ -68,6 +68,7 @@ class SVL_Provider_Ryanair extends SVL_Provider {
 							'price'       => $price,
 							'stops'       => 0,
 							'airline'     => 'Ryanair',
+							'airline_code' => 'FR',
 							'url'         => add_query_arg(
 								array(
 									'adults'          => 1,

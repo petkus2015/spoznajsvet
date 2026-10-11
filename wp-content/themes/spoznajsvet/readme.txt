@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,11 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.6.0 =
+* Exotika: každý let s cenou, leteckou spoločnosťou (logo + názov), dátumami a počtom prestupov.
+* Záložné vyhľadávanie Travelpayouts, keď hlavné nič nenájde.
+* Návod na získanie tokenu priamo na stránke Letenky (vidí ho len admin).
 
 = 1.5.0 =
 * Letenky sú pribalené priamo v téme (inc/letenky) – netreba inštalovať samostatný plugin.

@@ -168,6 +168,16 @@ class SVL_Render {
 					<p class="svl-lead">Najlacnejšie spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>.</p>
 				</header>
 			<?php endif; ?>
+			<?php if ( '' === (string) SVL_Settings::get( 'tp_token' ) && current_user_can( 'manage_options' ) ) : ?>
+				<div class="svl-admin-note" role="note">
+					<strong>Len pre teba (admin):</strong> lety do Bangkoku, Dubaja a Abu Dhabi s cenou a aerolinkou vyhľadáva Aviasales (Travelpayouts). Potrebuje bezplatný token:
+					<ol>
+						<li>Zaregistruj sa zadarmo na <a href="https://www.travelpayouts.com/" target="_blank" rel="noopener">travelpayouts.com</a>.</li>
+						<li>V ich administrácii otvor <em>Tools → API</em> (Nástroje → API) a skopíruj <em>API token</em>.</li>
+						<li>Vlož ho do <a href="<?php echo esc_url( admin_url( 'options-general.php?page=svl-letenky' ) ); ?>">Nastavenia → Letenky</a> a klikni „Aktualizovať teraz“.</li>
+					</ol>
+				</div>
+			<?php endif; ?>
 			<div class="svl-exo-grid">
 				<?php
 				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $dest ) {
@@ -224,7 +234,11 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from"><?php echo $min['return'] ? 'spiatočná od' : 'jednosmerná od'; ?> <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong></p>
+						<p class="svl-exo__from"><?php echo $min['return'] ? 'spiatočná od' : 'jednosmerná od'; ?> <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
+							<?php if ( $min['airline'] ) : ?>
+								<span class="svl-exo__airline">s <?php echo esc_html( $min['airline'] ); ?></span>
+							<?php endif; ?>
+						</p>
 					<?php else : ?>
 						<p class="svl-exo__from">porovnajte aktuálne ceny</p>
 					<?php endif; ?>
@@ -300,16 +314,21 @@ class SVL_Render {
 		if ( $nights ) {
 			$when .= ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' );
 		}
-		$extra = array_filter( array( SVL_Format::stops( $d['stops'] ), $d['airline'] ) );
+		$stops   = SVL_Format::stops( $d['stops'] );
+		$airline = $d['airline'] ? $d['airline'] : 'Letecká spoločnosť neuvedená';
 		?>
 		<li class="svl-flight">
 			<div class="svl-flight__route" aria-hidden="true"><span><?php echo esc_html( $d['origin'] ); ?></span><span class="svl-flight__plane"></span><span><?php echo esc_html( $d['destination'] ); ?></span></div>
 			<div class="svl-flight__info">
 				<strong><?php echo esc_html( self::from_label( $d['origin'], $d['origin_city'] ) ); ?></strong>
 				<span><?php echo esc_html( $when ); ?></span>
-				<?php if ( $extra ) : ?>
-					<span class="svl-muted"><?php echo esc_html( implode( ' · ', $extra ) ); ?></span>
-				<?php endif; ?>
+				<span class="svl-airline">
+					<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<span class="svl-airline__name"><?php echo esc_html( $airline ); ?></span>
+					<?php if ( $stops ) : ?>
+						<span class="svl-stops<?php echo 0 === $d['stops'] ? ' is-direct' : ''; ?>"><?php echo esc_html( $stops ); ?></span>
+					<?php endif; ?>
+				</span>
 			</div>
 			<div class="svl-flight__price">
 				<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>

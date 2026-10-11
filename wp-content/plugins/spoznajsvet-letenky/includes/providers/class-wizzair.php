@@ -212,6 +212,7 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 					'price'       => $best['price'],
 					'stops'       => 0,
 					'airline'     => 'Wizz Air',
+					'airline_code' => 'W6',
 					'url'         => sprintf( 'https://wizzair.com/sk-sk/booking/select-flight/%s/%s/%s/null/1/0/0/null', $origin, $dest, $best['date'] ),
 				)
 			),

@@ -32,9 +32,24 @@ class SVL_Format {
 			'currency'     => 'EUR',
 			'stops'        => isset( $d['stops'] ) ? (int) $d['stops'] : null,
 			'airline'      => $d['airline'] ?? '',
+			'airline_code' => strtoupper( (string) ( $d['airline_code'] ?? '' ) ),
 			'url'          => $d['url'] ?? '',
 			'fetched'      => isset( $d['fetched'] ) ? (int) $d['fetched'] : time(),
 			'low'          => false,
+		);
+	}
+
+	/** Logo aerolinky (verejné CDN Aviasales podľa IATA kódu). */
+	public static function airline_logo( $code, $size = 28 ) {
+		$code = strtoupper( (string) $code );
+		if ( ! preg_match( '/^[A-Z0-9]{2}$/', $code ) ) {
+			return '';
+		}
+		return sprintf(
+			'<img class="svl-airline__logo" src="https://pics.avs.io/%1$d/%1$d/%2$s@2x.png" width="%3$d" height="%3$d" alt="" loading="lazy" decoding="async" onerror="this.remove()">',
+			(int) $size * 2,
+			esc_attr( $code ),
+			(int) $size
 		);
 	}
 

@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,11 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.2.0 =
+* Letecká spoločnosť (logo + názov) a priamy let/prestupy pri každej ponuke.
+* Exotika: záloha cez Travelpayouts /v1/prices/cheap, viac aerolinek v rovnaký deň.
+* Návod na token pre admina, keď chýba.
 
 = 1.1.0 =
 * Dá sa pribaliť do témy Spoznaj Svet; pri súčasnom načítaní z témy aj pluginu sa načíta len raz.
