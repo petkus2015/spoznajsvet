@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,10 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 4. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.4.0 =
+* Spodná mobilná navigácia v štýle Apple Liquid Glass: sklenená kapsula, posuvná šošovka
+  pod aktívnou položkou, samostatné okrúhle tlačidlo vyhľadávania. Rešpektuje „Znížiť priehľadnosť“.
 
 = 1.3.0 =
 * Predvolené ilustrácie destinácií a úvodného banneru pribalené v téme (assets/img).

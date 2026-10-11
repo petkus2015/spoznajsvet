@@ -73,7 +73,7 @@ Otvorená stránka s letenkami si nové ceny načíta sama, bez obnovenia.
 
 ## Dizajn
 
-- Mobile-first, na mobile **spodná navigácia** ako v aplikácii (Domov · Destinácie · **Letenky** · Články · Hľadať), stále viditeľná. Hore je navyše tlačidlo ☰ s celým menu.
+- Mobile-first, na mobile **spodná navigácia** ako v aplikácii (Domov · Destinácie · **Letenky** · Články · Hľadať), stále viditeľná, v štýle Apple **Liquid Glass** (sklenená kapsula, šošovka pod aktívnou položkou, okrúhle tlačidlo hľadania). Hore je navyše tlačidlo ☰ s celým menu.
   Vlastné položky: menu „Spodná navigácia“, ikonu určíte CSS triedou položky (`ikona-home`, `ikona-globe`, `ikona-plane`, `ikona-book`, `ikona-search`, `ikona-user`, `ikona-map`).
 - Tmavý „teal“ hero s kartami krajín (karusel), karty článkov s fotkou (štýl „My trips“), sklenené (glass) prvky, tmavý režim podľa systému.
 - `theme.json`: farby, písma a veľkosti témy sú dostupné aj v blokovom editore.

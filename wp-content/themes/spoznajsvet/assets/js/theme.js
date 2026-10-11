@@ -25,6 +25,45 @@
 	}, { passive: true });
 	onScroll();
 
+	/* Spodná navigácia „Liquid Glass“: sklenená šošovka pod aktívnou položkou. */
+	var nav = doc.querySelector('[data-bottom-nav]');
+	var lens = nav && nav.querySelector('[data-nav-lens]');
+
+	function moveLens(item) {
+		if (!lens) return;
+		if (!item) { lens.classList.remove('is-visible'); return; }
+		var bar = lens.parentElement.getBoundingClientRect();
+		var r = item.getBoundingClientRect();
+		if (!r.width) return;
+		lens.style.setProperty('--lens-x', (r.left - bar.left) + 'px');
+		lens.style.setProperty('--lens-w', r.width + 'px');
+		lens.classList.add('is-visible');
+	}
+	function activeItem() { return nav && nav.querySelector('.bottom-nav__item.is-active'); }
+
+	if (nav && lens) {
+		// Prvé umiestnenie bez animácie, potom už plynulo.
+		lens.style.transition = 'none';
+		moveLens(activeItem());
+		window.requestAnimationFrame(function () {
+			lens.style.transition = '';
+			nav.classList.add('is-ready');
+		});
+		nav.addEventListener('pointerdown', function (e) {
+			var item = e.target.closest('.bottom-nav__item');
+			if (!item) return;
+			moveLens(item);
+			lens.classList.add('is-pressed');
+		});
+		var release = function () { lens.classList.remove('is-pressed'); };
+		nav.addEventListener('pointerup', release);
+		nav.addEventListener('pointercancel', function () { release(); moveLens(activeItem()); });
+		nav.addEventListener('pointerleave', release);
+		window.addEventListener('resize', function () { moveLens(activeItem()); });
+		// Návrat späť (bfcache) – šošovka na správne miesto.
+		window.addEventListener('pageshow', function () { moveLens(activeItem()); });
+	}
+
 	/* Vyhľadávanie cez celú obrazovku. */
 	var overlay = doc.querySelector('[data-search-overlay]');
 	var lastFocus = null;
