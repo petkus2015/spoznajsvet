@@ -561,9 +561,7 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 	border-radius: 24px; background: color-mix(in srgb, var(--c-surface) 88%, transparent);
 	backdrop-filter: saturate(180%) blur(18px); -webkit-backdrop-filter: saturate(180%) blur(18px);
 	border: 1px solid var(--c-line); box-shadow: 0 12px 40px -10px rgba(4, 20, 24, .35);
-	transition: transform .35s var(--ease), opacity .35s;
 }
-.bottom-nav.is-hidden { transform: translateY(calc(100% + 24px)); opacity: 0; }
 .bottom-nav ul { display: flex; justify-content: space-around; align-items: stretch; margin: 0; padding: 6px; list-style: none; }
 .bottom-nav li { flex: 1; display: flex; }
 .bottom-nav__item {

@@ -2,17 +2,22 @@
 
 Osobný cestovateľský blog pre [spoznajsvet.sk](https://www.spoznajsvet.sk/).
 
+Testované na **WordPress 7.1.3** (najnovšia verzia k 11. 10. 2026), PHP 7.4+.
+
 ```
+dist/
+├── spoznajsvet.zip                  téma pripravená na nahratie do WordPressu
+└── spoznajsvet-letenky.zip          plugin pripravený na nahratie
 wp-content/
-├── themes/spoznajsvet/              téma (dizajn, krajiny/mestá, spodná navigácia)
-└── plugins/spoznajsvet-letenky/     najlacnejšie letenky, aktualizácia každých 30 min
+├── themes/spoznajsvet/              zdrojové súbory témy
+└── plugins/spoznajsvet-letenky/     zdrojové súbory pluginu
 preview/                             statický HTML náhľad (ukážkový obsah)
 ```
 
 ## Inštalácia
 
-1. Nahrajte priečinky `wp-content/themes/spoznajsvet` a `wp-content/plugins/spoznajsvet-letenky` na server (FTP alebo ZIP cez *Vzhľad → Témy → Pridať* a *Pluginy → Pridať*).
-2. Aktivujte **plugin** „Spoznaj Svet – Letenky“ a potom **tému** „Spoznaj Svet“.
+1. *Pluginy → Pridať plugin → Nahrať plugin* → `dist/spoznajsvet-letenky.zip` → Inštalovať → **Aktivovať**.
+2. *Vzhľad → Témy → Pridať tému → Nahrať tému* → `dist/spoznajsvet.zip` → Inštalovať → **Aktivovať**.
    Téma pri aktivácii vytvorí stránky **Destinácie** (`/destinacie/`) a **Letenky** (`/letenky/`).
    Ak mal web ako úvod „najnovšie články“, vytvorí aj stránky *Domov* a *Články* a nastaví ich v *Nastavenia → Čítanie*.
 3. *Nastavenia → Trvalé odkazy* → Uložiť (obnoví URL adresy).
@@ -68,11 +73,16 @@ Otvorená stránka s letenkami si nové ceny načíta sama, bez obnovenia.
 
 ## Dizajn
 
-- Mobile-first, na mobile **spodná navigácia** ako v aplikácii (Domov · Destinácie · **Letenky** · Články · Hľadať); pri scrollovaní dole sa skryje.
+- Mobile-first, na mobile **spodná navigácia** ako v aplikácii (Domov · Destinácie · **Letenky** · Články · Hľadať), stále viditeľná. Hore je navyše tlačidlo ☰ s celým menu.
   Vlastné položky: menu „Spodná navigácia“, ikonu určíte CSS triedou položky (`ikona-home`, `ikona-globe`, `ikona-plane`, `ikona-book`, `ikona-search`, `ikona-user`, `ikona-map`).
 - Tmavý „teal“ hero s kartami krajín (karusel), karty článkov s fotkou (štýl „My trips“), sklenené (glass) prvky, tmavý režim podľa systému.
+- `theme.json`: farby, písma a veľkosti témy sú dostupné aj v blokovom editore.
 - Písma: Plus Jakarta Sans + Playfair Display (Google Fonts). Vypnutie (napr. kvôli GDPR a lokálnemu hostovaniu): `add_filter( 'sst_google_fonts', '__return_false' );`
 
 ## Náhľad
 
 `preview/index.html` – statická kópia vygenerovaná z lokálneho WordPressu. Obsah, obrázky (generované ilustrácie) a ceny leteniek sú **ukážkové**.
+
+## Nové ZIP balíky
+
+Po úprave zdrojových súborov: `python3 build.py` → vytvorí `dist/spoznajsvet.zip` a `dist/spoznajsvet-letenky.zip`.

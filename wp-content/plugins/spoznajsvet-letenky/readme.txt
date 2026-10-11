@@ -1,0 +1,27 @@
+=== Spoznaj Svet – Letenky ===
+Contributors: spoznajsvet
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.0.1
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + porovnanie Kayak a momondo), aktualizované každých 30 minút.
+
+== Description ==
+
+* Exotika: Bangkok, Dubaj, Abu Dhabi z Viedne, Bratislavy a Budapešti (spiatočné).
+* Európske mestá: najlacnejšie jednosmerné letenky z Bratislavy a Viedne.
+* Shortcode [spoznajsvet_letenky], blok „Letenky“, REST /wp-json/spoznajsvet/v1/letenky.
+* Nastavenia → Letenky: zdroje, token Travelpayouts, letiská, ručné tipy.
+* WP-CLI: wp letenky refresh, wp letenky status.
+
+== Changelog ==
+
+= 1.0.1 =
+* Kompatibilita s WordPress 7.1.
+* Parameter stav="0" skryje riadok s časom aktualizácie.
+
+= 1.0.0 =
+* Prvá verzia.

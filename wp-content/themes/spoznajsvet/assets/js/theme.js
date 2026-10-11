@@ -6,27 +6,18 @@
 	var root = doc.documentElement;
 	var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	/* Hlavička: pozadie po odscrollovaní, spodná navigácia sa skryje pri scrollovaní dole. */
+	/* Hlavička: pozadie po odscrollovaní. Spodná navigácia je na mobile viditeľná stále. */
 	var header = doc.querySelector('[data-header]');
-	var bottomNav = doc.querySelector('[data-bottom-nav]');
 	var progress = doc.querySelector('[data-read-progress]');
-	var lastY = window.scrollY;
 	var ticking = false;
 
 	function onScroll() {
 		var y = window.scrollY;
 		if (header) header.classList.toggle('is-scrolled', y > 12);
-		if (bottomNav) {
-			var down = y > lastY + 4 && y > 160;
-			var up = y < lastY - 4;
-			if (down) bottomNav.classList.add('is-hidden');
-			else if (up || y < 160) bottomNav.classList.remove('is-hidden');
-		}
 		if (progress) {
 			var h = doc.documentElement.scrollHeight - window.innerHeight;
 			progress.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
 		}
-		lastY = y;
 		ticking = false;
 	}
 	window.addEventListener('scroll', function () {
@@ -89,7 +80,6 @@
 		menuBtn.setAttribute('aria-label', open ? 'Zavrieť menu' : 'Otvoriť menu');
 		if (open) {
 			menu.hidden = false;
-			if (bottomNav) bottomNav.classList.remove('is-hidden');
 			window.requestAnimationFrame(function () { menu.classList.add('is-open'); });
 		} else {
 			menu.classList.remove('is-open');

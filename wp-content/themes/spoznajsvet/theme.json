@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": false,
+		"layout": {
+			"contentSize": "720px",
+			"wideSize": "1100px"
+		},
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "ink", "name": "Atrament", "color": "#0e2a30" },
+				{ "slug": "accent", "name": "Tyrkys", "color": "#1f7a73" },
+				{ "slug": "accent-2", "name": "Svetlý tyrkys", "color": "#2a9d8f" },
+				{ "slug": "gold", "name": "Piesok", "color": "#d9b77e" },
+				{ "slug": "soft", "name": "Hmla", "color": "#e9f0ef" },
+				{ "slug": "muted", "name": "Sivá", "color": "#5e7277" },
+				{ "slug": "white", "name": "Biela", "color": "#ffffff" }
+			],
+			"gradients": [
+				{ "slug": "lagoon", "name": "Lagúna", "gradient": "linear-gradient(135deg, #0e2a30 0%, #1f7a73 60%, #d9b77e 130%)" }
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fluid": true,
+			"fontFamilies": [
+				{ "slug": "sans", "name": "Plus Jakarta Sans", "fontFamily": "\"Plus Jakarta Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif" },
+				{ "slug": "serif", "name": "Playfair Display", "fontFamily": "\"Playfair Display\", Georgia, \"Times New Roman\", serif" }
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Malé", "size": "0.875rem" },
+				{ "slug": "medium", "name": "Stredné", "size": "1.07rem" },
+				{ "slug": "large", "name": "Veľké", "size": "1.35rem", "fluid": { "min": "1.2rem", "max": "1.35rem" } },
+				{ "slug": "x-large", "name": "Veľmi veľké", "size": "1.9rem", "fluid": { "min": "1.5rem", "max": "1.9rem" } },
+				{ "slug": "huge", "name": "Obrovské", "size": "3rem", "fluid": { "min": "2.2rem", "max": "3rem" } }
+			]
+		},
+		"spacing": {
+			"units": [ "px", "rem", "em", "%", "vw" ]
+		}
+	},
+	"styles": {
+		"blocks": {
+			"core/button": {
+				"border": { "radius": "14px" },
+				"color": { "background": "var(--wp--preset--color--accent)", "text": "#ffffff" }
+			},
+			"core/quote": {
+				"border": { "left": { "color": "var(--wp--preset--color--gold)", "width": "3px", "style": "solid" } }
+			}
+		}
+	}
+}
