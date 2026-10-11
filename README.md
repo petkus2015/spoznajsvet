@@ -17,13 +17,13 @@ preview/                             statický HTML náhľad (ukážkový obsah)
 ## Inštalácia
 
 1. *Vzhľad → Témy → Pridať tému → Nahrať tému* → `dist/spoznajsvet.zip` → Inštalovať → **Aktivovať**.
+   Téma pri aktivácii vytvorí stránky **Destinácie** (`/destinacie/`) a **Letenky** (`/letenky/`).
+   Ak mal web ako úvod „najnovšie články“, vytvorí aj stránky *Domov* a *Články* a nastaví ich v *Nastavenia → Čítanie*.
+2. *Nastavenia → Trvalé odkazy* → Uložiť (obnoví URL adresy).
+3. *Vzhľad → Prispôsobiť → Spoznaj Svet*: úvodný obrázok, texty, „O mne“, sociálne siete.
 
 Letenky sú **pribalené priamo v ZIP-e témy** (`inc/letenky/`), samostatný plugin netreba.
 `dist/spoznajsvet-letenky.zip` je voliteľný – ak ho nainštalujete a aktivujete, má prednosť pred kópiou v téme.
-   Téma pri aktivácii vytvorí stránky **Destinácie** (`/destinacie/`) a **Letenky** (`/letenky/`).
-   Ak mal web ako úvod „najnovšie články“, vytvorí aj stránky *Domov* a *Články* a nastaví ich v *Nastavenia → Čítanie*.
-3. *Nastavenia → Trvalé odkazy* → Uložiť (obnoví URL adresy).
-4. *Vzhľad → Prispôsobiť → Spoznaj Svet*: úvodný obrázok, texty, „O mne“, sociálne siete.
 
 ## Krajiny a mestá
 
