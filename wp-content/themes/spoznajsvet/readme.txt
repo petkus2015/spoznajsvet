@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,14 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.10.0 =
+* Responzívne fotky v článkoch: nikdy nepretečú obrazovku ani sa nedeformujú (aj fotky
+  zo starého editora s pevnou šírkou/výškou a popisom [caption]).
+* Fotky zarovnané vľavo/vpravo sú na mobile cez celú šírku, od tabletu ich text obteká.
+* Fotky „široké“ a „na celú šírku“ sú presne vycentrované; článok je v jednom stĺpci,
+  údaje „O ceste“ sú nad textom.
+* Kliknutím sa fotka zväčší na celú obrazovku (WordPress lightbox).
 
 = 1.9.0 =
 * Európske destinácie: len spiatočné letenky (Ryanair roundTripFares, Wizz Air tam a späť, Aviasales spiatočné).

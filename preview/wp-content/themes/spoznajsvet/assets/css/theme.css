@@ -604,19 +604,36 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .trip-facts__item small { display: block; font-size: .7rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .08em; line-height: 1.2; }
 .trip-facts__item strong { display: block; font-size: .92rem; line-height: 1.25; color: var(--c-heading); }
 
-@media (min-width: 1024px) {
-	.article__layout { grid-template-columns: 240px minmax(0, 720px); justify-content: center; gap: 3.5rem; padding-top: 3rem; }
-	.trip-facts { flex-direction: column; margin: 0; padding: 0; overflow: visible; position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; }
-	.article__footer { grid-column: 2; }
+/* Článok v jednom centrovanom stĺpci (fotky „široké“ a „na celú šírku“ sa tak dajú presne vycentrovať). */
+.article__layout { max-width: calc(760px + 2 * var(--gutter)); }
+.page-hero--post > .container { max-width: calc(760px + 2 * var(--gutter)); }
+@media (min-width: 760px) {
+	.trip-facts { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
 }
 
 .entry-content { font-size: 1.07rem; min-width: 0; }
 .entry-content > * { margin-block: 0 1.25rem; }
 .entry-content h2 { font-size: clamp(1.45rem, 4vw, 1.9rem); margin-top: 2.25rem; }
 .entry-content h3 { font-size: 1.3rem; margin-top: 1.75rem; }
-.entry-content img, .entry-content .wp-block-image img { border-radius: var(--radius-s); }
-.entry-content figure { margin-inline: 0; }
-.entry-content figcaption { font-size: .85rem; color: var(--c-muted); text-align: center; margin-top: .5rem; }
+/* ---- Fotky v článku: vždy sa zmestia na obrazovku a nedeformujú sa ---- */
+.entry-content img { max-width: 100%; height: auto !important; border-radius: var(--radius-s); }
+.entry-content figure, .entry-content .wp-caption { max-width: 100%; margin-inline: 0; }
+.entry-content .wp-caption img { display: block; width: 100%; }
+.entry-content figcaption, .entry-content .wp-caption-text { font-size: .85rem; color: var(--c-muted); text-align: center; margin: .5rem 0 0; }
+.entry-content .wp-block-image img { display: block; }
+.entry-content iframe, .entry-content video, .entry-content embed, .entry-content object { max-width: 100%; }
+/* Zarovnané vľavo/vpravo: na mobile cez celú šírku (text by sa tlačil vedľa fotky), na väčšej obrazovke obtekanie. */
+.entry-content .alignleft, .entry-content .alignright { float: none; display: block; margin: 0 auto 1.25rem; }
+.entry-content p > img.alignleft, .entry-content p > img.alignright { width: 100%; }
+@media (min-width: 600px) {
+	.entry-content .alignleft { float: left; max-width: 50%; margin: .3rem 1.5rem 1rem 0; }
+	.entry-content .alignright { float: right; max-width: 50%; margin: .3rem 0 1rem 1.5rem; }
+	.entry-content p > img.alignleft, .entry-content p > img.alignright { width: auto; }
+}
+.entry-content .aligncenter { margin-inline: auto; }
+/* Popis pod zarovnanou fotkou cez celú jej šírku (WordPress ho inak láme do úzkeho stĺpca). */
+.entry-content .alignleft > figcaption, .entry-content .alignright > figcaption { display: block; caption-side: initial; width: 100%; }
+.entry-content h2, .entry-content h3, .entry-content hr { clear: both; }
 .entry-content blockquote {
 	margin-inline: 0; padding: .5rem 0 .5rem 1.25rem; border-left: 3px solid var(--c-gold);
 	font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1.3rem * var(--serif-scale)); font-style: italic; color: var(--c-heading);
@@ -625,11 +642,14 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .entry-content li + li { margin-top: .35rem; }
 .entry-content table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 .entry-content th, .entry-content td { padding: .6rem .75rem; border-bottom: 1px solid var(--c-line); text-align: left; }
-.entry-content .alignwide { margin-inline: calc(var(--gutter) * -1); max-width: none; }
-.entry-content .alignfull { margin-inline: calc(50% - 50vw); max-width: 100vw; width: 100vw; }
+.entry-content .alignwide { width: auto; max-width: none; margin-inline: calc(50% - min(550px, 50vw - var(--gutter))); }
+.entry-content .alignfull { width: auto; max-width: none; margin-inline: calc(50% - 50vw); }
+.entry-content .alignwide img, .entry-content .alignfull img { width: 100%; }
 .entry-content .alignfull img { border-radius: 0; }
-@media (min-width: 1024px) { .entry-content .alignwide { margin-inline: -8rem; } }
-.entry-content .wp-block-gallery { gap: .5rem; }
+.entry-content .alignfull figcaption { padding-inline: var(--gutter); }
+.entry-content .wp-block-gallery { --wp--style--unstable-gallery-gap: .5rem; gap: .5rem; }
+.entry-content .wp-block-gallery img { border-radius: var(--radius-s); }
+.entry-content .wp-block-columns img { width: 100%; }
 .entry-content .wp-block-button__link { border-radius: 14px; background: var(--c-accent); }
 .entry-content hr { border: 0; height: 1px; background: var(--c-line); margin-block: 2rem; }
 .article__footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--c-line); }

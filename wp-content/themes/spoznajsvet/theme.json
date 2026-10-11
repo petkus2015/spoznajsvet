@@ -41,6 +41,11 @@
 		},
 		"spacing": {
 			"units": [ "px", "rem", "em", "%", "vw" ]
+		},
+		"blocks": {
+			"core/image": {
+				"lightbox": { "enabled": true, "allowEditing": true }
+			}
 		}
 	},
 	"styles": {
