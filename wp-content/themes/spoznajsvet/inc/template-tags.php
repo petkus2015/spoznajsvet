@@ -212,7 +212,12 @@ function sst_post_image( $size = 'sst-card', $attr = array() ) {
 	$places = sst_post_places();
 	$url    = $places['country'] ? sst_term_cover_url( $places['country'], $size ) : '';
 	if ( $url ) {
-		printf( '<img src="%s" alt="" loading="lazy" decoding="async">', esc_url( $url ) );
+		printf(
+			'<img src="%s" alt="" loading="%s" decoding="async"%s>',
+			esc_url( $url ),
+			esc_attr( $attr['loading'] ?? 'lazy' ),
+			isset( $attr['fetchpriority'] ) ? ' fetchpriority="' . esc_attr( $attr['fetchpriority'] ) . '"' : ''
+		);
 	} else {
 		echo '<span class="img-placeholder" aria-hidden="true">' . sst_icon( 'compass', 48 ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput
 	}

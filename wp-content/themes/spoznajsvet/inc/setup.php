@@ -206,8 +206,11 @@ add_action(
 		if ( is_admin() || ! $q->is_main_query() ) {
 			return;
 		}
-		if ( $q->is_tax( 'destinacia' ) || $q->is_home() || $q->is_search() || $q->is_archive() ) {
+		if ( $q->is_tax( 'destinacia' ) || $q->is_search() || $q->is_archive() ) {
 			$q->set( 'posts_per_page', 12 );
+		}
+		if ( $q->is_home() && ! $q->is_search() ) {
+			$q->set( 'posts_per_page', 13 ); // 1 zvýraznený + 4 rady po 3.
 		}
 		if ( $q->is_search() ) {
 			$q->set( 'post_type', array( 'post', 'page' ) );

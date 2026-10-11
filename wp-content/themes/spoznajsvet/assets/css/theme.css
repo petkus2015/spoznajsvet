@@ -506,6 +506,85 @@ button { font: inherit; }
 .country-row[hidden], .continent[hidden] { display: none; }
 .country-row__cities { padding-inline: .25rem; }
 
+/* ---------- Stránka Články (redakčný štýl) ---------- */
+.blog-head { padding: calc(var(--header-h) + clamp(1.5rem, 5vw, 3rem)) 0 .5rem; }
+.blog-head__row { display: grid; gap: 1.25rem; align-items: end; }
+@media (min-width: 900px) { .blog-head__row { grid-template-columns: 1fr minmax(320px, 420px); gap: 3rem; } }
+.blog-head__title { margin: .1rem 0 .4rem; font-size: clamp(2.4rem, 8vw, 4.2rem); line-height: 1; letter-spacing: -.02em; text-wrap: balance; }
+.blog-head__page { display: inline-block; margin-left: .4rem; font-size: .35em; font-weight: 600; letter-spacing: 0; color: var(--c-muted); vertical-align: middle; }
+.blog-head__lead { margin: 0; max-width: 44ch; color: var(--c-muted); font-size: 1.02rem; }
+.blog-head__search .search-form { max-width: none; box-shadow: var(--shadow-card); }
+.blog-filter { position: relative; margin-top: 1.5rem; }
+.blog-filter .chips--scroll { padding-bottom: 10px; }
+/* Jemné zmiznutie na krajoch, keď sa chipy dajú posúvať. */
+@media (max-width: 899px) {
+	.blog-filter::after { content: ""; position: absolute; top: 0; right: calc(var(--gutter) * -1); bottom: 10px; width: 40px; background: linear-gradient(90deg, transparent, var(--c-bg)); pointer-events: none; }
+}
+
+.blog-list { padding: clamp(1.25rem, 4vw, 2.5rem) 0 clamp(2.5rem, 7vw, 4.5rem); }
+.blog-list__title { margin: clamp(2rem, 5vw, 3rem) 0 1rem; font-size: 1.05rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-muted); }
+
+/* Karta článku */
+.article-card { position: relative; display: flex; flex-direction: column; min-width: 0; }
+.article-card__media { position: relative; overflow: hidden; border-radius: var(--radius-m); aspect-ratio: 4 / 3; background: var(--c-soft); }
+.article-card__media img, .article-card__media .img-placeholder { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.article-card:hover .article-card__media img { transform: scale(1.04); }
+.article-card__badge {
+	position: absolute; top: .9rem; left: .9rem; padding: .35rem .75rem; border-radius: 999px; font-size: .75rem; font-weight: 700;
+	background: rgba(255, 255, 255, .9); color: var(--c-ink); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.article-card__body { display: flex; flex-direction: column; gap: .45rem; padding: .9rem .1rem 0; min-width: 0; }
+.article-card__top { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .75rem; font-size: .8rem; color: var(--c-muted); }
+.article-card__place {
+	position: relative; z-index: 2; display: inline-flex; align-items: center; padding: .2rem .65rem; border-radius: 999px;
+	background: var(--c-soft); color: var(--c-heading); font-weight: 600; text-decoration: none; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+}
+.article-card__place:hover { background: var(--c-accent); color: var(--c-on-accent); }
+.article-card__title { margin: 0; font-size: 1.2rem; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; }
+.article-card__title a { color: var(--c-heading); text-decoration: none; }
+/* Celá karta je klikateľná (odkaz nadpisu sa roztiahne cez kartu). */
+.article-card__title a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius-m); }
+.article-card:hover .article-card__title a { color: var(--c-accent); }
+.article-card__title a:focus-visible { outline: none; }
+.article-card__title a:focus-visible::after { outline: 3px solid var(--c-gold); outline-offset: 4px; }
+.article-card__excerpt { margin: 0; color: var(--c-muted); font-size: .93rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.article-card__meta { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .1rem 0 0; padding: 0; list-style: none; font-size: .8rem; color: var(--c-muted); }
+.article-card__meta li { display: inline-flex; align-items: center; gap: .3rem; }
+.article-card__meta .icon { color: var(--c-accent); }
+.article-card__more { display: inline-flex; align-items: center; gap: .4rem; margin-top: .6rem; font-weight: 700; color: var(--c-accent); }
+.article-card__more .icon { transition: transform .2s var(--ease); }
+.article-card:hover .article-card__more .icon { transform: translateX(4px); }
+
+/* Zvýraznený článok */
+.article-card--featured .article-card__media { aspect-ratio: 16 / 10; border-radius: var(--radius-l); }
+.article-card--featured .article-card__title { font-size: clamp(1.6rem, 5.5vw, 2.6rem); line-height: 1.1; }
+.article-card--featured .article-card__excerpt { -webkit-line-clamp: 3; font-size: 1.02rem; }
+@media (min-width: 900px) {
+	.article-card--featured { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 3rem; align-items: center; }
+	.article-card--featured .article-card__media { aspect-ratio: 4 / 3; }
+	.article-card--featured .article-card__body { padding: 0; gap: .7rem; }
+}
+
+/* Mriežka: mobil = kompaktný zoznam ako v aplikácii, tablet 2 stĺpce, počítač 3 stĺpce */
+.article-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (max-width: 599px) {
+	.article-grid .article-card { flex-direction: row; gap: .9rem; align-items: flex-start; padding-bottom: 1rem; border-bottom: 1px solid var(--c-line); }
+	.article-grid .article-card:last-child { border-bottom: 0; }
+	.article-grid .article-card__media { flex: 0 0 104px; width: 104px; aspect-ratio: 1; border-radius: 16px; }
+	.article-grid .article-card__body { padding: 0; gap: .3rem; }
+	.article-grid .article-card__title { font-size: 1.02rem; }
+	.article-grid .article-card__excerpt { display: none; }
+	.article-grid .article-card__date { display: none; }
+	.article-grid .article-card__meta { font-size: .75rem; gap: .2rem .75rem; }
+}
+@media (min-width: 600px) { .article-grid { grid-template-columns: repeat(2, 1fr); gap: 2.25rem 1.5rem; } }
+@media (min-width: 1024px) { .article-grid { grid-template-columns: repeat(3, 1fr); gap: 2.75rem 2rem; } }
+
+.blog-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(2rem, 5vw, 3rem); padding-top: 1.5rem; border-top: 1px solid var(--c-line); }
+.blog-pager__info { margin: 0; color: var(--c-muted); font-size: .9rem; }
+.blog-pager .pagination { margin: 0; }
+@media (max-width: 599px) { .blog-pager { justify-content: center; } }
+
 /* ---------- Článok ---------- */
 .read-progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 60; pointer-events: none; }
 .read-progress span { display: block; height: 100%; background: var(--c-gold); transform-origin: 0 50%; transform: scaleX(0); }

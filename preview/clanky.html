@@ -17,9 +17,27 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 /*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
 </style>
+<style id="wp-block-heading-inline-css">
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=wp-includes/blocks/heading/style.min.css */
+</style>
+<style id="wp-block-list-inline-css">
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=wp-includes/blocks/list/style.min.css */
+</style>
+<style id="wp-block-paragraph-inline-css">
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=wp-includes/blocks/paragraph/style.min.css */
+</style>
+<style id="wp-block-quote-inline-css">
+.wp-block-quote{box-sizing:border-box;overflow-wrap:break-word}.wp-block-quote.is-large:where(:not(.is-style-plain)),.wp-block-quote.is-style-large:where(:not(.is-style-plain)){margin-bottom:1em;padding:0 1em}.wp-block-quote.is-large:where(:not(.is-style-plain)) p,.wp-block-quote.is-style-large:where(:not(.is-style-plain)) p{font-size:1.5em;font-style:italic;line-height:1.6}.wp-block-quote.is-large:where(:not(.is-style-plain)) cite,.wp-block-quote.is-large:where(:not(.is-style-plain)) footer,.wp-block-quote.is-style-large:where(:not(.is-style-plain)) cite,.wp-block-quote.is-style-large:where(:not(.is-style-plain)) footer{font-size:1.125em;text-align:right}.wp-block-quote>cite{display:block}
+/*# sourceURL=wp-includes/blocks/quote/style.min.css */
+</style>
+
 
 <style id="global-styles-inline-css">
 :root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--ink: #0e2a30;--wp--preset--color--accent: #1f7a73;--wp--preset--color--accent-2: #2a9d8f;--wp--preset--color--gold: #d9b77e;--wp--preset--color--soft: #e9f0ef;--wp--preset--color--muted: #5e7277;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--gradient--lagoon: linear-gradient(135deg, #0e2a30 0%, #1f7a73 60%, #d9b77e 130%);--wp--preset--font-size--small: 0.875rem;--wp--preset--font-size--medium: clamp(0.875rem, 0.875rem + ((1vw - 0.2rem) * 0.4), 1.07rem);--wp--preset--font-size--large: clamp(1.2rem, 1.2rem + ((1vw - 0.2rem) * 0.308), 1.35rem);--wp--preset--font-size--x-large: clamp(1.5rem, 1.5rem + ((1vw - 0.2rem) * 0.821), 1.9rem);--wp--preset--font-size--huge: clamp(2.2rem, 2.2rem + ((1vw - 0.2rem) * 1.641), 3rem);--wp--preset--font-family--sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;--wp--preset--font-family--serif: "Instrument Serif", Georgia, "Times New Roman", serif;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:root { --wp--style--global--content-size: 720px;--wp--style--global--wide-size: 1100px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-ink-color{color: var(--wp--preset--color--ink) !important;}.has-accent-color{color: var(--wp--preset--color--accent) !important;}.has-accent-2-color{color: var(--wp--preset--color--accent-2) !important;}.has-gold-color{color: var(--wp--preset--color--gold) !important;}.has-soft-color{color: var(--wp--preset--color--soft) !important;}.has-muted-color{color: var(--wp--preset--color--muted) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-ink-background-color{background-color: var(--wp--preset--color--ink) !important;}.has-accent-background-color{background-color: var(--wp--preset--color--accent) !important;}.has-accent-2-background-color{background-color: var(--wp--preset--color--accent-2) !important;}.has-gold-background-color{background-color: var(--wp--preset--color--gold) !important;}.has-soft-background-color{background-color: var(--wp--preset--color--soft) !important;}.has-muted-background-color{background-color: var(--wp--preset--color--muted) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-ink-border-color{border-color: var(--wp--preset--color--ink) !important;}.has-accent-border-color{border-color: var(--wp--preset--color--accent) !important;}.has-accent-2-border-color{border-color: var(--wp--preset--color--accent-2) !important;}.has-gold-border-color{border-color: var(--wp--preset--color--gold) !important;}.has-soft-border-color{border-color: var(--wp--preset--color--soft) !important;}.has-muted-border-color{border-color: var(--wp--preset--color--muted) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-lagoon-gradient-background{background: var(--wp--preset--gradient--lagoon) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-huge-font-size{font-size: var(--wp--preset--font-size--huge) !important;}.has-sans-font-family{font-family: var(--wp--preset--font-family--sans) !important;}.has-serif-font-family{font-family: var(--wp--preset--font-family--serif) !important;}
+:root :where(.wp-block-quote){border-left-color: var(--wp--preset--color--gold);border-left-width: 3px;border-left-style: solid;}
 /*# sourceURL=global-styles-inline-css */
 </style>
 
@@ -70,170 +88,286 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<a class="chip chip--sm" href="taliansko.html">🇵🇹 Portugalsko</a>
 							</div>
 							<a class="btn btn--primary mobile-menu__cta" href="letenky.html"><svg class="icon icon-plane " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2Z"/></svg> Lacné letenky</a>
-				<div class="social"><a href="https://instagram.com/" target="_blank" rel="noopener me" aria-label="Instagram"><svg class="icon icon-instagram " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a><a href="https://facebook.com/" target="_blank" rel="noopener me" aria-label="Facebook"><svg class="icon icon-facebook " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5a1 1 0 0 1 1-1h2Z"/></svg></a><a href="mailto:&#097;h&#111;j&#064;&#115;&#112;oz&#110;&#097;j&#115;vet.&#115;k" aria-label="E-mail"><svg class="icon icon-mail " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a></div>	</div>
+				<div class="social"><a href="https://instagram.com/" target="_blank" rel="noopener me" aria-label="Instagram"><svg class="icon icon-instagram " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a><a href="https://facebook.com/" target="_blank" rel="noopener me" aria-label="Facebook"><svg class="icon icon-facebook " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5a1 1 0 0 1 1-1h2Z"/></svg></a><a href="mailto:ah&#111;&#106;&#064;&#115;&#112;oz&#110;&#097;&#106;sv&#101;&#116;&#046;&#115;k" aria-label="E-mail"><svg class="icon icon-mail " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a></div>	</div>
 </div>
 
 <main id="obsah" class="site-main">
 
-<section class="page-hero page-hero--plain">
-	<div class="container page-hero__inner">
-		<p class="eyebrow">Denník</p>
-		<h1 class="page-hero__title">Články</h1>
-							<div class="chips chips--scroll">
-				<a class="chip is-active" href="clanky.html">Všetko</a>
-									<a class="chip" href="taliansko.html">🇮🇹 Taliansko</a>
-									<a class="chip" href="thajsko.html">🇹🇭 Thajsko</a>
-									<a class="chip" href="taliansko.html">🇦🇪 Spojené arabské emiráty</a>
-									<a class="chip" href="taliansko.html">🇭🇷 Chorvátsko</a>
-									<a class="chip" href="taliansko.html">🇮🇸 Island</a>
-									<a class="chip" href="taliansko.html">🇵🇹 Portugalsko</a>
+<section class="blog-head">
+	<div class="container">
+		<div class="blog-head__row">
+			<div class="blog-head__text">
+				<p class="eyebrow">Denník</p>
+				<h1 class="blog-head__title">
+					Články									</h1>
+									<p class="blog-head__lead">13 príbehov z 6 krajín – itineráre, ceny a tipy z ciest, väčšinou sólo.</p>
 							</div>
+			<div class="blog-head__search"><form role="search" method="get" class="search-form" action="hladat.html">
+	<label class="screen-reader-text" for="search-1">Hľadať</label>
+	<span class="search-form__icon"><svg class="icon icon-search " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+	<input type="search" id="search-1" class="search-form__input" placeholder="Krajina, mesto alebo téma…" value="" name="s" autocomplete="off">
+	<button type="submit" class="btn btn--primary btn--sm">Hľadať</button>
+</form>
+</div>
+		</div>
+
+					<nav class="blog-filter" aria-label="Články podľa krajiny">
+				<div class="chips chips--scroll">
+					<a class="chip is-active" href="clanky.html" aria-current="page">Všetko <span class="chip__count">13</span></a>
+											<a class="chip" href="taliansko.html">🇮🇹 Taliansko <span class="chip__count">6</span></a>
+											<a class="chip" href="thajsko.html">🇹🇭 Thajsko <span class="chip__count">2</span></a>
+											<a class="chip" href="taliansko.html">🇦🇪 Spojené arabské emiráty <span class="chip__count">2</span></a>
+											<a class="chip" href="taliansko.html">🇭🇷 Chorvátsko <span class="chip__count">1</span></a>
+											<a class="chip" href="taliansko.html">🇮🇸 Island <span class="chip__count">1</span></a>
+											<a class="chip" href="taliansko.html">🇵🇹 Portugalsko <span class="chip__count">1</span></a>
+									</div>
+			</nav>
 			</div>
 </section>
 
-<section class="section section--tight">
+<section class="blog-list">
 	<div class="container">
-					<div class="post-grid">
-				<article class="trip-card trip-card--default post-23 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-rim destinacia-taliansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/rim-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Rím</span>
-						<span class="trip-card__title">Rím za 3 dni: itinerár, ktorý naozaj stihnete</span>
-							<span class="trip-card__meta">Jar 2024 · 3 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-24 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-florencia destinacia-taliansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/florencia-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Florencia</span>
-						<span class="trip-card__title">Florencia bez davov: kde vidieť Duomo inak</span>
-							<span class="trip-card__meta">Jeseň 2023 · 2 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-25 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-benatky destinacia-taliansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/benatky-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Benátky</span>
-						<span class="trip-card__title">Benátky mimo sezóny – oplatí sa to?</span>
-							<span class="trip-card__meta">Zima 2023 · 2 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-26 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-amalfi destinacia-taliansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/amalfi-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Amalfi</span>
-						<span class="trip-card__title">Pobrežie Amalfi autom aj autobusom</span>
-							<span class="trip-card__meta">Leto 2023 · 6 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-27 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-taliansko destinacia-toskansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/toskansko-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Toskánsko</span>
-						<span class="trip-card__title">Toskánske vinice na bicykli</span>
-							<span class="trip-card__meta">Leto 2022 · 5 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-28 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-palermo destinacia-taliansko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/sicilia-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇹 Taliansko · Palermo</span>
-						<span class="trip-card__title">Palermo: street food, ktorý musíte ochutnať</span>
-							<span class="trip-card__meta">Jar 2023 · 4 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-29 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-bangkok destinacia-thajsko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/bangkok-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇹🇭 Thajsko · Bangkok</span>
-						<span class="trip-card__title">Bangkok pre začiatočníkov: chrámy, trhy a tuk-tuky</span>
-							<span class="trip-card__meta">Zima 2024 · 5 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-30 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-phuket destinacia-thajsko">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/phuket-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇹🇭 Thajsko · Phuket</span>
-						<span class="trip-card__title">Phuket vs. Krabi: kam na pláže</span>
-							<span class="trip-card__meta">Zima 2024 · 9 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-31 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-dubaj destinacia-spojene-arabske-emiraty">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/dubaj-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇦🇪 Spojené arabské emiráty · Dubaj</span>
-						<span class="trip-card__title">Dubaj za 4 dni s rozpočtom</span>
-							<span class="trip-card__meta">Jar 2024 · 4 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-32 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-abu-dhabi destinacia-spojene-arabske-emiraty">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/sae-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇦🇪 Spojené arabské emiráty · Abu Dhabi</span>
-						<span class="trip-card__title">Abu Dhabi: Veľká mešita a Louvre</span>
-							<span class="trip-card__meta">Jar 2024 · 2 dni · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-33 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-chorvatsko destinacia-split">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/chorvatsko-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇭🇷 Chorvátsko · Split</span>
-						<span class="trip-card__title">Split a ostrovy: plavba loďou</span>
-							<span class="trip-card__meta">Leto 2021 · 7 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
-<article class="trip-card trip-card--default post-34 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-island destinacia-reykjavik">
-	<a class="trip-card__link" href="clanok.html">
-		<span class="trip-card__media">
-			<img width="720" height="900" src="wp-content/uploads/2026/09/island-720x900.jpg" class="attachment-sst-card size-sst-card wp-post-image" alt="" loading="lazy" decoding="async" />		</span>
-		<span class="trip-card__body">
-							<span class="trip-card__place">🇮🇸 Island · Reykjavík</span>
-						<span class="trip-card__title">Island okolo Ring Road za 10 dní</span>
-							<span class="trip-card__meta">Leto 2022 · 10 dní · 2 min čítania</span>
-					</span>
-	</a>
-</article>
+					<article class="article-card article-card--featured post-23 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-rim destinacia-taliansko">
+	<div class="article-card__media">
+		<img width="1200" height="750" src="wp-content/uploads/2026/09/rim-1200x750.jpg" class="attachment-sst-wide size-sst-wide wp-post-image" alt="" loading="eager" decoding="async" fetchpriority="high" srcset="wp-content/uploads/2026/09/rim-1200x750.jpg 1200w, wp-content/uploads/2026/09/rim-300x188.jpg 300w, wp-content/uploads/2026/09/rim-1024x640.jpg 1024w, wp-content/uploads/2026/09/rim-768x480.jpg 768w, wp-content/uploads/2026/09/rim-1536x960.jpg 1536w, wp-content/uploads/2026/09/rim.jpg 1600w" sizes="(max-width: 1200px) 100vw, 1200px" />					<span class="article-card__badge">Najnovší príbeh</span>
 			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Rím, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-09-26T15:05:44+00:00">26. 9. 2026</time>
+		</div>
+					<h2 class="article-card__title"><a href="clanok.html">Rím za 3 dni: itinerár, ktorý naozaj stihnete</a></h2>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár, ceny a…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jar 2024</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>3 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+					<span class="article-card__more" aria-hidden="true">Čítať príbeh <svg class="icon icon-arrow-right " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+			</div>
+</article>
+												<h2 class="blog-list__title">Ďalšie príbehy</h2>
+								<div class="article-grid">
+					<article class="article-card article-card--grid post-24 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-florencia destinacia-taliansko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/florencia-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/florencia-768x480.jpg 768w, wp-content/uploads/2026/09/florencia-300x188.jpg 300w, wp-content/uploads/2026/09/florencia-1024x640.jpg 1024w, wp-content/uploads/2026/09/florencia-1536x960.jpg 1536w, wp-content/uploads/2026/09/florencia-1200x750.jpg 1200w, wp-content/uploads/2026/09/florencia.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Florencia, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-09-17T15:05:44+00:00">17. 9. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Florencia bez davov: kde vidieť Duomo inak</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jeseň 2023</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>2 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-25 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-benatky destinacia-taliansko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/benatky-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/benatky-768x480.jpg 768w, wp-content/uploads/2026/09/benatky-300x188.jpg 300w, wp-content/uploads/2026/09/benatky-1024x640.jpg 1024w, wp-content/uploads/2026/09/benatky-1536x960.jpg 1536w, wp-content/uploads/2026/09/benatky-1200x750.jpg 1200w, wp-content/uploads/2026/09/benatky.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Benátky, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-09-08T15:05:44+00:00">8. 9. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Benátky mimo sezóny – oplatí sa to?</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Zima 2023</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>2 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-26 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-amalfi destinacia-taliansko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/amalfi-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/amalfi-768x480.jpg 768w, wp-content/uploads/2026/09/amalfi-300x188.jpg 300w, wp-content/uploads/2026/09/amalfi-1024x640.jpg 1024w, wp-content/uploads/2026/09/amalfi-1536x960.jpg 1536w, wp-content/uploads/2026/09/amalfi-1200x750.jpg 1200w, wp-content/uploads/2026/09/amalfi.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Amalfi, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-08-30T15:05:44+00:00">30. 8. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Pobrežie Amalfi autom aj autobusom</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Leto 2023</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>6 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-27 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-taliansko destinacia-toskansko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/toskansko-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/toskansko-768x480.jpg 768w, wp-content/uploads/2026/09/toskansko-300x188.jpg 300w, wp-content/uploads/2026/09/toskansko-1024x640.jpg 1024w, wp-content/uploads/2026/09/toskansko-1536x960.jpg 1536w, wp-content/uploads/2026/09/toskansko-1200x750.jpg 1200w, wp-content/uploads/2026/09/toskansko.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Toskánsko, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-08-21T15:05:44+00:00">21. 8. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Toskánske vinice na bicykli</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Leto 2022</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>5 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-28 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-palermo destinacia-taliansko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/sicilia-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/sicilia-768x480.jpg 768w, wp-content/uploads/2026/09/sicilia-300x188.jpg 300w, wp-content/uploads/2026/09/sicilia-1024x640.jpg 1024w, wp-content/uploads/2026/09/sicilia-1536x960.jpg 1536w, wp-content/uploads/2026/09/sicilia-1200x750.jpg 1200w, wp-content/uploads/2026/09/sicilia.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="rim.html">
+					🇮🇹 Palermo, Taliansko				</a>
+						<time class="article-card__date" datetime="2026-08-12T15:05:44+00:00">12. 8. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Palermo: street food, ktorý musíte ochutnať</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jar 2023</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>4 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-29 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-bangkok destinacia-thajsko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/bangkok-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/bangkok-768x480.jpg 768w, wp-content/uploads/2026/09/bangkok-300x188.jpg 300w, wp-content/uploads/2026/09/bangkok-1024x640.jpg 1024w, wp-content/uploads/2026/09/bangkok-1536x960.jpg 1536w, wp-content/uploads/2026/09/bangkok-1200x750.jpg 1200w, wp-content/uploads/2026/09/bangkok.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="thajsko.html">
+					🇹🇭 Bangkok, Thajsko				</a>
+						<time class="article-card__date" datetime="2026-08-03T15:05:44+00:00">3. 8. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Bangkok pre začiatočníkov: chrámy, trhy a tuk-tuky</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Zima 2024</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>5 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-30 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-phuket destinacia-thajsko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/phuket-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/phuket-768x480.jpg 768w, wp-content/uploads/2026/09/phuket-300x188.jpg 300w, wp-content/uploads/2026/09/phuket-1024x640.jpg 1024w, wp-content/uploads/2026/09/phuket-1536x960.jpg 1536w, wp-content/uploads/2026/09/phuket-1200x750.jpg 1200w, wp-content/uploads/2026/09/phuket.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="thajsko.html">
+					🇹🇭 Phuket, Thajsko				</a>
+						<time class="article-card__date" datetime="2026-07-25T15:05:44+00:00">25. 7. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Phuket vs. Krabi: kam na pláže</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Zima 2024</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>9 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-31 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-dubaj destinacia-spojene-arabske-emiraty">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/dubaj-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/dubaj-768x480.jpg 768w, wp-content/uploads/2026/09/dubaj-300x188.jpg 300w, wp-content/uploads/2026/09/dubaj-1024x640.jpg 1024w, wp-content/uploads/2026/09/dubaj-1536x960.jpg 1536w, wp-content/uploads/2026/09/dubaj-1200x750.jpg 1200w, wp-content/uploads/2026/09/dubaj.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="taliansko.html">
+					🇦🇪 Dubaj, Spojené arabské emiráty				</a>
+						<time class="article-card__date" datetime="2026-07-16T15:05:44+00:00">16. 7. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Dubaj za 4 dni s rozpočtom</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jar 2024</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>4 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-32 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-abu-dhabi destinacia-spojene-arabske-emiraty">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/sae-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/sae-768x480.jpg 768w, wp-content/uploads/2026/09/sae-300x188.jpg 300w, wp-content/uploads/2026/09/sae-1024x640.jpg 1024w, wp-content/uploads/2026/09/sae-1536x960.jpg 1536w, wp-content/uploads/2026/09/sae-1200x750.jpg 1200w, wp-content/uploads/2026/09/sae.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="taliansko.html">
+					🇦🇪 Abu Dhabi, Spojené arabské emiráty				</a>
+						<time class="article-card__date" datetime="2026-07-07T15:05:44+00:00">7. 7. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Abu Dhabi: Veľká mešita a Louvre</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jar 2024</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>2 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-33 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-chorvatsko destinacia-split">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/chorvatsko-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/chorvatsko-768x480.jpg 768w, wp-content/uploads/2026/09/chorvatsko-300x188.jpg 300w, wp-content/uploads/2026/09/chorvatsko-1024x640.jpg 1024w, wp-content/uploads/2026/09/chorvatsko-1536x960.jpg 1536w, wp-content/uploads/2026/09/chorvatsko-1200x750.jpg 1200w, wp-content/uploads/2026/09/chorvatsko.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="taliansko.html">
+					🇭🇷 Split, Chorvátsko				</a>
+						<time class="article-card__date" datetime="2026-06-28T15:05:44+00:00">28. 6. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Split a ostrovy: plavba loďou</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Leto 2021</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>7 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-34 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-island destinacia-reykjavik">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/island-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/island-768x480.jpg 768w, wp-content/uploads/2026/09/island-300x188.jpg 300w, wp-content/uploads/2026/09/island-1024x640.jpg 1024w, wp-content/uploads/2026/09/island-1536x960.jpg 1536w, wp-content/uploads/2026/09/island-1200x750.jpg 1200w, wp-content/uploads/2026/09/island.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="taliansko.html">
+					🇮🇸 Reykjavík, Island				</a>
+						<time class="article-card__date" datetime="2026-06-19T15:05:44+00:00">19. 6. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Island okolo Ring Road za 10 dní</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Leto 2022</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>10 dní</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+<article class="article-card article-card--grid post-35 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized destinacia-lisabon destinacia-portugalsko">
+	<div class="article-card__media">
+		<img width="760" height="475" src="wp-content/uploads/2026/09/portugalsko-768x480.jpg" class="attachment-medium_large size-medium_large wp-post-image" alt="" loading="lazy" decoding="async" srcset="wp-content/uploads/2026/09/portugalsko-768x480.jpg 768w, wp-content/uploads/2026/09/portugalsko-300x188.jpg 300w, wp-content/uploads/2026/09/portugalsko-1024x640.jpg 1024w, wp-content/uploads/2026/09/portugalsko-1536x960.jpg 1536w, wp-content/uploads/2026/09/portugalsko-1200x750.jpg 1200w, wp-content/uploads/2026/09/portugalsko.jpg 1600w" sizes="auto, (max-width: 760px) 100vw, 760px" />			</div>
+	<div class="article-card__body">
+		<div class="article-card__top">
+							<a class="article-card__place" href="taliansko.html">
+					🇵🇹 Lisabon, Portugalsko				</a>
+						<time class="article-card__date" datetime="2026-06-10T15:05:44+00:00">10. 6. 2026</time>
+		</div>
+					<h3 class="article-card__title"><a href="clanok.html">Lisabon: električka 28 a vyhliadky</a></h3>
+				<p class="article-card__excerpt">Toto je ukážkový článok. Prvý odsek pútavo uvedie cestu – kedy, s kým a prečo práve sem. Nasleduje praktický itinerár,…</p>
+		<ul class="article-card__meta">
+							<li><svg class="icon icon-sun " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Jeseň 2022</li>
+										<li><svg class="icon icon-calendar " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>4 dni</li>
+						<li><svg class="icon icon-clock " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 min</li>
+		</ul>
+			</div>
+</article>
+				</div>
 			
-	<nav class="navigation pagination" aria-label="Stránkovanie">
-		<h2 class="screen-reader-text">Stránkovanie</h2>
-		<div class="nav-links"><span aria-current="page" class="page-numbers current">1</span>
-<a class="page-numbers" href="./">2</a>
-<a class="next page-numbers" href="./"><span class="screen-reader-text">Ďalšie</span><svg class="icon icon-arrow-right " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
-	</nav>			</div>
+						</div>
 </section>
 
 </main>
@@ -245,7 +379,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				<svg class="logo-mark" width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M20 3v5M20 32v5M3 20h5M32 20h5" stroke="currentColor" stroke-width="1.5"/><path d="M20 9 23.5 20 20 31 16.5 20Z" fill="var(--c-gold)"/><path d="M20 9 23.5 20h-7Z" fill="currentColor"/></svg>				<span class="brand__text">Spoznaj <em>Svet</em></span>
 			</a>
 			<p>Sólo aj v partii. Príbehy, itineráre a lacné letenky zo Slovenska do celého sveta.</p>
-			<div class="social social--footer"><a href="https://instagram.com/" target="_blank" rel="noopener me" aria-label="Instagram"><svg class="icon icon-instagram " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a><a href="https://facebook.com/" target="_blank" rel="noopener me" aria-label="Facebook"><svg class="icon icon-facebook " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5a1 1 0 0 1 1-1h2Z"/></svg></a><a href="mailto:ah&#111;j&#064;s&#112;&#111;&#122;najs&#118;&#101;t&#046;sk" aria-label="E-mail"><svg class="icon icon-mail " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a></div>		</div>
+			<div class="social social--footer"><a href="https://instagram.com/" target="_blank" rel="noopener me" aria-label="Instagram"><svg class="icon icon-instagram " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a><a href="https://facebook.com/" target="_blank" rel="noopener me" aria-label="Facebook"><svg class="icon icon-facebook " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5a1 1 0 0 1 1-1h2Z"/></svg></a><a href="mailto:&#097;&#104;&#111;j&#064;&#115;&#112;ozn&#097;&#106;&#115;&#118;e&#116;.&#115;k" aria-label="E-mail"><svg class="icon icon-mail " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a></div>		</div>
 
 							<div>
 				<h2 class="site-footer__title">Obľúbené krajiny</h2>
@@ -308,9 +442,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 			<button type="button" class="icon-btn" data-search-close aria-label="Zavrieť"><svg class="icon icon-close " width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
 		</div>
 		<form role="search" method="get" class="search-form" action="hladat.html">
-	<label class="screen-reader-text" for="search-1">Hľadať</label>
+	<label class="screen-reader-text" for="search-2">Hľadať</label>
 	<span class="search-form__icon"><svg class="icon icon-search " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
-	<input type="search" id="search-1" class="search-form__input" placeholder="Krajina, mesto alebo téma…" value="" name="s" autocomplete="off">
+	<input type="search" id="search-2" class="search-form__input" placeholder="Krajina, mesto alebo téma…" value="" name="s" autocomplete="off">
 	<button type="submit" class="btn btn--primary btn--sm">Hľadať</button>
 </form>
 					<p class="search-overlay__label">Krajiny</p>
