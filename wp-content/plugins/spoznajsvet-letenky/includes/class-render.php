@@ -113,7 +113,7 @@ class SVL_Render {
 			</p>
 			<?php
 			if ( 'europa' !== $group ) {
-				self::exotic( $heading, $compact );
+				self::exotic( $heading, $compact, 10 );
 			}
 			if ( 'exotika' !== $group ) {
 				self::europe( $heading, $limit, $compact );
@@ -148,44 +148,125 @@ class SVL_Render {
 		return 'z ' . $info['city'];
 	}
 
-	private static function link_attrs() {
-		return 'target="_blank" rel="nofollow noopener sponsored"';
+	/**
+	 * Tlačidlo, ktoré otvorí ponuku v novom okne. Zámerne nie je to <a href>, aby prehliadač
+	 * pri prejdení myšou neukazoval dlhú adresu v rohu obrazovky.
+	 */
+	private static function go( $url, $label, $class = 'svl-btn' ) {
+		return sprintf(
+			'<button type="button" class="%1$s" data-svl-go="%2$s">%3$s</button>',
+			esc_attr( $class ),
+			esc_url( $url ),
+			esc_html( $label )
+		);
 	}
 
-	private static function exotic( $heading, $compact ) {
-		$deals   = SVL_Store::deals( 'exotika' );
-		$by_dest = array();
-		foreach ( $deals as $d ) {
-			$by_dest[ $d['destination'] ][] = $d;
+	private static function admin_token_note() {
+		if ( '' !== (string) SVL_Settings::get( 'tp_token' ) || ! current_user_can( 'manage_options' ) ) {
+			return;
 		}
+		?>
+		<div class="svl-admin-note" role="note">
+			<strong>Len pre teba (admin):</strong> lety do Ázie a exotiky s cenou a aerolinkou vyhľadáva Aviasales (Travelpayouts). Potrebuje bezplatný token:
+			<ol>
+				<li>Zaregistruj sa zadarmo na <a href="https://www.travelpayouts.com/" target="_blank" rel="noopener">travelpayouts.com</a>.</li>
+				<li>V ich administrácii otvor <em>Tools → API</em> (Nástroje → API) a skopíruj <em>API token</em>.</li>
+				<li>Vlož ho do <a href="<?php echo esc_url( admin_url( 'options-general.php?page=svl-letenky' ) ); ?>">Nastavenia → Letenky</a> a klikni „Aktualizovať teraz“.</li>
+			</ol>
+		</div>
+		<?php
+	}
+
+	/** Najlacnejšia ponuka zo zoznamu (len spiatočné). */
+	private static function cheapest( array $list ) {
+		$best = null;
+		foreach ( $list as $d ) {
+			if ( $d['return'] && ( null === $best || $d['price'] < $best['price'] ) ) {
+				$best = $d;
+			}
+		}
+		return $best;
+	}
+
+	private static function exotic( $heading, $compact, $limit ) {
 		$origins = SVL_Settings::codes( 'exotic_origins' );
 		?>
 		<div class="svl-block svl-block--exotic">
 			<?php if ( $heading ) : ?>
 				<header class="svl-head">
-					<p class="svl-eyebrow">Exotika</p>
-					<h2 class="svl-title">Za teplom do Ázie a Emirátov</h2>
-					<p class="svl-lead">Najlacnejšie spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>.</p>
+					<p class="svl-eyebrow">Ázia a exotika</p>
+					<h2 class="svl-title">Najlacnejšie spiatočné letenky za teplom</h2>
+					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>. Do každého mesta len tá najlacnejšia.</p>
 				</header>
 			<?php endif; ?>
-			<?php if ( '' === (string) SVL_Settings::get( 'tp_token' ) && current_user_can( 'manage_options' ) ) : ?>
-				<div class="svl-admin-note" role="note">
-					<strong>Len pre teba (admin):</strong> lety do Bangkoku, Dubaja a Abu Dhabi s cenou a aerolinkou vyhľadáva Aviasales (Travelpayouts). Potrebuje bezplatný token:
-					<ol>
-						<li>Zaregistruj sa zadarmo na <a href="https://www.travelpayouts.com/" target="_blank" rel="noopener">travelpayouts.com</a>.</li>
-						<li>V ich administrácii otvor <em>Tools → API</em> (Nástroje → API) a skopíruj <em>API token</em>.</li>
-						<li>Vlož ho do <a href="<?php echo esc_url( admin_url( 'options-general.php?page=svl-letenky' ) ); ?>">Nastavenia → Letenky</a> a klikni „Aktualizovať teraz“.</li>
-					</ol>
-				</div>
-			<?php endif; ?>
+			<?php self::admin_token_note(); ?>
+			<?php self::asia_ranking( $compact ? 4 : $limit ); ?>
+			<?php
+			$by_dest = array();
+			foreach ( SVL_Store::deals( 'exotika' ) as $d ) {
+				$by_dest[ $d['destination'] ][] = $d;
+			}
+			?>
 			<div class="svl-exo-grid">
 				<?php
 				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $dest ) {
-					self::exotic_card( $dest, $by_dest[ $dest ] ?? array(), $origins, $compact );
+					self::exotic_card( $dest, self::cheapest( $by_dest[ $dest ] ?? array() ), $origins );
 				}
 				?>
 			</div>
 		</div>
+		<?php
+	}
+
+	/** Rebríček: najlacnejšia spiatočná letenka do každého mesta v Ázii a exotike. */
+	private static function asia_ranking( $limit ) {
+		$best = array();
+		foreach ( array_merge( SVL_Store::deals( 'azia' ), SVL_Store::deals( 'exotika' ) ) as $d ) {
+			$key = $d['dest_city'] ? $d['dest_city'] : $d['destination'];
+			if ( $d['return'] && ( ! isset( $best[ $key ] ) || $d['price'] < $best[ $key ]['price'] ) ) {
+				$best[ $key ] = $d;
+			}
+		}
+		if ( ! $best ) {
+			return;
+		}
+		usort(
+			$best,
+			static function ( $a, $b ) {
+				return $a['price'] <=> $b['price'];
+			}
+		);
+		?>
+		<ol class="svl-rank">
+			<?php foreach ( array_slice( $best, 0, max( 1, (int) $limit ) ) as $i => $d ) : ?>
+				<?php
+				$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
+				$nights = SVL_Format::nights( $d['depart'], $d['return'] );
+				$stops  = SVL_Format::stops( $d['stops'] );
+				?>
+				<li class="svl-rank__item">
+					<span class="svl-rank__pos" aria-hidden="true"><?php echo (int) $i + 1; ?></span>
+					<span class="svl-rank__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
+					<span class="svl-rank__main">
+						<strong class="svl-rank__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
+						<span class="svl-rank__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
+						<span class="svl-rank__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) . ( $nights ? ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) : '' ) ); ?></span>
+						<span class="svl-airline">
+							<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+							<span class="svl-airline__name"><?php echo esc_html( $d['airline'] ? $d['airline'] : 'Letecká spoločnosť neuvedená' ); ?></span>
+							<?php if ( $stops ) : ?>
+								<span class="svl-stops<?php echo 0 === $d['stops'] ? ' is-direct' : ''; ?>"><?php echo esc_html( $stops ); ?></span>
+							<?php endif; ?>
+						</span>
+					</span>
+					<span class="svl-rank__price">
+						<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
+						<small>spiatočná</small>
+						<?php echo self::go( $d['url'] ? $d['url'] : $links['kayak'], 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</span>
+				</li>
+			<?php endforeach; ?>
+		</ol>
 		<?php
 	}
 
@@ -202,39 +283,23 @@ class SVL_Render {
 		return 'z ' . ( $names ? implode( ', ', $names ) . ' a ' : '' ) . $last;
 	}
 
-	private static function exotic_card( $dest, array $list, array $origins, $compact ) {
+	/** Karta destinácie s jedinou – najlacnejšou spiatočnou – letenkou. */
+	private static function exotic_card( $dest, $min, array $origins ) {
 		$info = svl_airport( $dest );
 		$img  = apply_filters( 'svl_destination_image', '', $dest, $info['city'] );
-
-		$per_origin = array();
-		foreach ( $list as $d ) {
-			if ( ! isset( $per_origin[ $d['origin'] ] ) || $d['price'] < $per_origin[ $d['origin'] ][0]['price'] ) {
-				$per_origin[ $d['origin'] ] = array_merge( array( $d ), $per_origin[ $d['origin'] ] ?? array() );
-			} else {
-				$per_origin[ $d['origin'] ][] = $d;
-			}
-		}
-		uasort(
-			$per_origin,
-			static function ( $a, $b ) {
-				return $a[0]['price'] <=> $b[0]['price'];
-			}
-		);
-		$min = $per_origin ? reset( $per_origin )[0] : null;
-		$low = $min && $min['low'];
 		?>
 		<article class="svl-exo" data-dest="<?php echo esc_attr( $dest ); ?>">
 			<div class="svl-exo__hero<?php echo $img ? ' has-img' : ''; ?>"<?php echo $img ? ' style="--svl-img:url(' . esc_url( $img ) . ')"' : ''; ?>>
 				<div class="svl-exo__top">
 					<span class="svl-glass"><?php echo esc_html( SVL_Format::flag( $info['iso'] ) . ' ' . $info['country'] ); ?></span>
-					<?php if ( $low ) : ?>
+					<?php if ( $min && $min['low'] ) : ?>
 						<span class="svl-badge">Najnižšia cena za 30 dní</span>
 					<?php endif; ?>
 				</div>
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from"><?php echo $min['return'] ? 'spiatočná od' : 'jednosmerná od'; ?> <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
+						<p class="svl-exo__from">spiatočná od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
 							<?php if ( $min['airline'] ) : ?>
 								<span class="svl-exo__airline">s <?php echo esc_html( $min['airline'] ); ?></span>
 							<?php endif; ?>
@@ -246,62 +311,22 @@ class SVL_Render {
 			</div>
 			<ul class="svl-exo__list">
 				<?php
-				if ( $per_origin ) {
-					$shown = 0;
-					foreach ( $per_origin as $rows ) {
-						if ( $compact && $shown >= 2 ) {
-							break;
-						}
-						self::flight_row( $rows[0] );
-						++$shown;
-					}
+				if ( $min ) {
+					self::flight_row( $min );
 				} else {
-					$depart = gmdate( 'Y-m-d', strtotime( '+30 days' ) );
-					$return = gmdate( 'Y-m-d', strtotime( '+44 days' ) );
-					foreach ( array_slice( $origins, 0, $compact ? 2 : 3 ) as $o ) {
-						$links = SVL_Format::compare_links( $o, $dest, $depart, $return );
-						?>
-						<li class="svl-flight svl-flight--empty">
-							<div class="svl-flight__route"><span><?php echo esc_html( $o ); ?></span><span class="svl-flight__plane" aria-hidden="true"></span><span><?php echo esc_html( $dest ); ?></span></div>
-							<div class="svl-flight__info"><strong><?php echo esc_html( self::from_label( $o ) ); ?></strong><span>Hľadať na porovnávačoch</span></div>
-							<div class="svl-flight__cta">
-								<a class="svl-link" href="<?php echo esc_url( $links['kayak'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>Kayak</a>
-								<a class="svl-link" href="<?php echo esc_url( $links['momondo'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>momondo</a>
-							</div>
-						</li>
-						<?php
-					}
+					$o     = $origins ? $origins[0] : 'VIE';
+					$links = SVL_Format::compare_links( $o, $dest, gmdate( 'Y-m-d', strtotime( '+30 days' ) ), gmdate( 'Y-m-d', strtotime( '+44 days' ) ) );
+					?>
+					<li class="svl-flight svl-flight--empty">
+						<div class="svl-flight__info"><strong>Spiatočné letenky</strong><span>Hľadať na porovnávačoch</span></div>
+						<div class="svl-flight__cta">
+							<?php echo self::go( $links['kayak'], 'Kayak', 'svl-link' ) . self::go( $links['momondo'], 'momondo', 'svl-link' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						</div>
+					</li>
+					<?php
 				}
 				?>
 			</ul>
-			<?php
-			if ( ! $compact ) {
-				$more = array();
-				foreach ( $per_origin as $rows ) {
-					$more = array_merge( $more, array_slice( $rows, 1 ) );
-				}
-				usort(
-					$more,
-					static function ( $a, $b ) {
-						return $a['price'] <=> $b['price'];
-					}
-				);
-				if ( $more ) :
-					?>
-					<details class="svl-exo__more">
-						<summary>Ďalšie termíny (<?php echo count( $more ); ?>)</summary>
-						<ul class="svl-exo__list">
-							<?php
-							foreach ( array_slice( $more, 0, 8 ) as $d ) {
-								self::flight_row( $d );
-							}
-							?>
-						</ul>
-					</details>
-					<?php
-				endif;
-			}
-			?>
 		</article>
 		<?php
 	}
@@ -335,10 +360,9 @@ class SVL_Render {
 				<small><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
 			</div>
 			<div class="svl-flight__cta">
-				<a class="svl-btn" href="<?php echo esc_url( $url ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>Zobraziť</a>
+				<?php echo self::go( $url, 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				<span class="svl-compare">
-					<a href="<?php echo esc_url( $links['kayak'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>Kayak</a>
-					<a href="<?php echo esc_url( $links['momondo'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>momondo</a>
+					<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</span>
 			</div>
 		</li>
@@ -383,7 +407,7 @@ class SVL_Render {
 			</div>
 			<?php if ( ! $deals ) : ?>
 				<p class="svl-empty">Ponuky sa načítavajú alebo sú momentálne nedostupné. Skúste
-					<a href="<?php echo esc_url( 'https://' . SVL_Settings::get( 'kayak_domain' ) . '/explore/' . ( $origins ? $origins[0] : 'BTS' ) . '-anywhere' ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>Kayak Explore</a>.
+					<?php echo self::go( 'https://' . SVL_Settings::get( 'kayak_domain' ) . '/explore/' . ( $origins ? $origins[0] : 'BTS' ) . '-anywhere', 'Kayak Explore', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>.
 				</p>
 			<?php else : ?>
 				<ol class="svl-eu-list">
@@ -393,7 +417,7 @@ class SVL_Render {
 						$url   = $d['url'] ? $d['url'] : $links['kayak'];
 						?>
 						<li class="svl-eu" data-origin="<?php echo esc_attr( $d['origin'] ); ?>" data-best="<?php echo isset( $best[ $i ] ) ? '1' : '0'; ?>" data-price="<?php echo esc_attr( $d['price'] ); ?>" data-date="<?php echo esc_attr( $d['depart'] ); ?>">
-							<a class="svl-eu__main" href="<?php echo esc_url( $url ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>
+							<button type="button" class="svl-eu__main" data-svl-go="<?php echo esc_url( $url ); ?>">
 								<span class="svl-eu__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
 								<span class="svl-eu__text">
 									<strong class="svl-eu__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
@@ -404,13 +428,12 @@ class SVL_Render {
 									<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
 									<small><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
 								</span>
-							</a>
+							</button>
 							<?php if ( $d['low'] ) : ?>
 								<span class="svl-badge svl-badge--float">Top cena</span>
 							<?php endif; ?>
 							<span class="svl-compare">
-								<a href="<?php echo esc_url( $links['kayak'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>Kayak</a>
-								<a href="<?php echo esc_url( $links['momondo'] ); ?>" <?php echo self::link_attrs(); // phpcs:ignore ?>>momondo</a>
+								<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 							</span>
 						</li>
 					<?php endforeach; ?>

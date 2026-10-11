@@ -23,10 +23,13 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 	}
 
 	public function supports( $group ) {
-		return in_array( $group, array( 'exotika', 'europa' ), true );
+		return in_array( $group, array( 'exotika', 'azia', 'europa' ), true );
 	}
 
 	public function fetch( $group ) {
+		if ( 'azia' === $group ) {
+			return $this->fetch_asia();
+		}
 		return 'exotika' === $group ? $this->fetch_exotic() : $this->fetch_europe();
 	}
 
@@ -123,6 +126,48 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 					if ( count( $out ) >= 3 ) {
 						break;
 					}
+				}
+				return $out;
+			}
+		);
+	}
+
+	/**
+	 * Rebríček Ázie a exotiky: najlacnejšie spiatočné letenky z každého letiska kamkoľvek,
+	 * odfiltrované na Áziu, Perzský záliv a exotiku (Indický oceán, Karibik…).
+	 */
+	private function fetch_asia() {
+		$months = (int) SVL_Settings::get( 'exotic_months' );
+		return $this->each_tolerant(
+			SVL_Settings::codes( 'exotic_origins' ),
+			function ( $o ) use ( $months ) {
+				$rows  = $this->query(
+					array(
+						'origin'  => $o,
+						'one_way' => 'false',
+						'limit'   => 1000,
+					)
+				);
+				$limit = strtotime( '+' . $months . ' months' );
+				$out   = array();
+				foreach ( $rows as $row ) {
+					if ( empty( $row['price'] ) || empty( $row['destination'] ) || empty( $row['return_at'] ) || empty( $row['departure_at'] ) ) {
+						continue;
+					}
+					$t = strtotime( $row['departure_at'] );
+					if ( $t > $limit || $t < time() ) {
+						continue;
+					}
+					$info = svl_airport( strtoupper( $row['destination'] ) );
+					if ( ! in_array( $info['continent'], array( 'as', 'ex' ), true ) ) {
+						continue;
+					}
+					$deal           = $this->to_deal( 'azia', $row, $o );
+					$deal['origin'] = $o;
+					if ( ! $deal['url'] ) {
+						$deal['url'] = $this->search_link( $o, $deal['destination'], $deal['depart'], $deal['return'] );
+					}
+					$out[] = $deal;
 				}
 				return $out;
 			}

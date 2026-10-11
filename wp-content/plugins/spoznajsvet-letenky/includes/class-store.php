@@ -8,7 +8,7 @@ class SVL_Store {
 
 	const OPTION  = 'svl_deals';
 	const HISTORY = 'svl_price_history';
-	const GROUPS  = array( 'exotika', 'europa' );
+	const GROUPS  = array( 'exotika', 'azia', 'europa' );
 
 	public static function providers() {
 		$providers = array(
@@ -122,7 +122,17 @@ class SVL_Store {
 			if ( empty( $d['price'] ) || $d['price'] <= 0 || $d['depart'] < $today ) {
 				continue;
 			}
-			if ( 'exotika' === $d['group'] ) {
+			// Ázia a exotika: iba spiatočné letenky.
+			if ( in_array( $d['group'], array( 'exotika', 'azia' ), true ) && empty( $d['return'] ) ) {
+				continue;
+			}
+			if ( 'azia' === $d['group'] ) {
+				if ( ! in_array( $d['continent'], array( 'as', 'ex' ), true ) ) {
+					continue;
+				}
+				// Rebríček: najlacnejšia letenka do každého mesta (z ktoréhokoľvek letiska).
+				$key = $d['group'] . '|' . ( $d['dest_city'] ? $d['dest_city'] : $d['destination'] );
+			} elseif ( 'exotika' === $d['group'] ) {
 				if ( ! in_array( $d['destination'], $exotic, true ) ) {
 					continue;
 				}

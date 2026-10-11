@@ -55,7 +55,26 @@
 		tick();
 	}
 
+	// Ponuky sú tlačidlá (nie odkazy), aby prehliadač pri prejdení myšou neukazoval adresu v rohu.
+	function go(btn) {
+		var url = btn.getAttribute('data-svl-go');
+		if (!url) return;
+		// Bez „noopener“ vo window.open – s ním prehliadač vždy vráti null a nevieme, či sa okno otvorilo.
+		var w = window.open(url, '_blank');
+		if (w) {
+			try { w.opener = null; } catch (err) { /* nič */ }
+		} else {
+			window.location.href = url; // blokované vyskakovacie okno
+		}
+	}
+	document.addEventListener('auxclick', function (e) {
+		var btn = e.button === 1 && e.target.closest('[data-svl-go]');
+		if (btn) { e.preventDefault(); go(btn); }
+	});
+
 	document.addEventListener('click', function (e) {
+		var goBtn = e.target.closest('[data-svl-go]');
+		if (goBtn) { go(goBtn); return; }
 		var chip = e.target.closest('.svl-chip');
 		if (chip) {
 			var block = chip.closest('[data-svl-eu]');

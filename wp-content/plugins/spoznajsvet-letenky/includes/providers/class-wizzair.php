@@ -128,7 +128,7 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 			try {
 				$cache[ $key ] = array(
 					't'     => time(),
-					'deals' => $this->timetable( $base, $group, $o, $d ),
+					'deals' => 'exotika' === $group ? $this->round_trip( $base, $o, $d ) : $this->timetable( $base, $group, $o, $d ),
 				);
 			} catch ( Throwable $e ) {
 				++$errors;
@@ -161,6 +161,91 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 		}
 		update_option( self::CACHE_OPTION, $valid, false );
 		return $out;
+	}
+
+	/** Najlacnejšia cena z odpovede timetable pre jeden smer: [ 'Y-m-d' => EUR ]. */
+	private function cheapest_by_day( array $flights ) {
+		$out = array();
+		foreach ( $flights as $f ) {
+			if ( ( $f['priceType'] ?? '' ) !== 'price' || empty( $f['price']['amount'] ) ) {
+				continue;
+			}
+			$eur = SVL_Currency::to_eur( $f['price']['amount'], $f['price']['currencyCode'] ?? 'EUR' );
+			$day = substr( (string) ( $f['departureDate'] ?? '' ), 0, 10 );
+			if ( null !== $eur && $day && ( ! isset( $out[ $day ] ) || $eur < $out[ $day ] ) ) {
+				$out[ $day ] = $eur;
+			}
+		}
+		return $out;
+	}
+
+	/**
+	 * Spiatočná letenka pre Exotiku: tam aj späť v jednej požiadavke,
+	 * najlacnejšia kombinácia s pobytom 5 – 21 nocí.
+	 */
+	private function round_trip( $base, $origin, $dest ) {
+		$json = $this->post_json(
+			$base . '/Api/search/timetable',
+			array(
+				'flightList'  => array(
+					array(
+						'departureStation' => $origin,
+						'arrivalStation'   => $dest,
+						'from'             => gmdate( 'Y-m-d', strtotime( '+1 day' ) ),
+						'to'               => gmdate( 'Y-m-d', strtotime( '+26 days' ) ),
+					),
+					array(
+						'departureStation' => $dest,
+						'arrivalStation'   => $origin,
+						'from'             => gmdate( 'Y-m-d', strtotime( '+6 days' ) ),
+						'to'               => gmdate( 'Y-m-d', strtotime( '+46 days' ) ),
+					),
+				),
+				'priceType'   => 'regular',
+				'adultCount'  => 1,
+				'childCount'  => 0,
+				'infantCount' => 0,
+			),
+			$this->wizz_headers()
+		);
+		$out_days = $this->cheapest_by_day( (array) ( $json['outboundFlights'] ?? array() ) );
+		$ret_days = $this->cheapest_by_day( (array) ( $json['returnFlights'] ?? array() ) );
+		$best     = null;
+		foreach ( $out_days as $dep => $p1 ) {
+			foreach ( $ret_days as $ret => $p2 ) {
+				$nights = SVL_Format::nights( $dep, $ret );
+				if ( $nights < 5 || $nights > 21 ) {
+					continue;
+				}
+				if ( null === $best || $p1 + $p2 < $best['price'] ) {
+					$best = array(
+						'price'  => $p1 + $p2,
+						'depart' => $dep,
+						'return' => $ret,
+					);
+				}
+			}
+		}
+		if ( ! $best ) {
+			return array();
+		}
+		return array(
+			SVL_Format::deal(
+				array(
+					'group'        => 'exotika',
+					'source'       => 'wizzair',
+					'origin'       => $origin,
+					'destination'  => $dest,
+					'depart'       => $best['depart'],
+					'return'       => $best['return'],
+					'price'        => $best['price'],
+					'stops'        => 0,
+					'airline'      => 'Wizz Air',
+					'airline_code' => 'W6',
+					'url'          => sprintf( 'https://wizzair.com/sk-sk/booking/select-flight/%s/%s/%s/%s/1/0/0/null', $origin, $dest, $best['depart'], $best['return'] ),
+				)
+			),
+		);
 	}
 
 	private function timetable( $base, $group, $origin, $dest ) {

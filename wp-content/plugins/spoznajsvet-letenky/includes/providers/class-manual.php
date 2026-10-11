@@ -49,7 +49,7 @@ class SVL_Provider_Manual extends SVL_Provider {
 				continue;
 			}
 			$group = strtolower( $p[0] );
-			if ( ! in_array( $group, array( 'exotika', 'europa' ), true )
+			if ( ! in_array( $group, array( 'exotika', 'azia', 'europa' ), true )
 				|| ! preg_match( '/^[A-Z]{3}$/i', $p[1] ) || ! preg_match( '/^[A-Z]{3}$/i', $p[2] )
 				|| ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $p[3] ) ) {
 				continue;

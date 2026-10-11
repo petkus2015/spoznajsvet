@@ -95,6 +95,39 @@
 	.svl-flight__plane { width: 1px; height: 22px; background: repeating-linear-gradient(to bottom, var(--svl-line) 0 3px, transparent 3px 6px); }
 }
 
+/* Tlačidlá namiesto odkazov (bez adresy v rohu prehliadača). */
+.svl button[data-svl-go] { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.svl-btn { border: 0; }
+.svl-link { background: transparent; color: inherit; }
+.svl-compare__btn { padding: 0; border: 0; background: none; color: var(--svl-muted); font-size: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.svl-compare__btn:hover { color: var(--svl-accent); }
+.svl-eu__main { width: 100%; border: 0; background: none; color: inherit; text-align: left; }
+
+/* Rebríček Ázie a exotiky */
+.svl-rank { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .6rem; counter-reset: none; }
+@media (min-width: 900px) { .svl-rank { grid-template-columns: repeat(2, 1fr); gap: .8rem; } }
+.svl-rank__item {
+	display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: .75rem;
+	padding: .85rem 1rem; background: var(--svl-surface); border: 1px solid var(--svl-line); border-radius: 18px;
+}
+.svl-rank__item:first-child { border-color: var(--svl-gold); box-shadow: 0 0 0 1px var(--svl-gold) inset; }
+.svl-rank__pos { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--svl-soft); color: var(--svl-muted); font-size: .8rem; font-weight: 800; }
+.svl-rank__item:first-child .svl-rank__pos { background: var(--svl-gold); color: #2a1d10; }
+.svl-rank__flag { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: var(--svl-soft); font-size: 1.5rem; line-height: 1; }
+.svl-rank__main { display: flex; flex-direction: column; min-width: 0; }
+.svl-rank__city { font-size: 1.02rem; color: var(--svl-heading); }
+.svl-rank__meta, .svl-rank__when { font-size: .78rem; color: var(--svl-muted); }
+.svl-rank__when { color: var(--svl-text); }
+.svl-rank__main .svl-airline { margin-top: .25rem; }
+.svl-rank__price { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; text-align: right; line-height: 1.1; }
+.svl-rank__price strong { font-size: 1.25rem; color: var(--svl-accent); }
+.svl-rank__price small { font-size: .7rem; color: var(--svl-muted); }
+.svl-rank__price .svl-btn { margin-top: .35rem; min-height: 36px; padding: .4rem .9rem; font-size: .8rem; }
+@media (max-width: 480px) {
+	.svl-rank__item { grid-template-columns: auto 1fr auto; }
+	.svl-rank__pos { display: none; }
+}
+
 .svl-exo__airline { display: block; font-size: .82rem; opacity: .9; }
 .svl-airline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .3rem; font-size: .82rem; color: var(--svl-text); }
 .svl-airline__logo { width: 22px; height: 22px; border-radius: 6px; background: #fff; object-fit: contain; box-shadow: 0 0 0 1px var(--svl-line); }

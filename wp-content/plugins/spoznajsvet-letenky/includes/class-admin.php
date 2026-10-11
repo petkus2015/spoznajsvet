@@ -119,11 +119,12 @@ class SVL_Admin {
 					?>
 				</table>
 
-				<h2>Exotika (spiatočné)</h2>
+				<h2>Ázia a exotika (len spiatočné)</h2>
+				<p>Rebríček najlacnejších spiatočných leteniek do celej Ázie a exotiky (z týchto letísk) a karty vybraných destinácií – pri každej len najlacnejšia letenka.</p>
 				<table class="form-table" role="presentation">
 					<?php
 					self::field( 'exotic_origins', 'Odletové letiská', 'IATA kódy oddelené čiarkou, napr. VIE,BTS,BUD' );
-					self::field( 'exotic_destinations', 'Destinácie', 'Napr. BKK,DXB,AUH' );
+					self::field( 'exotic_destinations', 'Destinácie s kartou', 'Napr. BKK,DXB,AUH' );
 					self::field( 'exotic_months', 'Horizont (mesiace)', '', 'number' );
 					?>
 				</table>
