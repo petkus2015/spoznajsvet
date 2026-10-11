@@ -42,7 +42,7 @@ URL: `/destinacie/taliansko/`, `/destinacie/taliansko/florencia/`.
 
 | Zdroj | Čo prináša | Kľúč |
 |---|---|---|
-| **Ryanair** | najlacnejší jednosmerný let do každej destinácie z BTS/VIE | netreba |
+| **Ryanair** | najlacnejšia spiatočná letenka do každej destinácie z BTS/VIE | netreba |
 | **Wizz Air** | cenový kalendár na linkách z VIE/BUD (aj Abu Dhabi/Dubaj, ak ich Wizz lieta) | netreba |
 | **Aviasales (Travelpayouts)** | klasické aerolínie – Qatar, Emirates, Etihad, Turkish… hlavne pre **Bangkok, Dubaj, Abu Dhabi** | bezplatný token z travelpayouts.com |
 | **Kayak, momondo** | ku každej ponuke odkaz „porovnať“ s rovnakou trasou a dátumami; akcie odtiaľ môžete vložiť ako **ručné tipy** | – |
@@ -52,7 +52,7 @@ Kayak ani momondo nemajú verejné API a ich automatické sťahovanie porušuje 
 **Predvolené nastavenie**
 
 - Exotika (spiatočné): z `VIE, BTS, BUD` do `BKK, DXB, AUH`, horizont 6 mesiacov
-- Európa (jednosmerné): z `BTS, VIE`, horizont 90 dní, max. 150 €, len Európa
+- Európa (spiatočné): z `BTS, VIE`, pobyt 2 – 7 nocí, horizont 90 dní, max. 150 €, len Európa
 
 **Použitie:** stránka *Letenky* (šablóna), úvodná stránka, shortcode
 `[spoznajsvet_letenky]`, `[spoznajsvet_letenky skupina="exotika"]`, `[spoznajsvet_letenky skupina="europa" limit="20"]`

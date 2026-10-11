@@ -21,6 +21,8 @@ class SVL_Settings {
 			'europe_origins'      => 'BTS,VIE',
 			'europe_days'         => 90,
 			'europe_max_price'    => 150,
+			'europe_min_nights'   => 2,
+			'europe_max_nights'   => 7,
 			'europe_only'         => 1,
 			'kayak_domain'        => 'www.kayak.com',
 			'momondo_domain'      => 'www.momondo.com',
@@ -64,6 +66,8 @@ class SVL_Settings {
 		$out['exotic_months']    = max( 1, min( 12, (int) ( $input['exotic_months'] ?? $d['exotic_months'] ) ) );
 		$out['europe_days']      = max( 7, min( 180, (int) ( $input['europe_days'] ?? $d['europe_days'] ) ) );
 		$out['europe_max_price'] = max( 0, (int) ( $input['europe_max_price'] ?? $d['europe_max_price'] ) );
+		$out['europe_min_nights'] = max( 1, min( 21, (int) ( $input['europe_min_nights'] ?? $d['europe_min_nights'] ) ) );
+		$out['europe_max_nights'] = max( $out['europe_min_nights'], min( 30, (int) ( $input['europe_max_nights'] ?? $d['europe_max_nights'] ) ) );
 		$out['tp_token']         = sanitize_text_field( $input['tp_token'] ?? '' );
 		$out['tp_marker']        = preg_replace( '/[^0-9A-Za-z_.-]/', '', (string) ( $input['tp_marker'] ?? '' ) );
 		foreach ( array( 'kayak_domain', 'momondo_domain' ) as $k ) {

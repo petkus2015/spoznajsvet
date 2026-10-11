@@ -388,7 +388,7 @@ class SVL_Render {
 				<header class="svl-head">
 					<p class="svl-eyebrow">Európa</p>
 					<h2 class="svl-title">Najlacnejšie mestá na víkend</h2>
-					<p class="svl-lead">Jednosmerné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> – zoradené od najlacnejšej.</p>
+					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> na <?php echo esc_html( SVL_Settings::get( 'europe_min_nights' ) . ' – ' . SVL_Settings::get( 'europe_max_nights' ) ); ?> nocí – zoradené od najlacnejšej.</p>
 				</header>
 			<?php endif; ?>
 			<div class="svl-toolbar">
@@ -413,7 +413,8 @@ class SVL_Render {
 				<ol class="svl-eu-list">
 					<?php
 					foreach ( $deals as $i => $d ) :
-						$links = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'] );
+						$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
+						$nights = SVL_Format::nights( $d['depart'], $d['return'] );
 						$url   = $d['url'] ? $d['url'] : $links['kayak'];
 						?>
 						<li class="svl-eu" data-origin="<?php echo esc_attr( $d['origin'] ); ?>" data-best="<?php echo isset( $best[ $i ] ) ? '1' : '0'; ?>" data-price="<?php echo esc_attr( $d['price'] ); ?>" data-date="<?php echo esc_attr( $d['depart'] ); ?>">
@@ -421,12 +422,12 @@ class SVL_Render {
 								<span class="svl-eu__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
 								<span class="svl-eu__text">
 									<strong class="svl-eu__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
-									<span class="svl-eu__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . $d['destination'], ' ·' ) ); ?></span>
-									<span class="svl-eu__when"><?php echo esc_html( self::from_label( $d['origin'], $d['origin_city'] ) . ' · ' . SVL_Format::date( $d['depart'] ) ); ?></span>
+									<span class="svl-eu__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
+									<span class="svl-eu__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) ); ?><?php if ( $nights ) : ?> <span class="svl-eu__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span><?php endif; ?></span>
 								</span>
 								<span class="svl-eu__price">
 									<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-									<small><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
+									<small>spiatočná · <?php echo esc_html( $d['airline'] ? $d['airline'] : SVL_Format::source_label( $d['source'] ) ); ?></small>
 								</span>
 							</button>
 							<?php if ( $d['low'] ) : ?>

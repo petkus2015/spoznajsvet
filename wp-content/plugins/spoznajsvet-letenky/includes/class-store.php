@@ -122,8 +122,8 @@ class SVL_Store {
 			if ( empty( $d['price'] ) || $d['price'] <= 0 || $d['depart'] < $today ) {
 				continue;
 			}
-			// Ázia a exotika: iba spiatočné letenky.
-			if ( in_array( $d['group'], array( 'exotika', 'azia' ), true ) && empty( $d['return'] ) ) {
+			// Zobrazujeme iba spiatočné letenky (Európa aj Ázia a exotika).
+			if ( empty( $d['return'] ) ) {
 				continue;
 			}
 			if ( 'azia' === $d['group'] ) {

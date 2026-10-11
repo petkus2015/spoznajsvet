@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Wizz Air – neoficiálne API webu wizzair.com (mapa liniek + cenový kalendár „timetable“).
+ * Vždy hľadá spiatočné letenky (tam aj späť v jednej požiadavke).
  *
  * Aby sme Wizz Air nezahltili, v každom behu (30 min) obnovíme len obmedzený
  * počet liniek; ostatné sa berú z vyrovnávacej pamäte (max. 24 h).
@@ -128,7 +129,9 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 			try {
 				$cache[ $key ] = array(
 					't'     => time(),
-					'deals' => 'exotika' === $group ? $this->round_trip( $base, $o, $d ) : $this->timetable( $base, $group, $o, $d ),
+					'deals' => 'exotika' === $group
+						? $this->round_trip( $base, $group, $o, $d, 5, 21 )
+						: $this->round_trip( $base, $group, $o, $d, (int) SVL_Settings::get( 'europe_min_nights' ), (int) SVL_Settings::get( 'europe_max_nights' ) ),
 				);
 			} catch ( Throwable $e ) {
 				++$errors;
@@ -180,10 +183,10 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 	}
 
 	/**
-	 * Spiatočná letenka pre Exotiku: tam aj späť v jednej požiadavke,
-	 * najlacnejšia kombinácia s pobytom 5 – 21 nocí.
+	 * Spiatočná letenka: tam aj späť v jednej požiadavke, najlacnejšia kombinácia
+	 * s pobytom $min_n – $max_n nocí (Exotika 5 – 21, Európa podľa nastavení).
 	 */
-	private function round_trip( $base, $origin, $dest ) {
+	private function round_trip( $base, $group, $origin, $dest, $min_n, $max_n ) {
 		$json = $this->post_json(
 			$base . '/Api/search/timetable',
 			array(
@@ -197,8 +200,9 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 					array(
 						'departureStation' => $dest,
 						'arrivalStation'   => $origin,
-						'from'             => gmdate( 'Y-m-d', strtotime( '+6 days' ) ),
-						'to'               => gmdate( 'Y-m-d', strtotime( '+46 days' ) ),
+						// Návrat: od (1 + min. nocí) do (26 + max. nocí) dní – rozsah ostáva pod limitom API (~42 dní).
+						'from'             => gmdate( 'Y-m-d', strtotime( '+' . ( 1 + $min_n ) . ' days' ) ),
+						'to'               => gmdate( 'Y-m-d', strtotime( '+' . ( 26 + $max_n ) . ' days' ) ),
 					),
 				),
 				'priceType'   => 'regular',
@@ -214,7 +218,7 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 		foreach ( $out_days as $dep => $p1 ) {
 			foreach ( $ret_days as $ret => $p2 ) {
 				$nights = SVL_Format::nights( $dep, $ret );
-				if ( $nights < 5 || $nights > 21 ) {
+				if ( $nights < $min_n || $nights > $max_n ) {
 					continue;
 				}
 				if ( null === $best || $p1 + $p2 < $best['price'] ) {
@@ -232,7 +236,7 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 		return array(
 			SVL_Format::deal(
 				array(
-					'group'        => 'exotika',
+					'group'        => $group,
 					'source'       => 'wizzair',
 					'origin'       => $origin,
 					'destination'  => $dest,
@@ -243,62 +247,6 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 					'airline'      => 'Wizz Air',
 					'airline_code' => 'W6',
 					'url'          => sprintf( 'https://wizzair.com/sk-sk/booking/select-flight/%s/%s/%s/%s/1/0/0/null', $origin, $dest, $best['depart'], $best['return'] ),
-				)
-			),
-		);
-	}
-
-	private function timetable( $base, $group, $origin, $dest ) {
-		$from = gmdate( 'Y-m-d', strtotime( '+1 day' ) );
-		$to   = gmdate( 'Y-m-d', strtotime( '+' . self::WINDOW_DAYS . ' days' ) );
-		$json = $this->post_json(
-			$base . '/Api/search/timetable',
-			array(
-				'flightList'  => array(
-					array(
-						'departureStation' => $origin,
-						'arrivalStation'   => $dest,
-						'from'             => $from,
-						'to'               => $to,
-					),
-				),
-				'priceType'   => 'regular',
-				'adultCount'  => 1,
-				'childCount'  => 0,
-				'infantCount' => 0,
-			),
-			$this->wizz_headers()
-		);
-
-		$best = null;
-		foreach ( (array) ( $json['outboundFlights'] ?? array() ) as $f ) {
-			if ( ( $f['priceType'] ?? '' ) !== 'price' || empty( $f['price']['amount'] ) ) {
-				continue;
-			}
-			$eur = SVL_Currency::to_eur( $f['price']['amount'], $f['price']['currencyCode'] ?? 'EUR' );
-			if ( null !== $eur && ( null === $best || $eur < $best['price'] ) ) {
-				$best = array(
-					'price' => $eur,
-					'date'  => substr( $f['departureDate'], 0, 10 ),
-				);
-			}
-		}
-		if ( ! $best ) {
-			return array();
-		}
-		return array(
-			SVL_Format::deal(
-				array(
-					'group'       => $group,
-					'source'      => 'wizzair',
-					'origin'      => $origin,
-					'destination' => $dest,
-					'depart'      => $best['date'],
-					'price'       => $best['price'],
-					'stops'       => 0,
-					'airline'     => 'Wizz Air',
-					'airline_code' => 'W6',
-					'url'         => sprintf( 'https://wizzair.com/sk-sk/booking/select-flight/%s/%s/%s/null/1/0/0/null', $origin, $dest, $best['date'] ),
 				)
 			),
 		);

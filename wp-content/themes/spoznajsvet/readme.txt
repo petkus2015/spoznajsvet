@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,11 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.9.0 =
+* Európske destinácie: len spiatočné letenky (Ryanair roundTripFares, Wizz Air tam a späť, Aviasales spiatočné).
+* Nové nastavenie dĺžky pobytu pre Európu (predvolene 2 – 7 nocí).
+* Pri každej európskej ponuke termín tam – späť a počet nocí.
 
 = 1.8.0 =
 * Nový dizajn stránky Články: hlavička s počtom príbehov, vyhľadávaním a filtrom krajín,

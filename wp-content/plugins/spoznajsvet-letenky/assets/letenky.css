@@ -169,7 +169,8 @@
 .svl-eu__text { display: flex; flex-direction: column; min-width: 0; }
 .svl-eu__city { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .svl-eu__meta, .svl-eu__when { font-size: .78rem; color: var(--svl-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.svl-eu__when { color: var(--svl-text); }
+.svl-eu__when { color: var(--svl-text); white-space: normal; overflow: visible; }
+.svl-eu__nights { display: inline-block; margin-left: .2rem; padding: 0 .45rem; border-radius: 999px; background: var(--svl-soft); color: var(--svl-muted); font-size: .7rem; font-weight: 600; line-height: 1.6; }
 .svl-eu__price { text-align: right; line-height: 1.1; }
 .svl-eu__price strong { display: block; font-size: 1.2rem; color: var(--svl-accent); }
 .svl-eu .svl-compare { padding: 0 1rem .7rem calc(1rem + 44px + .8rem); }

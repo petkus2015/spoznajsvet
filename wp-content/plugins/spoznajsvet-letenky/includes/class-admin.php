@@ -129,12 +129,14 @@ class SVL_Admin {
 					?>
 				</table>
 
-				<h2>Európske mestá (jednosmerné)</h2>
+				<h2>Európske mestá (spiatočné)</h2>
 				<table class="form-table" role="presentation">
 					<?php
 					self::field( 'europe_origins', 'Odletové letiská', 'Napr. BTS,VIE' );
 					self::field( 'europe_days', 'Horizont (dni)', '', 'number' );
-					self::field( 'europe_max_price', 'Max. cena (EUR)', '0 = bez limitu', 'number' );
+					self::field( 'europe_min_nights', 'Pobyt od (nocí)', 'Napr. 2 = predĺžený víkend', 'number' );
+					self::field( 'europe_max_nights', 'Pobyt do (nocí)', 'Napr. 7 = týždeň', 'number' );
+					self::field( 'europe_max_price', 'Max. cena spiatočnej letenky (EUR)', '0 = bez limitu', 'number' );
 					self::field( 'europe_only', 'Len Európa', 'Skryť Maroko, Egypt, Jordánsko a pod.', 'checkbox' );
 					?>
 				</table>

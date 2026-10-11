@@ -33,7 +33,18 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 		return 'exotika' === $group ? $this->fetch_exotic() : $this->fetch_europe();
 	}
 
+	/** Odpovede v rámci jednej aktualizácie (Európa a Ázia sa pýtajú na to isté). */
+	private $memo = array();
+
 	private function query( array $args ) {
+		$key = md5( wp_json_encode( $args ) );
+		if ( isset( $this->memo[ $key ] ) ) {
+			return $this->memo[ $key ];
+		}
+		return $this->memo[ $key ] = $this->query_api( $args );
+	}
+
+	private function query_api( array $args ) {
 		$token = (string) SVL_Settings::get( 'tp_token' );
 		$args  = array_merge(
 			array(
@@ -220,20 +231,26 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 	}
 
 	private function fetch_europe() {
+		$min_n = (int) SVL_Settings::get( 'europe_min_nights' );
+		$max_n = (int) SVL_Settings::get( 'europe_max_nights' );
 		return $this->each_tolerant(
 			SVL_Settings::codes( 'europe_origins' ),
-			function ( $o ) {
+			function ( $o ) use ( $min_n, $max_n ) {
 				$rows  = $this->query(
 					array(
 						'origin'  => $o,
-						'one_way' => 'true',
-						'limit'   => 300,
+						'one_way' => 'false',
+						'limit'   => 500,
 					)
 				);
 				$limit = strtotime( '+' . (int) SVL_Settings::get( 'europe_days' ) . ' days' );
 				$out   = array();
 				foreach ( $rows as $row ) {
-					if ( empty( $row['price'] ) || empty( $row['destination'] ) || empty( $row['departure_at'] ) || strtotime( $row['departure_at'] ) > $limit ) {
+					if ( empty( $row['price'] ) || empty( $row['destination'] ) || empty( $row['departure_at'] ) || empty( $row['return_at'] ) || strtotime( $row['departure_at'] ) > $limit ) {
+						continue;
+					}
+					$nights = SVL_Format::nights( substr( $row['departure_at'], 0, 10 ), substr( $row['return_at'], 0, 10 ) );
+					if ( $nights < $min_n || $nights > $max_n ) {
 						continue;
 					}
 					$deal           = $this->to_deal( 'europa', $row, $o );
