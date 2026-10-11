@@ -112,12 +112,14 @@ function sst_bottom_nav_items() {
 }
 
 /** Hlavné menu, ak nie je nastavené vlastné. */
-function sst_primary_fallback() {
-	$items = array(
-		array( 'Destinácie', sst_destinations_url(), is_tax( 'destinacia' ) ),
+function sst_primary_fallback( $args = array() ) {
+	$context = is_array( $args ) && isset( $args['sst_context'] ) ? $args['sst_context'] : 'footer';
+	$items   = array(
+		array( 'Destinácie', sst_destinations_url(), is_tax( 'destinacia' ) || is_page_template( 'page-templates/template-destinacie.php' ), 'destinations' ),
 		array( 'Články', sst_blog_url(), is_home() || is_singular( 'post' ) ),
 	);
-	if ( sst_flights_url() ) {
+	// Na počítači je „Lacné letenky“ samostatné tlačidlo – v menu by bolo dvakrát.
+	if ( sst_flights_url() && 'desktop' !== $context ) {
 		$items[] = array( 'Letenky', sst_flights_url(), is_page_template( 'page-templates/template-letenky.php' ) );
 	}
 	$about = get_page_by_path( 'o-mne' );
@@ -126,12 +128,31 @@ function sst_primary_fallback() {
 	}
 	echo '<ul class="menu">';
 	foreach ( $items as $i ) {
+		$sub = '';
+		if ( 'desktop' === $context && isset( $i[3] ) ) {
+			$countries = array_slice( sst_countries( array( 'orderby' => 'count', 'order' => 'DESC' ) ), 0, 10 );
+			if ( $countries ) {
+				$sub = '<ul class="sub-menu sub-menu--grid">';
+				foreach ( $countries as $c ) {
+					$sub .= sprintf(
+						'<li class="menu-item"><a href="%s"><span class="sub-menu__flag" aria-hidden="true">%s</span>%s<span class="sub-menu__count">%d</span></a></li>',
+						esc_url( get_term_link( $c ) ),
+						esc_html( sst_term_flag( $c ) ),
+						esc_html( $c->name ),
+						(int) $c->count
+					);
+				}
+				$sub .= sprintf( '<li class="menu-item sub-menu__all"><a href="%s">Všetky destinácie →</a></li></ul>', esc_url( sst_destinations_url() ) );
+			}
+		}
 		printf(
-			'<li class="menu-item%3$s"><a href="%1$s"%4$s>%2$s</a></li>',
+			'<li class="menu-item%3$s%5$s"><a href="%1$s"%4$s>%2$s</a>%6$s</li>',
 			esc_url( $i[1] ),
 			esc_html( $i[0] ),
 			$i[2] ? ' current-menu-item' : '',
-			$i[2] ? ' aria-current="page"' : ''
+			$i[2] ? ' aria-current="page"' : '',
+			$sub ? ' menu-item-has-children' : '',
+			$sub // Escapované vyššie.
 		);
 	}
 	echo '</ul>';

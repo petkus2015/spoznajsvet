@@ -76,6 +76,38 @@
 		}
 	});
 
+	/* Mobilné menu (hamburger). */
+	var menu = doc.querySelector('[data-mobile-menu]');
+	var menuBtn = doc.querySelector('[data-menu-toggle]');
+
+	function setMenu(open) {
+		if (!menu || !menuBtn) return;
+		if (open === !menu.hidden) return;
+		root.classList.toggle('menu-open', open);
+		root.classList.toggle('no-scroll', open);
+		menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+		menuBtn.setAttribute('aria-label', open ? 'Zavrieť menu' : 'Otvoriť menu');
+		if (open) {
+			menu.hidden = false;
+			if (bottomNav) bottomNav.classList.remove('is-hidden');
+			window.requestAnimationFrame(function () { menu.classList.add('is-open'); });
+		} else {
+			menu.classList.remove('is-open');
+			setTimeout(function () { if (!root.classList.contains('menu-open')) menu.hidden = true; }, reduceMotion ? 0 : 200);
+		}
+	}
+	if (menuBtn) menuBtn.addEventListener('click', function () { setMenu(menu.hidden); });
+	if (menu) {
+		menu.addEventListener('click', function (e) {
+			if (e.target === menu || e.target.closest('a')) setMenu(false);
+		});
+	}
+	doc.addEventListener('keydown', function (e) {
+		if (e.key === 'Escape' && menu && !menu.hidden) { setMenu(false); menuBtn.focus(); }
+	});
+	window.matchMedia('(min-width: 960px)').addEventListener('change', function (m) { if (m.matches) setMenu(false); });
+	doc.addEventListener('click', function (e) { if (e.target.closest('[data-search-open]')) setMenu(false); }, true);
+
 	/* Karusely (scroll-snap + šípky + počítadlo). */
 	doc.querySelectorAll('[data-carousel]').forEach(function (car) {
 		var track = car.querySelector('[data-carousel-track]');
