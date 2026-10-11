@@ -7,10 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SST_VERSION', '1.4.0' );
+define( 'SST_VERSION', '1.5.0' );
 define( 'SST_DIR', get_template_directory() );
 define( 'SST_URI', get_template_directory_uri() );
 
+require SST_DIR . '/inc/letenky.php';
 require SST_DIR . '/inc/setup.php';
 require SST_DIR . '/inc/icons.php';
 require SST_DIR . '/inc/destinations.php';

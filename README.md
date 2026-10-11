@@ -6,8 +6,8 @@ Testované na **WordPress 7.1.3** (najnovšia verzia k 11. 10. 2026), PHP 7.4+.
 
 ```
 dist/
-├── spoznajsvet.zip                  téma pripravená na nahratie do WordPressu
-└── spoznajsvet-letenky.zip          plugin pripravený na nahratie
+├── spoznajsvet.zip                  téma vrátane leteniek – stačí nahrať len tento súbor
+└── spoznajsvet-letenky.zip          voliteľne: letenky ako samostatný plugin
 wp-content/
 ├── themes/spoznajsvet/              zdrojové súbory témy
 └── plugins/spoznajsvet-letenky/     zdrojové súbory pluginu
@@ -16,8 +16,10 @@ preview/                             statický HTML náhľad (ukážkový obsah)
 
 ## Inštalácia
 
-1. *Pluginy → Pridať plugin → Nahrať plugin* → `dist/spoznajsvet-letenky.zip` → Inštalovať → **Aktivovať**.
-2. *Vzhľad → Témy → Pridať tému → Nahrať tému* → `dist/spoznajsvet.zip` → Inštalovať → **Aktivovať**.
+1. *Vzhľad → Témy → Pridať tému → Nahrať tému* → `dist/spoznajsvet.zip` → Inštalovať → **Aktivovať**.
+
+Letenky sú **pribalené priamo v ZIP-e témy** (`inc/letenky/`), samostatný plugin netreba.
+`dist/spoznajsvet-letenky.zip` je voliteľný – ak ho nainštalujete a aktivujete, má prednosť pred kópiou v téme.
    Téma pri aktivácii vytvorí stránky **Destinácie** (`/destinacie/`) a **Letenky** (`/letenky/`).
    Ak mal web ako úvod „najnovšie články“, vytvorí aj stránky *Domov* a *Články* a nastaví ich v *Nastavenia → Čítanie*.
 3. *Nastavenia → Trvalé odkazy* → Uložiť (obnoví URL adresy).

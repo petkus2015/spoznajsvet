@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,17 +15,20 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 * Mobilná spodná navigácia ako v aplikácii (stále viditeľná) a hamburger menu.
 * Úvodná stránka s kartami krajín, najnovšími príbehmi a najlacnejšími letenkami.
 * Stránky Destinácie a Letenky sa vytvoria automaticky pri aktivácii.
-* Sekcia leteniek vyžaduje plugin „Spoznaj Svet – Letenky“ (dodávaný zvlášť).
+* Letenky (Ryanair, Wizz Air, Aviasales, Kayak, momondo) sú súčasťou témy – Nastavenia → Letenky.
 * Tmavý režim podľa systému, farby a písma témy v blokovom editore (theme.json).
 
 == Installation ==
 
 1. Vzhľad → Témy → Pridať tému → Nahrať tému → vyberte spoznajsvet.zip → Inštalovať → Aktivovať.
-2. Pluginy → Pridať plugin → Nahrať → spoznajsvet-letenky.zip → Aktivovať.
-3. Nastavenia → Trvalé odkazy → Uložiť zmeny.
-4. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
+2. Nastavenia → Trvalé odkazy → Uložiť zmeny.
+3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.5.0 =
+* Letenky sú pribalené priamo v téme (inc/letenky) – netreba inštalovať samostatný plugin.
+  Ak je samostatný plugin aktívny, má prednosť.
 
 = 1.4.0 =
 * Spodná mobilná navigácia v štýle Apple Liquid Glass: sklenená kapsula, posuvná šošovka

@@ -10,7 +10,9 @@ class SVL_Admin {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register' ) );
 		add_action( 'admin_post_svl_refresh', array( __CLASS__, 'refresh' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( SVL_FILE ), array( __CLASS__, 'action_links' ) );
+		if ( ! defined( 'SVL_BUNDLED' ) ) {
+			add_filter( 'plugin_action_links_' . plugin_basename( SVL_FILE ), array( __CLASS__, 'action_links' ) );
+		}
 	}
 
 	public static function action_links( $links ) {

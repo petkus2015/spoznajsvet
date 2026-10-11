@@ -59,7 +59,7 @@ function sst_flights( $atts = array() ) {
 		return;
 	}
 	if ( current_user_can( 'activate_plugins' ) ) {
-		echo '<p class="notice-box">Aktivujte plugin <strong>Spoznaj Svet – Letenky</strong> (Pluginy), aby sa tu zobrazovali aktuálne letenky.</p>';
+		echo '<p class="notice-box">Letenky sa nenačítali – v téme chýba priečinok <code>inc/letenky</code>. Nahrajte tému znova zo ZIP súboru <strong>spoznajsvet.zip</strong>.</p>';
 	}
 }
 
