@@ -32,7 +32,21 @@ add_filter(
 			);
 			$term = isset( $map[ $iata ] ) ? get_term_by( 'slug', $map[ $iata ], 'destinacia' ) : null;
 		}
-		return $term ? sst_term_cover_url( $term, 'sst-wide' ) : $url;
+		if ( $term ) {
+			return sst_term_cover_url( $term, 'sst-wide' );
+		}
+		// Destinácia na webe ešte nie je – použijeme ilustráciu z témy.
+		$bundled = array(
+			'BKK' => 'bangkok',
+			'DMK' => 'bangkok',
+			'HKT' => 'phuket',
+			'DXB' => 'dubaj',
+			'AUH' => 'sae',
+		);
+		if ( isset( $bundled[ $iata ] ) && apply_filters( 'sst_use_default_covers', true ) ) {
+			return SST_URI . '/assets/img/destinacie/' . $bundled[ $iata ] . '.jpg';
+		}
+		return $url;
 	},
 	10,
 	3

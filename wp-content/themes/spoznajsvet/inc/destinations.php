@@ -280,7 +280,59 @@ function sst_term_flag( $term ) {
 }
 
 /**
- * URL titulnej fotky destinácie (vlastná → najnovší článok s obrázkom).
+ * Predvolené ilustrácie destinácií pribalené v téme (assets/img/destinacie).
+ * Kľúč = slug destinácie (alebo alias), hodnota = názov súboru bez prípony.
+ */
+function sst_default_covers() {
+	return apply_filters(
+		'sst_default_covers',
+		array(
+			'taliansko'               => 'taliansko',
+			'rim'                     => 'rim',
+			'florencia'               => 'florencia',
+			'benatky'                 => 'benatky',
+			'amalfi'                  => 'amalfi',
+			'pobrezie-amalfi'         => 'amalfi',
+			'neapol'                  => 'amalfi',
+			'toskansko'               => 'toskansko',
+			'sicilia'                 => 'sicilia',
+			'palermo'                 => 'sicilia',
+			'catania'                 => 'sicilia',
+			'thajsko'                 => 'thajsko',
+			'bangkok'                 => 'bangkok',
+			'phuket'                  => 'phuket',
+			'krabi'                   => 'phuket',
+			'spojene-arabske-emiraty' => 'sae',
+			'sae'                     => 'sae',
+			'abu-dhabi'               => 'sae',
+			'dubaj'                   => 'dubaj',
+			'chorvatsko'              => 'chorvatsko',
+			'island'                  => 'island',
+			'portugalsko'             => 'portugalsko',
+		)
+	);
+}
+
+/**
+ * Predvolená ilustrácia pre destináciu: podľa názvu, potom podľa krajiny,
+ * inak stále rovnaká (podľa slugu) z ponuky ilustrácií – nikdy prázdne miesto.
+ */
+function sst_default_cover_url( $term, $size = 'sst-card' ) {
+	$map  = sst_default_covers();
+	$file = $map[ $term->slug ] ?? '';
+	if ( ! $file && $term->parent ) {
+		$file = $map[ sst_term_country( $term )->slug ] ?? '';
+	}
+	if ( ! $file ) {
+		$pool = array_values( array_unique( $map ) );
+		$file = $pool[ abs( crc32( $term->slug ) ) % count( $pool ) ];
+	}
+	$suffix = in_array( $size, array( 'sst-card', 'medium', 'thumbnail' ), true ) ? '-karta' : '';
+	return SST_URI . '/assets/img/destinacie/' . $file . $suffix . '.jpg';
+}
+
+/**
+ * URL titulnej fotky destinácie (vlastná → najnovší článok s obrázkom → ilustrácia z témy).
  */
 function sst_term_cover_url( $term, $size = 'sst-card' ) {
 	$cover = (int) get_term_meta( $term->term_id, 'sst_cover', true );
@@ -310,6 +362,9 @@ function sst_term_cover_url( $term, $size = 'sst-card' ) {
 		)
 	);
 	$url = $posts ? (string) get_the_post_thumbnail_url( $posts[0], $size ) : '';
+	if ( ! $url && apply_filters( 'sst_use_default_covers', true ) ) {
+		$url = sst_default_cover_url( $term, $size );
+	}
 	wp_cache_set( $cache_key, $url, 'sst', HOUR_IN_SECONDS );
 	return $url;
 }

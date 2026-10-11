@@ -79,6 +79,17 @@ Otvorená stránka s letenkami si nové ceny načíta sama, bez obnovenia.
 - `theme.json`: farby, písma a veľkosti témy sú dostupné aj v blokovom editore.
 - Písma sú pribalené v téme (žiadne Google Fonts → rýchlejšie a bez GDPR problémov). Predvolené **Manrope + Instrument Serif**, prepnúť sa dá v *Prispôsobiť → Spoznaj Svet → Písmo* (aj Figtree + Fraunces alebo pôvodné Plus Jakarta Sans + Playfair Display).
 
+## Predvolené obrázky
+
+Téma obsahuje ilustrácie (`assets/img/destinacie/`) pre Taliansko, Rím, Florenciu, Benátky, Amalfi, Toskánsko, Sicíliu/Palermo, Thajsko, Bangkok, Phuket, SAE, Dubaj, Abu Dhabi, Chorvátsko, Island a Portugalsko a obrázok úvodného banneru (`assets/img/hero.jpg`).
+
+Poradie, odkiaľ sa berie obrázok destinácie:
+1. titulná fotka nastavená pri krajine/meste,
+2. náhľadový obrázok najnovšieho článku z destinácie,
+3. ilustrácia z témy podľa názvu (pri meste podľa krajiny), inak jedna z ponuky.
+
+Vypnutie ilustrácií: `add_filter( 'sst_use_default_covers', '__return_false' );`
+
 ## Náhľad
 
 `preview/index.html` – statická kópia vygenerovaná z lokálneho WordPressu. Obsah, obrázky (generované ilustrácie) a ceny leteniek sú **ukážkové**.

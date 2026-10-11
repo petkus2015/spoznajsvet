@@ -237,7 +237,11 @@ function sst_hero_image_url() {
 			'meta_key'            => '_thumbnail_id', // phpcs:ignore WordPress.DB.SlowDBQuery
 		)
 	);
-	return $posts ? (string) get_the_post_thumbnail_url( $posts[0], 'sst-hero' ) : '';
+	if ( $posts ) {
+		return (string) get_the_post_thumbnail_url( $posts[0], 'sst-hero' );
+	}
+	// Kým nenahráte vlastnú fotku, použije sa ilustrácia z témy.
+	return apply_filters( 'sst_use_default_covers', true ) ? SST_URI . '/assets/img/hero.jpg' : '';
 }
 
 /** Stránkovanie. */
