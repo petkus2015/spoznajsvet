@@ -52,6 +52,7 @@ Kayak ani momondo nemajú verejné API a ich automatické sťahovanie porušuje 
 **Predvolené nastavenie**
 
 - Ázia a exotika (spiatočné): z `VIE, BTS, BUD`, pobyt 5 – 21 nocí, horizont 6 mesiacov; rebríček z Aviasales, Wizz Air a Ryanair (oblasti: Ázia, tropy, severná Afrika; voliteľne Blízky východ) + karty `BKK, DXB, AUH`
+- Poradie: najprv Európa, potom exotika.
 - Európa (spiatočné): z `BTS, VIE`, pobyt 2 – 7 nocí, horizont 90 dní, max. 150 €, len Európa
 
 **Použitie:** stránka *Letenky* (šablóna), úvodná stránka, shortcode
@@ -85,12 +86,16 @@ Ručne: tlačidlo **Aktualizovať teraz** v administrácii alebo `wp letenky ref
 
 ## Mapa sveta
 
-Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol“ (inde shortcode `[spoznajsvet_mapa]`, bez nadpisu `[spoznajsvet_mapa nadpis="0"]`).
+Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol“ (inde shortcode `[spoznajsvet_mapa]`, bez nadpisu `[spoznajsvet_mapa nadpis="0"]`). Nad mapou je počet **štátov, miest, kontinentov** a percento sveta.
 
-- Vyfarbia sa všetky krajiny z *Články → Destinácie*, ktoré majú vyplnený **kód krajiny** (IT, TH…), aj keď ešte nemajú článok. Takto si na mapu pridáte aj krajiny, o ktorých ste zatiaľ nepísali.
-- Sýtosť farby podľa počtu miest v krajine: 1 · 2 – 3 · 4 – 6 · 7 a viac.
-- Mestá sú body. Polohu známych miest (vyše 180, napr. talianske mestá) téma pozná sama, ostatné dohľadá cez OpenStreetMap pri uložení mesta. Presnú polohu môžete zadať v poli **Poloha mesta na mape** (napr. `43.7696, 11.2558`).
-- Obrysy krajín sú v téme (`assets/map/world.svg`, Natural Earth 1:50m), web nič nenačítava z cudzích serverov. Nový súbor vygeneruje `tools/map` (`npm install && npm run build`).
+**Vyznačenie v administrácii – *Články → Mapa ciest***
+
+- Režim **Vyznačiť štáty a ostrovy**: klik na štát alebo ostrov ho vyznačí / zruší. Malé ostrovy nájdete aj cez vyhľadávanie („Azory“, „Havaj“…). V zozname vpravo má každý štát prepínače svojich častí (napr. Portugalsko: Pevnina · Azory · Madeira).
+- Režim **Pridať miesto**: klik do mapy → názov miesta (navrhne sa z OpenStreetMap) → miesto sa pridá do *Destinácií*, aj s krajinou, ak chýba.
+- Štáty a mestá z *Destinácií* (s vyplneným kódom krajiny) sú na mape automaticky – vyfarbí sa časť, v ktorej mesto leží (Palermo → Sicília). Ručne ich môžete skryť.
+- Sýtosť farby podľa počtu miest v štáte: 1 · 2 – 3 · 4 – 6 · 7 a viac. Mestá sú body; polohu známych miest téma pozná, ostatné dohľadá cez OpenStreetMap, presná poloha sa dá zadať pri meste.
+
+Mapa je v téme (`assets/map/`, Natural Earth 1:10m, štáty aj súostrovia): prehľadová verzia (~35 kB) sa načíta hneď, podrobná (~290 kB) až pri priblížení. Nový súbor vygeneruje `tools/map` (`npm install && npm run fetch && npm run build`).
 
 ## Predvolené obrázky
 

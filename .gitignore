@@ -1,4 +1,4 @@
 .DS_Store
 node_modules/
 *.log
-tools/map/world.json
+tools/map/*.geojson

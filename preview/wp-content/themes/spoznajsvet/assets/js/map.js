@@ -1,4 +1,5 @@
-/* Spoznaj Svet – mapa „Kde som bol“: farby krajín podľa počtu miest, body miest, priblíženie, posun, karta krajiny. */
+/* Spoznaj Svet – mapa „Kde všade som bol“: štáty a ostrovy podľa počtu miest, body miest, priblíženie, posun,
+   podrobná mapa pri priblížení, karta štátu. Jadro používa aj administrácia (Články → Mapa ciest). */
 (function () {
 	'use strict';
 
@@ -23,71 +24,196 @@
 		return parts.join(' · ');
 	}
 
-	function setup(root) {
-		var dataEl = root.querySelector('[data-map-data]');
+	// Equal Earth – inverzná projekcia (rovnaká ako d3.geoEqualEarth.invert).
+	function invert(data, x, y) {
+		var A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, M = Math.sqrt(3) / 2;
+		x = (x - data.tx) / data.scale;
+		y = -(y - data.ty) / data.scale;
+		var l = y, l2 = l * l, l6 = l2 * l2 * l2;
+		for (var i = 0; i < 12; i++) {
+			var fy = l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2)) - y;
+			var fpy = A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2);
+			var d = fy / fpy;
+			l -= d; l2 = l * l; l6 = l2 * l2 * l2;
+			if (Math.abs(d) < 1e-12) break;
+		}
+		var lng = M * x * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2)) / Math.cos(l);
+		var lat = Math.asin(Math.sin(l) / M);
+		return [lat * 180 / Math.PI, lng * 180 / Math.PI];
+	}
+
+	// Equal Earth – priama projekcia (rovnaká ako sst_map_project v PHP).
+	function project(data, lat, lng) {
+		var A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, M = Math.sqrt(3) / 2;
+		var lam = lng * Math.PI / 180, phi = lat * Math.PI / 180;
+		var l = Math.asin(M * Math.sin(phi)), l2 = l * l, l6 = l2 * l2 * l2;
+		var x = lam * Math.cos(l) / (M * (A1 + 3 * A2 * l2 + l6 * (7 * A3 + 9 * A4 * l2)));
+		var y = l * (A1 + A2 * l2 + l6 * (A3 + A4 * l2));
+		return [x * data.scale + data.tx, -y * data.scale + data.ty];
+	}
+
+	function mount(root, opts) {
+		opts = opts || {};
 		var canvas = root.querySelector('[data-map-canvas]');
-		if (!dataEl || !canvas || !window.fetch) return;
-		var data = JSON.parse(dataEl.textContent);
 		var tip = root.querySelector('[data-map-tip]');
 		var card = root.querySelector('[data-map-card]');
+		var data = opts.data;
 		var W = data.w, H = data.h;
 		var view = [0, 0, W, H];
 		var want = data.fit || data.regions.svet;
-		var svg, dots = [], selected = null, anim = null;
+		var svg, dotsG, halosG, dots = [], halos = [], selected = null, anim = null, detail = 'none';
+		var drag = false, moved = false;
+		var api = { root: root, canvas: canvas };
 
-		fetch(root.getAttribute('data-world-map'))
-			.then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
-			.then(function (text) {
+		function loadSvg(url) {
+			return fetch(url).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (text) {
 				var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
-				svg = document.importNode(doc.documentElement, true);
+				return document.importNode(doc.documentElement, true);
+			});
+		}
+
+		loadSvg(root.getAttribute('data-world-map'))
+			.then(function (s) {
+				svg = s;
 				svg.setAttribute('class', 'world-map__svg');
 				svg.setAttribute('role', 'img');
-				svg.setAttribute('aria-label', 'Mapa sveta s krajinami, ktoré som navštívil');
+				svg.setAttribute('aria-label', 'Mapa sveta so štátmi a ostrovmi, ktoré som navštívil');
 				svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-				paint();
 				canvas.insertBefore(svg, canvas.firstChild);
 				canvas.classList.add('is-ready');
+				paint();
+				// „Moje cesty“: všetky vyznačené štáty, ostrovy aj mestá.
+				var fit = computeFit();
+				if (fit) { if (!want || want === data.fit) want = fit; data.fit = fit; }
 				// Mobil: výška mapy podľa výrezu „Moje cesty“, aby nevznikalo prázdne miesto.
-				if (data.fit && canvas.clientWidth < 720) {
+				if (data.fit && canvas.clientWidth < 720 && !opts.admin) {
 					canvas.style.aspectRatio = String(Math.min(1.8, Math.max(1.1, data.fit[2] / data.fit[3])));
 				}
 				setView(want, false);
 				bind();
+				if (opts.onReady) opts.onReady(api);
 			})
 			.catch(function () { canvas.classList.add('is-error'); });
 
+		// Podrobná mapa (Azory, pobrežie…) – dotiahneme ju až pri priblížení.
+		function maybeDetail() {
+			if (detail !== 'none' || !data.detail || view[2] > W * 0.45) return;
+			detail = 'loading';
+			canvas.classList.add('is-loading');
+			loadSvg(data.detail).then(function (s) {
+				var frag = document.createDocumentFragment();
+				Array.prototype.slice.call(s.querySelectorAll('path')).forEach(function (p) { frag.appendChild(p); });
+				Array.prototype.slice.call(svg.querySelectorAll('path')).forEach(function (p) { p.remove(); });
+				svg.insertBefore(frag, svg.firstChild);
+				detail = 'done';
+				canvas.classList.remove('is-loading');
+				paint();
+			}).catch(function () { detail = 'none'; canvas.classList.remove('is-loading'); });
+		}
+
+		function countryOf(su) {
+			var u = data.units[su];
+			return u && u.i ? data.countries[u.i] : null;
+		}
+
+		function unitLabel(su, iso) {
+			var c = data.countries[iso];
+			var all = data.all && data.all[su];
+			var name = c ? c.n : (all && all.m ? all.n : iso);
+			if (!c && all && !all.m && data.all) {
+				Object.keys(data.all).some(function (k) { if (data.all[k].i === iso && data.all[k].m) { name = data.all[k].n; return true; } return false; });
+			}
+			var part = data.names && data.names[su] ? data.names[su] : (all && !all.m ? all.n : '');
+			return (c && c.f ? c.f + ' ' : '') + name + (part && part !== name ? ' – ' + part : '');
+		}
+
 		function paint() {
-			svg.querySelectorAll('path[data-iso]').forEach(function (p) {
-				var c = data.countries[p.getAttribute('data-iso')];
-				if (!c) return;
-				p.classList.add('is-visited', 'lvl-' + c.l);
+			var visitedPaths = [];
+			svg.querySelectorAll('path[data-unit]').forEach(function (p) {
+				var su = p.getAttribute('data-unit');
+				var u = data.units[su];
+				p.removeAttribute('class');
+				p.removeAttribute('tabindex');
+				p.removeAttribute('role');
+				p.removeAttribute('aria-label');
+				if (!u) {
+					if (opts.admin && p.getAttribute('data-iso')) p.setAttribute('class', 'is-pickable');
+					return;
+				}
+				var c = countryOf(su);
+				p.setAttribute('class', 'is-visited lvl-' + (c ? c.l : 1) + (u.a ? '' : ' is-manual'));
 				p.setAttribute('tabindex', '0');
 				p.setAttribute('role', 'button');
-				p.setAttribute('aria-label', c.n + ', ' + summary(c));
-				// Navštívené krajiny navrch, aby ich hranice neprekrývali susedia.
-				p.parentNode.appendChild(p);
+				p.setAttribute('aria-label', unitLabel(su, u.i).replace(/^\S+\s/, '') + (c && summary(c) ? ', ' + summary(c) : ''));
+				visitedPaths.push(p);
 			});
-			var g = document.createElementNS(NS, 'g');
-			g.setAttribute('class', 'world-map__dots');
+			// Navštívené navrch, aby ich hranice neprekrývali susedia.
+			var firstMark = halosG && halosG.parentNode ? halosG : null;
+			visitedPaths.forEach(function (p) { svg.insertBefore(p, firstMark); });
+
+			if (halosG) halosG.remove();
+			if (dotsG) dotsG.remove();
+			halosG = document.createElementNS(NS, 'g');
+			halosG.setAttribute('class', 'world-map__halos');
+			halos = [];
+			// Malé navštívené ostrovy (Azory, Maldivy…) dostanú krúžok, aby boli vidieť aj pri celom svete.
+			visitedPaths.forEach(function (p) {
+				var b;
+				try { b = p.getBBox(); } catch (e) { return; }
+				if (b.width > 5 || b.height > 5) return;
+				var h = document.createElementNS(NS, 'circle');
+				h.setAttribute('cx', b.x + b.width / 2);
+				h.setAttribute('cy', b.y + b.height / 2);
+				h.setAttribute('class', 'world-map__halo ' + (p.getAttribute('class').match(/lvl-\d/) || ['lvl-1'])[0]);
+				h.setAttribute('data-unit', p.getAttribute('data-unit'));
+				h.setAttribute('data-iso', p.getAttribute('data-iso') || '');
+				h._base = Math.max(b.width, b.height) / 2;
+				halosG.appendChild(h);
+				halos.push(h);
+			});
+			svg.appendChild(halosG);
+
+			dotsG = document.createElementNS(NS, 'g');
+			dotsG.setAttribute('class', 'world-map__dots');
+			dots = [];
 			Object.keys(data.countries).forEach(function (iso) {
 				data.countries[iso].c.forEach(function (city) {
 					if (city.x == null) return;
 					var d = document.createElementNS(NS, 'circle');
 					d.setAttribute('cx', city.x);
 					d.setAttribute('cy', city.y);
-					d.setAttribute('r', 3);
 					d.setAttribute('class', 'world-map__dot');
 					d.setAttribute('data-iso', iso);
 					d.setAttribute('data-city', city.n);
-					g.appendChild(d);
+					d.setAttribute('data-id', city.id || '');
+					dotsG.appendChild(d);
 					dots.push(d);
 				});
 			});
-			svg.appendChild(g);
+			svg.appendChild(dotsG);
+			if (selected) select(selected, true);
+			sizeMarks();
 		}
 
-		// Výrez prispôsobený pomeru strán plátna (aby sa oblasť zmestila celá).
-		// Okraj v px: vpravo miesto pre tlačidlá +/−, aby neprekryli navštívené miesta.
+		function computeFit() {
+			var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+			function add(b) { x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height); }
+			svg.querySelectorAll('path.is-visited').forEach(function (p) { try { add(p.getBBox()); } catch (e) { /* skrytý prvok */ } });
+			dots.forEach(function (d) { add({ x: +d.getAttribute('cx'), y: +d.getAttribute('cy'), width: 0, height: 0 }); });
+			if (!isFinite(x0)) return null;
+			var pad = 25;
+			x0 = Math.max(0, x0 - pad); y0 = Math.max(0, y0 - pad); x1 = Math.min(W, x1 + pad); y1 = Math.min(H, y1 + pad);
+			return [x0, y0, Math.max(60, x1 - x0), Math.max(40, y1 - y0)];
+		}
+
+		function sizeMarks() {
+			var k = view[2] / (canvas.clientWidth || W); // jednotky SVG na 1 px
+			var r = ((canvas.clientWidth < 600 ? 2.7 : 3.4) * k).toFixed(3);
+			dots.forEach(function (d) { d.setAttribute('r', r); });
+			halos.forEach(function (h) { h.setAttribute('r', (h._base + 5 * k).toFixed(3)); });
+		}
+
+		// Výrez prispôsobený pomeru strán plátna; okraj vpravo pre tlačidlá +/−.
 		function fitBox(b) {
 			var pl = 12, pt = 12, pb = 12, pr = canvas.clientWidth < 600 ? 52 : 64;
 			var cw = Math.max(1, (canvas.clientWidth || 1) - pl - pr), ch = Math.max(1, (canvas.clientHeight || 1) - pt - pb);
@@ -98,7 +224,7 @@
 		}
 
 		function clamp(v) {
-			var w = Math.min(Math.max(v[2], 40), W * 1.6), h = w * (v[3] / v[2]);
+			var w = Math.min(Math.max(v[2], 4), W * 1.6), h = w * (v[3] / v[2]);
 			var x = Math.min(Math.max(v[0], -w * 0.3), W - w * 0.7);
 			var y = Math.min(Math.max(v[1], -h * 0.3), H - h * 0.7);
 			return [x, y, w, h];
@@ -106,11 +232,10 @@
 
 		function apply(v) {
 			view = v;
-			svg.setAttribute('viewBox', v.map(function (n) { return n.toFixed(2); }).join(' '));
-			var k = v[2] / (canvas.clientWidth || W); // jednotky SVG na 1 px
-			var r = ((canvas.clientWidth < 600 ? 2.7 : 3.4) * k).toFixed(3);
-			dots.forEach(function (d) { d.setAttribute('r', r); });
+			svg.setAttribute('viewBox', v.map(function (n) { return n.toFixed(3); }).join(' '));
+			sizeMarks();
 			canvas.classList.toggle('is-zoomed', v[2] < W * 0.98);
+			maybeDetail();
 		}
 
 		function setView(box, animate) {
@@ -145,29 +270,41 @@
 		}
 
 		function showTip(text, ev) {
+			if (!tip) return;
 			if (!text) { tip.hidden = true; return; }
 			tip.textContent = text;
 			tip.hidden = false;
 			var rect = canvas.getBoundingClientRect();
 			var x = ev.clientX - rect.left, y = ev.clientY - rect.top;
-			tip.style.left = Math.min(Math.max(x, 70), rect.width - 70) + 'px';
+			tip.style.left = Math.min(Math.max(x, 90), rect.width - 90) + 'px';
 			tip.style.top = Math.max(y - 14, 30) + 'px';
 		}
 
-		function select(iso) {
-			if (selected) svg.querySelectorAll('.is-selected').forEach(function (p) { p.classList.remove('is-selected'); });
+		// Svetové súradnice a bod v SVG pre klik.
+		function locate(ev) {
+			var pt = svg.createSVGPoint();
+			pt.x = ev.clientX; pt.y = ev.clientY;
+			var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+			var ll = invert(data, p.x, p.y);
+			return { x: p.x, y: p.y, lat: ll[0], lng: ll[1] };
+		}
+
+		function select(iso, keep) {
+			svg.querySelectorAll('.is-selected').forEach(function (p) { p.classList.remove('is-selected'); });
 			selected = iso;
 			var c = iso && data.countries[iso];
-			card.textContent = '';
-			if (!c) { card.hidden = true; return; }
-			svg.querySelectorAll('path[data-iso="' + iso + '"]').forEach(function (p) { p.classList.add('is-selected'); });
+			if (!c) { if (card) { card.hidden = true; card.textContent = ''; } return; }
+			svg.querySelectorAll('path[data-iso="' + iso + '"].is-visited').forEach(function (p) { p.classList.add('is-selected'); });
 			dots.forEach(function (d) { d.classList.toggle('is-selected', d.getAttribute('data-iso') === iso); });
+			if (!card || keep) return;
+			card.textContent = '';
 
 			var head = el('div', 'world-map__card-head');
 			head.appendChild(el('span', 'world-map__card-flag', c.f));
 			var t = el('div', 'world-map__card-title');
 			t.appendChild(el('strong', null, c.n));
-			t.appendChild(el('span', null, summary(c) || 'navštívená krajina'));
+			var partNames = (c.parts || []).map(function (su) { return data.names[su]; }).filter(Boolean);
+			t.appendChild(el('span', null, [summary(c) || 'navštívený štát'].concat(partNames.length ? ['aj ' + partNames.join(', ')] : []).join(' · ')));
 			head.appendChild(t);
 			var close = el('button', 'world-map__card-close', '×');
 			close.type = 'button';
@@ -188,38 +325,51 @@
 				});
 				card.appendChild(list);
 			}
-			var go = el('a', 'btn btn--primary world-map__card-go', 'Zobraziť ' + c.n + ' →');
-			go.href = c.u;
-			card.appendChild(go);
+			if (c.u) {
+				var go = el('a', 'btn btn--primary world-map__card-go', 'Zobraziť ' + c.n + ' →');
+				go.href = c.u;
+				card.appendChild(go);
+			}
 			card.hidden = false;
 		}
 
 		function bind() {
-			// Prechod myšou: názov krajiny / mesta.
 			svg.addEventListener('pointermove', function (e) {
 				if (e.pointerType !== 'mouse' || drag) return;
-				var t = e.target;
+				var t = e.target, su = t.getAttribute && t.getAttribute('data-unit');
 				if (t.classList.contains('world-map__dot')) {
 					var c = data.countries[t.getAttribute('data-iso')];
 					showTip(t.getAttribute('data-city') + (c ? ' · ' + c.n : ''), e);
-				} else if (t.classList.contains('is-visited')) {
-					var cc = data.countries[t.getAttribute('data-iso')];
-					showTip(cc.f + ' ' + cc.n + (summary(cc) ? ' · ' + summary(cc) : ''), e);
+				} else if (su && data.units[su]) {
+					var cc = countryOf(su);
+					showTip(unitLabel(su, data.units[su].i) + (cc && summary(cc) ? ' · ' + summary(cc) : ''), e);
+				} else if (su && opts.admin && data.all && data.all[su]) {
+					showTip(unitLabel(su, data.all[su].i), e);
 				} else {
 					showTip('', e);
 				}
 			});
-			svg.addEventListener('pointerleave', function () { tip.hidden = true; });
+			svg.addEventListener('pointerleave', function () { if (tip) tip.hidden = true; });
 
 			svg.addEventListener('click', function (e) {
 				if (moved) return;
-				var iso = e.target.getAttribute && e.target.getAttribute('data-iso');
+				var t = e.target;
+				var info = {
+					unit: t.getAttribute && t.getAttribute('data-unit'),
+					iso: t.getAttribute && t.getAttribute('data-iso'),
+					city: t.classList && t.classList.contains('world-map__dot') ? { id: t.getAttribute('data-id'), n: t.getAttribute('data-city') } : null,
+					at: locate(e),
+					event: e,
+				};
+				if (opts.onClick && opts.onClick(info) === true) return;
+				var iso = info.unit && data.units[info.unit] ? data.units[info.unit].i : (info.city ? info.iso : null);
 				select(iso && data.countries[iso] ? (iso === selected ? null : iso) : null);
 			});
 			svg.addEventListener('keydown', function (e) {
 				if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('is-visited')) {
 					e.preventDefault();
-					select(e.target.getAttribute('data-iso'));
+					var r = e.target.getBoundingClientRect();
+					e.target.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 }));
 				}
 			});
 
@@ -237,8 +387,8 @@
 				});
 			});
 
-			// Posun myšou / prstom, priblíženie dvoma prstami.
-			var pts = {}, drag = false, moved = false, last = null, pinch = null;
+			// Posun myšou / prstom, priblíženie dvoma prstami, v administrácii aj kolieskom.
+			var pts = {}, last = null, pinch = null;
 			svg.addEventListener('pointerdown', function (e) {
 				pts[e.pointerId] = { x: e.clientX, y: e.clientY };
 				moved = false;
@@ -267,7 +417,7 @@
 					if (!moved && Math.abs(dx) + Math.abs(dy) < 4) return;
 					moved = true;
 					canvas.classList.add('is-dragging');
-					tip.hidden = true;
+					if (tip) tip.hidden = true;
 					apply(clamp([view[0] - dx * k, view[1] - dy * k, view[2], view[3]]));
 					last = { x: e.clientX, y: e.clientY };
 					setChip('');
@@ -281,6 +431,13 @@
 			}
 			window.addEventListener('pointerup', up);
 			window.addEventListener('pointercancel', up);
+			if (opts.admin) {
+				canvas.addEventListener('wheel', function (e) {
+					e.preventDefault();
+					setChip('');
+					zoomAt(e.deltaY > 0 ? 1.18 : 1 / 1.18, e.clientX, e.clientY);
+				}, { passive: false });
+			}
 
 			var rt;
 			window.addEventListener('resize', function () {
@@ -288,10 +445,34 @@
 				rt = setTimeout(function () { if (want) setView(want, false); else apply(clamp(view)); }, 150);
 			});
 		}
+
+		api.setData = function (d) { data = d; if (svg) paint(); };
+		api.getData = function () { return data; };
+		api.select = select;
+		api.label = unitLabel;
+		api.focusUnit = function (su) {
+			var p = svg && svg.querySelector('path[data-unit="' + su + '"]');
+			if (!p) return;
+			var b = p.getBBox(), pad = Math.max(b.width, b.height) * 0.6 + 6;
+			setChip('');
+			setView([b.x - pad, b.y - pad, b.width + 2 * pad, b.height + 2 * pad], true);
+		};
+		api.zoomTo = function (lat, lng, span) {
+			var c = project(data, lat, lng), s = span || 30;
+			setChip('');
+			setView([c[0] - s / 2, c[1] - s / 2, s, s], true);
+		};
+		return api;
 	}
 
+	window.SSTMap = { mount: mount, invert: invert, project: project, summary: summary, plural: plural };
+
 	function init() {
-		document.querySelectorAll('[data-world-map]').forEach(setup);
+		document.querySelectorAll('[data-world-map]:not([data-map-admin])').forEach(function (root) {
+			var dataEl = root.querySelector('[data-map-data]');
+			if (!dataEl || !window.fetch) return;
+			mount(root, { data: JSON.parse(dataEl.textContent) });
+		});
 	}
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

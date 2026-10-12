@@ -1,16 +1,14 @@
 {
   "name": "spoznajsvet-map",
   "private": true,
-  "description": "Vygeneruje assets/map/world.svg pre tému (Natural Earth 1:50m, Equal Earth).",
+  "description": "Vygeneruje assets/map/world.svg, world-detail.svg a world.json pre tému (Natural Earth 1:10m map subunits, Equal Earth).",
   "type": "module",
   "scripts": {
-    "build": "node build.mjs 50m 0.25 world.json ../../wp-content/themes/spoznajsvet/assets/map/world.svg"
+    "fetch": "curl -L -o ne_10m_admin_0_map_subunits.geojson https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_map_subunits.geojson",
+    "build": "node prep.cjs ne_10m_admin_0_map_subunits.geojson prep.geojson && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 1% keep-shapes -o low.geojson force && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 10% keep-shapes -o high.geojson force && node build.mjs low.geojson high.geojson ../../wp-content/themes/spoznajsvet/assets/map"
   },
   "dependencies": {
     "d3-geo": "3.1.1",
-    "i18n-iso-countries": "7.11.3",
-    "topojson-client": "3.1.0",
-    "topojson-simplify": "3.0.3",
-    "world-atlas": "2.0.2"
+    "mapshaper": "0.6.102"
   }
 }

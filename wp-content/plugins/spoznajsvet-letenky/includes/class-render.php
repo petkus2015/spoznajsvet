@@ -120,11 +120,12 @@ class SVL_Render {
 				</button>
 			</div>
 			<?php
-			if ( 'europa' !== $group ) {
-				self::exotic( $heading, $compact, 9 );
-			}
+			// Najprv najlacnejšie ponuky v Európe, potom exotika.
 			if ( 'exotika' !== $group ) {
 				self::europe( $heading, $limit, $compact );
+			}
+			if ( 'europa' !== $group ) {
+				self::exotic( $heading, $compact, 9 );
 			}
 			?>
 			<p class="svl-note">

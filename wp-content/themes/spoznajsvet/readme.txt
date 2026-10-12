@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.15.0
+Stable tag: 1.16.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,14 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.16.0 =
+* Podrobná mapa (Natural Earth 1:10m): štáty aj samostatné ostrovy a súostrovia – Azory, Madeira, Kanárske a Baleárske ostrovy, Sicília, Sardínia, Korzika, Havaj…
+  Pri priblížení sa načíta podrobná verzia, malé navštívené ostrovy majú krúžok.
+* Automaticky sa vyfarbí časť, v ktorej leží mesto (Palermo → Sicília, Ponta Delgada → Azory).
+* Nová stránka Články → Mapa ciest: vyznačenie štátov a ostrovov kliknutím, vyhľadávanie, pridanie miesta kliknutím do mapy (návrh názvu z OpenStreetMap), zoznam navštívených.
+* Na webe štatistiky: počet štátov, miest, kontinentov a % sveta.
+* Letenky: najprv Európa, potom exotika.
 
 = 1.15.0 =
 * Mapa sveta „Kde všade som bol“ na úvodnej stránke a na stránke Destinácie (aj shortcode [spoznajsvet_mapa]):
