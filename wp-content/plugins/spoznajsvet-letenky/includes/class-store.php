@@ -127,7 +127,7 @@ class SVL_Store {
 				continue;
 			}
 			if ( 'azia' === $d['group'] ) {
-				if ( ! in_array( $d['continent'], array( 'as', 'ex' ), true ) ) {
+				if ( ! in_array( $d['continent'], SVL_Settings::exotic_regions(), true ) ) {
 					continue;
 				}
 				// Rebríček: najlacnejšia letenka do každého mesta (z ktoréhokoľvek letiska).

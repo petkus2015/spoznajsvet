@@ -24,7 +24,7 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 	}
 
 	public function supports( $group ) {
-		return in_array( $group, array( 'exotika', 'europa' ), true );
+		return in_array( $group, array( 'exotika', 'azia', 'europa' ), true );
 	}
 
 	private function base() {
@@ -78,6 +78,18 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 
 	private function pairs( $group, array $routes ) {
 		$pairs = array();
+		if ( 'azia' === $group ) {
+			// Všetky linky Wizz Air z letísk Exotiky do zapnutých oblastí (Ázia, Afrika…).
+			$regions = SVL_Settings::exotic_regions();
+			foreach ( SVL_Settings::codes( 'exotic_origins' ) as $o ) {
+				foreach ( $routes[ $o ] ?? array() as $d ) {
+					if ( in_array( svl_airport( $d )['continent'], $regions, true ) ) {
+						$pairs[] = array( $o, $d );
+					}
+				}
+			}
+			return $pairs;
+		}
 		if ( 'exotika' === $group ) {
 			foreach ( SVL_Settings::codes( 'exotic_origins' ) as $o ) {
 				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $d ) {
@@ -129,8 +141,8 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 			try {
 				$cache[ $key ] = array(
 					't'     => time(),
-					'deals' => 'exotika' === $group
-						? $this->round_trip( $base, $group, $o, $d, 5, 21 )
+					'deals' => in_array( $group, array( 'exotika', 'azia' ), true )
+						? $this->round_trip( $base, $group, $o, $d, (int) SVL_Settings::get( 'exotic_min_nights' ), (int) SVL_Settings::get( 'exotic_max_nights' ) )
 						: $this->round_trip( $base, $group, $o, $d, (int) SVL_Settings::get( 'europe_min_nights' ), (int) SVL_Settings::get( 'europe_max_nights' ) ),
 				);
 			} catch ( Throwable $e ) {

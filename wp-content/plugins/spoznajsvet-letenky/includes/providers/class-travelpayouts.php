@@ -170,7 +170,7 @@ class SVL_Provider_Travelpayouts extends SVL_Provider {
 						continue;
 					}
 					$info = svl_airport( strtoupper( $row['destination'] ) );
-					if ( ! in_array( $info['continent'], array( 'as', 'ex' ), true ) ) {
+					if ( ! in_array( $info['continent'], SVL_Settings::exotic_regions(), true ) ) {
 						continue;
 					}
 					$deal           = $this->to_deal( 'azia', $row, $o );

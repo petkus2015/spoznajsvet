@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,11 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.6.0 =
+* Exotika (rebríček): okrem Aviasales aj Wizz Air (všetky jeho linky do Ázie a exotiky, napr. z Budapešti
+  do Saudskej Arábie, Kazachstanu, Uzbekistanu, Emirátov) a Ryanair – z Viedne, Bratislavy aj Budapešti.
+* Nastaviteľné oblasti rebríčka (Ázia, tropy, severná Afrika, Blízky východ) a dĺžka pobytu (predvolene 5 – 21 nocí).
 
 = 1.5.0 =
 * Všetky letenky sú spiatočné a pri každej je celková cena „celkom tam aj späť“.

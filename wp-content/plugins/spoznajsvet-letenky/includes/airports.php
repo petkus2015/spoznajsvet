@@ -5,7 +5,7 @@
  *
  * Formát: IATA => [ mesto, ISO kód krajiny, oblasť ].
  * Oblasť: eu = Európa, as = Ázia a Perzský záliv, ex = exotika (Indický oceán, Karibik…),
- *         me = Blízky východ a Kaukaz, af = severná Afrika.
+ *         me = Blízky východ a Kaukaz, af = severná Afrika (Egypt, Maroko, Tunisko).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -85,6 +85,11 @@ function svl_airports() {
 		'ALA' => array( 'Almaty', 'KZ', 'as' ),
 		'BAH' => array( 'Bahrajn', 'BH', 'as' ),
 		'KWI' => array( 'Kuvajt', 'KW', 'as' ),
+		'NQZ' => array( 'Astana', 'KZ', 'as' ),
+		'DMM' => array( 'Dammam', 'SA', 'as' ),
+		'MED' => array( 'Medina', 'SA', 'as' ),
+		'AHB' => array( 'Abha', 'SA', 'as' ),
+		'TIF' => array( 'Taif', 'SA', 'as' ),
 		'MRU' => array( 'Maurícius', 'MU', 'ex' ),
 		'SEZ' => array( 'Seychely', 'SC', 'ex' ),
 		'ZNZ' => array( 'Zanzibar', 'TZ', 'ex' ),
@@ -98,6 +103,17 @@ function svl_airports() {
 		'MBJ' => array( 'Jamajka', 'JM', 'ex' ),
 		'BGI' => array( 'Barbados', 'BB', 'ex' ),
 		// Afrika.
+		'GYD' => array( 'Baku', 'AZ', 'me' ),
+		'CAI' => array( 'Káhira', 'EG', 'af' ),
+		'SPX' => array( 'Káhira (Sphinx)', 'EG', 'af' ),
+		'LXR' => array( 'Luxor', 'EG', 'af' ),
+		'TUN' => array( 'Tunis', 'TN', 'af' ),
+		'MIR' => array( 'Monastir', 'TN', 'af' ),
+		'NBE' => array( 'Enfidha', 'TN', 'af' ),
+		'DJE' => array( 'Djerba', 'TN', 'af' ),
+		'NDR' => array( 'Nador', 'MA', 'af' ),
+		'OZZ' => array( 'Ouarzazate', 'MA', 'af' ),
+		'ESU' => array( 'Essaouira', 'MA', 'af' ),
 		'RAK' => array( 'Marrákeš', 'MA', 'af' ),
 		'AGA' => array( 'Agadir', 'MA', 'af' ),
 		'FEZ' => array( 'Fès', 'MA', 'af' ),
@@ -305,7 +321,7 @@ function svl_countries() {
 		'PH' => 'Filipíny', 'HK' => 'Hongkong', 'TW' => 'Taiwan', 'KR' => 'Južná Kórea', 'JP' => 'Japonsko', 'CN' => 'Čína',
 		'IN' => 'India', 'LK' => 'Srí Lanka', 'NP' => 'Nepál', 'UZ' => 'Uzbekistan', 'KZ' => 'Kazachstan', 'BH' => 'Bahrajn',
 		'KW' => 'Kuvajt', 'MU' => 'Maurícius', 'SC' => 'Seychely', 'TZ' => 'Tanzánia', 'KE' => 'Keňa', 'ZA' => 'Juhoafrická republika',
-		'MG' => 'Madagaskar', 'DO' => 'Dominikánska republika', 'MX' => 'Mexiko', 'CU' => 'Kuba', 'JM' => 'Jamajka', 'BB' => 'Barbados', 'MD' => 'Moldavsko', 'SI' => 'Slovinsko', 'GR' => 'Grécko', 'MT' => 'Malta', 'CY' => 'Cyprus', 'TR' => 'Turecko',
+		'MG' => 'Madagaskar', 'TN' => 'Tunisko', 'AZ' => 'Azerbajdžan', 'DO' => 'Dominikánska republika', 'MX' => 'Mexiko', 'CU' => 'Kuba', 'JM' => 'Jamajka', 'BB' => 'Barbados', 'MD' => 'Moldavsko', 'SI' => 'Slovinsko', 'GR' => 'Grécko', 'MT' => 'Malta', 'CY' => 'Cyprus', 'TR' => 'Turecko',
 	);
 }
 

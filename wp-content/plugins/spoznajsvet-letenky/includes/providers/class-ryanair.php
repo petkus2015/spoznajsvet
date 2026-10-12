@@ -18,19 +18,46 @@ class SVL_Provider_Ryanair extends SVL_Provider {
 	}
 
 	public function supports( $group ) {
-		return 'europa' === $group;
+		return in_array( $group, array( 'europa', 'azia' ), true );
 	}
 
 	public function fetch( $group ) {
-		$days  = (int) SVL_Settings::get( 'europe_days' );
-		$min_n = (int) SVL_Settings::get( 'europe_min_nights' );
-		$max_n = (int) SVL_Settings::get( 'europe_max_nights' );
+		if ( 'azia' === $group ) {
+			// Exotika: Ryanair do Ázie nelieta – nájde Egypt, Maroko, Jordánsko… (podľa zapnutých oblastí).
+			$regions = SVL_Settings::exotic_regions();
+			$deals   = $this->fetch_round(
+				$group,
+				SVL_Settings::codes( 'exotic_origins' ),
+				30 * (int) SVL_Settings::get( 'exotic_months' ),
+				(int) SVL_Settings::get( 'exotic_min_nights' ),
+				(int) SVL_Settings::get( 'exotic_max_nights' )
+			);
+			return array_values(
+				array_filter(
+					$deals,
+					static function ( $d ) use ( $regions ) {
+						return in_array( $d['continent'], $regions, true );
+					}
+				)
+			);
+		}
+		return $this->fetch_round(
+			$group,
+			SVL_Settings::codes( 'europe_origins' ),
+			(int) SVL_Settings::get( 'europe_days' ),
+			(int) SVL_Settings::get( 'europe_min_nights' ),
+			(int) SVL_Settings::get( 'europe_max_nights' )
+		);
+	}
+
+	/** Najlacnejšia spiatočná letenka do každej destinácie z daných letísk. */
+	private function fetch_round( $group, array $origins, $days, $min_n, $max_n ) {
 		$from  = gmdate( 'Y-m-d', strtotime( '+1 day' ) );
 		$to    = gmdate( 'Y-m-d', strtotime( '+' . $days . ' days' ) );
 		$back  = gmdate( 'Y-m-d', strtotime( '+' . ( $days + $max_n ) . ' days' ) );
 
 		return $this->each_tolerant(
-			SVL_Settings::codes( 'europe_origins' ),
+			$origins,
 			function ( $origin ) use ( $group, $from, $to, $back, $min_n, $max_n ) {
 				// Spiatočné letenky: najlacnejšia kombinácia tam a späť do každej destinácie.
 				$url  = add_query_arg(

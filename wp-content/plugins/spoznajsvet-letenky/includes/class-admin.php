@@ -120,12 +120,26 @@ class SVL_Admin {
 				</table>
 
 				<h2>Ázia a exotika (len spiatočné)</h2>
-				<p>Rebríček najlacnejších spiatočných leteniek do celej Ázie a exotiky (z týchto letísk) a karty vybraných destinácií – pri každej len najlacnejšia letenka.</p>
+				<p>Rebríček najlacnejších spiatočných leteniek do celej Ázie a exotiky (z týchto letísk, zdroje Aviasales, Wizz Air a Ryanair) a karty vybraných destinácií – pri každej len najlacnejšia letenka.</p>
 				<table class="form-table" role="presentation">
 					<?php
 					self::field( 'exotic_origins', 'Odletové letiská', 'IATA kódy oddelené čiarkou, napr. VIE,BTS,BUD' );
 					self::field( 'exotic_destinations', 'Destinácie s kartou', 'Napr. BKK,DXB,AUH' );
 					self::field( 'exotic_months', 'Horizont (mesiace)', '', 'number' );
+					self::field( 'exotic_min_nights', 'Pobyt od (nocí)', '', 'number' );
+					self::field( 'exotic_max_nights', 'Pobyt do (nocí)', '', 'number' );
+					$on = SVL_Settings::exotic_regions();
+					echo '<tr><th scope="row">Oblasti v rebríčku</th><td><fieldset>';
+					foreach ( SVL_Settings::regions() as $k => $label ) {
+						printf(
+							'<label style="display:block;margin-bottom:.35em"><input type="checkbox" name="%s[exotic_regions][]" value="%s" %s> %s</label>',
+							esc_attr( SVL_Settings::OPTION ),
+							esc_attr( $k ),
+							checked( in_array( $k, $on, true ), true, false ),
+							esc_html( $label )
+						);
+					}
+					echo '<p class="description">Ryanair do Ázie nelieta – v Exotike sa objaví len so zapnutou severnou Afrikou alebo Blízkym východom.</p></fieldset></td></tr>';
 					?>
 				</table>
 

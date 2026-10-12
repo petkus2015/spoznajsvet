@@ -18,6 +18,10 @@ class SVL_Settings {
 			'exotic_origins'      => 'VIE,BTS,BUD',
 			'exotic_destinations' => 'BKK,DXB,AUH',
 			'exotic_months'       => 6,
+			'exotic_min_nights'   => 5,
+			'exotic_max_nights'   => 21,
+			// Oblasti rebríčka Exotika: as = Ázia a Perzský záliv, ex = tropy, af = Egypt/Maroko/Tunisko, me = Blízky východ a Kaukaz.
+			'exotic_regions'      => 'as,ex,af',
 			'europe_origins'      => 'BTS,VIE',
 			'europe_days'         => 90,
 			'europe_max_price'    => 150,
@@ -50,6 +54,21 @@ class SVL_Settings {
 		} ) ) );
 	}
 
+	/** Oblasti, ktoré môže obsahovať rebríček Ázie a exotiky. */
+	public static function regions() {
+		return array(
+			'as' => 'Ázia a Perzský záliv (Bangkok, Bali, Dubaj, Kazachstan, Saudská Arábia…)',
+			'ex' => 'Tropická exotika (Maldivy, Maurícius, Zanzibar, Karibik…)',
+			'af' => 'Severná Afrika (Egypt, Maroko, Tunisko) – sem lieta aj Ryanair',
+			'me' => 'Blízky východ a Kaukaz (Jordánsko, Izrael, Gruzínsko, Arménsko)',
+		);
+	}
+
+	/** Zapnuté oblasti rebríčka Exotika. */
+	public static function exotic_regions() {
+		return array_values( array_filter( explode( ',', (string) self::get( 'exotic_regions' ) ) ) );
+	}
+
 	public static function sanitize( $input ) {
 		$d   = self::defaults();
 		$out = array();
@@ -64,6 +83,10 @@ class SVL_Settings {
 			$out[ $k ] = $codes ? implode( ',', array_unique( $codes ) ) : $d[ $k ];
 		}
 		$out['exotic_months']    = max( 1, min( 12, (int) ( $input['exotic_months'] ?? $d['exotic_months'] ) ) );
+		$out['exotic_min_nights'] = max( 1, min( 30, (int) ( $input['exotic_min_nights'] ?? $d['exotic_min_nights'] ) ) );
+		$out['exotic_max_nights'] = max( $out['exotic_min_nights'], min( 30, (int) ( $input['exotic_max_nights'] ?? $d['exotic_max_nights'] ) ) );
+		$regions                  = array_intersect( (array) ( $input['exotic_regions'] ?? array() ), array_keys( self::regions() ) );
+		$out['exotic_regions']    = $regions ? implode( ',', $regions ) : 'as,ex';
 		$out['europe_days']      = max( 7, min( 180, (int) ( $input['europe_days'] ?? $d['europe_days'] ) ) );
 		$out['europe_max_price'] = max( 0, (int) ( $input['europe_max_price'] ?? $d['europe_max_price'] ) );
 		$out['europe_min_nights'] = max( 1, min( 21, (int) ( $input['europe_min_nights'] ?? $d['europe_min_nights'] ) ) );

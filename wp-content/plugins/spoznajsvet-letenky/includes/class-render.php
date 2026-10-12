@@ -196,7 +196,7 @@ class SVL_Render {
 				<header class="svl-head">
 					<p class="svl-eyebrow">Ázia a exotika</p>
 					<h2 class="svl-title">Najlacnejšie spiatočné letenky za teplom</h2>
-					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>. Do každého mesta len tá najlacnejšia.</p>
+					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> od Wizz Air, Ryanairu aj klasických aerolínií. Do každého mesta len tá najlacnejšia.</p>
 				</header>
 			<?php endif; ?>
 			<?php self::admin_token_note(); ?>
