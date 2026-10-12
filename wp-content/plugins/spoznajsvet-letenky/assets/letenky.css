@@ -128,8 +128,6 @@
 	.svl-rank__pos { display: none; }
 }
 
-.svl-eu__split { font-size: .75rem; color: var(--svl-muted); }
-.svl-breakdown { display: block; color: var(--svl-muted); font-size: .7rem; white-space: nowrap; }
 .svl-source { display: block; opacity: .8; }
 .svl-eu__price small, .svl-flight__price small, .svl-rank__price small { display: block; }
 .svl-exo__airline { display: block; font-size: .82rem; opacity: .9; }

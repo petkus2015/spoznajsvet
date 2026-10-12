@@ -56,14 +56,6 @@ class SVL_Format {
 		);
 	}
 
-	/** „tam 23 € + späť 30 €“ – len ak zdroj rozpis pozná. */
-	public static function breakdown( array $d ) {
-		if ( empty( $d['price_out'] ) || empty( $d['price_back'] ) ) {
-			return '';
-		}
-		return 'tam ' . self::price( $d['price_out'] ) . ' + späť ' . self::price( $d['price_back'] );
-	}
-
 	public static function price( $value ) {
 		$value = (float) $value;
 		$dec   = ( floor( $value ) == $value ) ? 0 : 2; // phpcs:ignore WordPress.PHP.StrictComparisons

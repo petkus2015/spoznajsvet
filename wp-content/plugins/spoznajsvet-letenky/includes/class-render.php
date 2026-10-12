@@ -262,9 +262,6 @@ class SVL_Render {
 					<span class="svl-rank__price">
 						<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
 						<small>celkom tam aj späť</small>
-						<?php if ( SVL_Format::breakdown( $d ) ) : ?>
-							<small class="svl-breakdown"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></small>
-						<?php endif; ?>
 						<?php echo self::go( $d['url'] ? $d['url'] : $links['kayak'], 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					</span>
 				</li>
@@ -361,9 +358,6 @@ class SVL_Render {
 			<div class="svl-flight__price">
 				<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
 				<small>celkom tam aj späť</small>
-				<?php if ( SVL_Format::breakdown( $d ) ) : ?>
-					<small class="svl-breakdown"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></small>
-				<?php endif; ?>
 				<small class="svl-source"><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
 			</div>
 			<div class="svl-flight__cta">
@@ -431,9 +425,6 @@ class SVL_Render {
 									<strong class="svl-eu__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
 									<span class="svl-eu__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
 									<span class="svl-eu__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) ); ?><?php if ( $nights ) : ?> <span class="svl-eu__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span><?php endif; ?></span>
-									<?php if ( SVL_Format::breakdown( $d ) ) : ?>
-										<span class="svl-eu__split"><?php echo esc_html( SVL_Format::breakdown( $d ) ); ?></span>
-									<?php endif; ?>
 								</span>
 								<span class="svl-eu__price">
 									<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
