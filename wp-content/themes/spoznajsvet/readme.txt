@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.14.0
+Stable tag: 1.15.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,13 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.15.0 =
+* Mapa sveta „Kde všade som bol“ na úvodnej stránke a na stránke Destinácie (aj shortcode [spoznajsvet_mapa]):
+  navštívené krajiny sú vyfarbené – čím viac miest, tým silnejšia farba; mestá sú body na mape.
+* Priblíženie oblastí (Moje cesty, Svet, Európa, Ázia…), posun myšou/prstom, priblíženie dvoma prstami a +/−.
+* Kliknutím na krajinu sa zobrazí karta s mestami a odkazom na krajinu.
+* Pri meste nové pole „Poloha mesta na mape“; ak je prázdne, poloha sa doplní automaticky (vstavaný zoznam miest, inak OpenStreetMap).
 
 = 1.14.0 =
 * Aktualizácia každých 30 minút a na vyžiadanie: pri návšteve alebo kliknutí na „Obnoviť“ sa ceny staršie ako 15 minút obnovia na pozadí a stránka si ich doplní sama.

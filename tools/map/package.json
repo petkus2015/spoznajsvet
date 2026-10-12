@@ -1,0 +1,16 @@
+{
+  "name": "spoznajsvet-map",
+  "private": true,
+  "description": "Vygeneruje assets/map/world.svg pre tému (Natural Earth 1:50m, Equal Earth).",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs 50m 0.25 world.json ../../wp-content/themes/spoznajsvet/assets/map/world.svg"
+  },
+  "dependencies": {
+    "d3-geo": "3.1.1",
+    "i18n-iso-countries": "7.11.3",
+    "topojson-client": "3.1.0",
+    "topojson-simplify": "3.0.3",
+    "world-atlas": "2.0.2"
+  }
+}

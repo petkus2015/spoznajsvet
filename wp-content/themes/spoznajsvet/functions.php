@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SST_VERSION', '1.14.0' );
+define( 'SST_VERSION', '1.15.0' );
 define( 'SST_DIR', get_template_directory() );
 define( 'SST_URI', get_template_directory_uri() );
 
@@ -20,3 +20,4 @@ require SST_DIR . '/inc/template-tags.php';
 require SST_DIR . '/inc/customizer.php';
 require SST_DIR . '/inc/activation.php';
 require SST_DIR . '/inc/flights.php';
+require SST_DIR . '/inc/map.php';

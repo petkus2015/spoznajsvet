@@ -83,6 +83,15 @@ Ručne: tlačidlo **Aktualizovať teraz** v administrácii alebo `wp letenky ref
 - `theme.json`: farby, písma a veľkosti témy sú dostupné aj v blokovom editore.
 - Písma sú pribalené v téme (žiadne Google Fonts → rýchlejšie a bez GDPR problémov). Predvolené **Manrope + Instrument Serif**, prepnúť sa dá v *Prispôsobiť → Spoznaj Svet → Písmo* (aj Figtree + Fraunces alebo pôvodné Plus Jakarta Sans + Playfair Display).
 
+## Mapa sveta
+
+Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol“ (inde shortcode `[spoznajsvet_mapa]`, bez nadpisu `[spoznajsvet_mapa nadpis="0"]`).
+
+- Vyfarbia sa všetky krajiny z *Články → Destinácie*, ktoré majú vyplnený **kód krajiny** (IT, TH…), aj keď ešte nemajú článok. Takto si na mapu pridáte aj krajiny, o ktorých ste zatiaľ nepísali.
+- Sýtosť farby podľa počtu miest v krajine: 1 · 2 – 3 · 4 – 6 · 7 a viac.
+- Mestá sú body. Polohu známych miest (vyše 180, napr. talianske mestá) téma pozná sama, ostatné dohľadá cez OpenStreetMap pri uložení mesta. Presnú polohu môžete zadať v poli **Poloha mesta na mape** (napr. `43.7696, 11.2558`).
+- Obrysy krajín sú v téme (`assets/map/world.svg`, Natural Earth 1:50m), web nič nenačítava z cudzích serverov. Nový súbor vygeneruje `tools/map` (`npm install && npm run build`).
+
 ## Predvolené obrázky
 
 Téma obsahuje ilustrácie (`assets/img/destinacie/`) pre Taliansko, Rím, Florenciu, Benátky, Amalfi, Toskánsko, Sicíliu/Palermo, Thajsko, Bangkok, Phuket, SAE, Dubaj, Abu Dhabi, Chorvátsko, Island a Portugalsko a obrázok úvodného banneru (`assets/img/hero.jpg`).

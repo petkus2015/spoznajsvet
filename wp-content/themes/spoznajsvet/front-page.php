@@ -66,7 +66,8 @@ $latest    = new WP_Query(
 				</div>
 				<a class="link-arrow" href="<?php echo esc_url( sst_destinations_url() ); ?>">Všetky <?php echo sst_icon( 'arrow-right', 18 ); // phpcs:ignore ?></a>
 			</header>
-			<div class="chips chips--scroll" role="list">
+			<?php sst_world_map( array( 'title' => false ) ); ?>
+			<div class="chips chips--scroll world-map__chips" role="list">
 				<?php foreach ( $countries as $c ) : ?>
 					<a role="listitem" class="chip" href="<?php echo esc_url( get_term_link( $c ) ); ?>"><?php echo esc_html( trim( sst_term_flag( $c ) . ' ' . $c->name ) ); ?> <span class="chip__count"><?php echo (int) $c->count; ?></span></a>
 				<?php endforeach; ?>

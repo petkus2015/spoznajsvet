@@ -52,6 +52,12 @@ endwhile;
 
 <section class="section section--tight">
 	<div class="container">
+		<?php sst_world_map( array( 'title' => true ) ); ?>
+	</div>
+</section>
+
+<section class="section section--tight">
+	<div class="container">
 		<?php if ( count( $grouped ) > 1 ) : ?>
 			<div class="chips chips--scroll" data-continent-tabs>
 				<button type="button" class="chip is-active" data-continent="">Všetko</button>

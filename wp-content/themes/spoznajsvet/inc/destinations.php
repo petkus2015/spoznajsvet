@@ -85,6 +85,9 @@ function sst_term_fields( $term = null ) {
 	$iso       = $term ? get_term_meta( $term->term_id, 'sst_iso', true ) : '';
 	$continent = $term ? get_term_meta( $term->term_id, 'sst_continent', true ) : '';
 	$cover     = $term ? (int) get_term_meta( $term->term_id, 'sst_cover', true ) : 0;
+	$lat       = $term ? get_term_meta( $term->term_id, 'sst_lat', true ) : '';
+	$lng       = $term ? get_term_meta( $term->term_id, 'sst_lng', true ) : '';
+	$geo       = ( '' !== $lat && '' !== $lng ) ? $lat . ', ' . $lng : '';
 	$img       = $cover ? wp_get_attachment_image_url( $cover, 'medium' ) : '';
 	wp_nonce_field( 'sst_term_meta', 'sst_term_nonce' );
 
@@ -98,6 +101,11 @@ function sst_term_fields( $term = null ) {
 			'label' => 'Kontinent',
 			'html'  => '',
 			'help'  => 'Len pre krajiny – slúži na zoskupenie na stránke Destinácie.',
+		),
+		'geo'       => array(
+			'label' => 'Poloha mesta na mape',
+			'html'  => '<input type="text" name="sst_geo" id="sst_geo" value="' . esc_attr( $geo ) . '" style="width:16em" placeholder="napr. 43.7696, 11.2558">',
+			'help'  => 'Len pre mestá. Nechajte prázdne – poloha sa doplní automaticky (známe mestá hneď, ostatné cez OpenStreetMap). Súradnice nájdete aj v Google Maps (pravý klik na miesto).',
 		),
 		'cover'     => array(
 			'label' => 'Titulná fotka',
@@ -136,6 +144,22 @@ function sst_save_term_fields( $term_id ) {
 	update_term_meta( $term_id, 'sst_continent', array_key_exists( $continent, sst_continents() ) ? $continent : '' );
 
 	update_term_meta( $term_id, 'sst_cover', absint( $_POST['sst_cover'] ?? 0 ) );
+
+	// Poloha mesta: „lat, lng“. Prázdne → dohľadá sa automaticky.
+	$geo = trim( sanitize_text_field( wp_unslash( $_POST['sst_geo'] ?? '' ) ) );
+	if ( preg_match( '/^(-?\d{1,2}(?:\.\d+)?)\s*[,;\s]\s*(-?\d{1,3}(?:\.\d+)?)$/', $geo, $m ) && abs( (float) $m[1] ) <= 90 && abs( (float) $m[2] ) <= 180 ) {
+		update_term_meta( $term_id, 'sst_lat', round( (float) $m[1], 5 ) );
+		update_term_meta( $term_id, 'sst_lng', round( (float) $m[2], 5 ) );
+	} else {
+		delete_term_meta( $term_id, 'sst_lat' );
+		delete_term_meta( $term_id, 'sst_lng' );
+		delete_term_meta( $term_id, 'sst_geo_try' );
+		$term = get_term( $term_id, 'destinacia' );
+		if ( $term instanceof WP_Term && $term->parent && function_exists( 'sst_geocode_city' ) && ! sst_city_coords( $term ) ) {
+			sst_geocode_city( $term );
+		}
+	}
+	delete_transient( 'sst_map_data' );
 }
 add_action( 'created_destinacia', 'sst_save_term_fields' );
 add_action( 'edited_destinacia', 'sst_save_term_fields' );
