@@ -113,7 +113,7 @@ class SVL_Render {
 			</p>
 			<?php
 			if ( 'europa' !== $group ) {
-				self::exotic( $heading, $compact, 10 );
+				self::exotic( $heading, $compact, 9 );
 			}
 			if ( 'exotika' !== $group ) {
 				self::europe( $heading, $limit, $compact );
@@ -237,35 +237,12 @@ class SVL_Render {
 			}
 		);
 		?>
-		<ol class="svl-rank">
-			<?php foreach ( array_slice( $best, 0, max( 1, (int) $limit ) ) as $i => $d ) : ?>
-				<?php
-				$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
-				$nights = SVL_Format::nights( $d['depart'], $d['return'] );
-				$stops  = SVL_Format::stops( $d['stops'] );
-				?>
-				<li class="svl-rank__item">
-					<span class="svl-rank__pos" aria-hidden="true"><?php echo (int) $i + 1; ?></span>
-					<span class="svl-rank__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
-					<span class="svl-rank__main">
-						<strong class="svl-rank__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
-						<span class="svl-rank__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
-						<span class="svl-rank__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) . ( $nights ? ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) : '' ) ); ?></span>
-						<span class="svl-airline">
-							<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-							<span class="svl-airline__name"><?php echo esc_html( $d['airline'] ? $d['airline'] : 'Letecká spoločnosť neuvedená' ); ?></span>
-							<?php if ( $stops ) : ?>
-								<span class="svl-stops<?php echo 0 === $d['stops'] ? ' is-direct' : ''; ?>"><?php echo esc_html( $stops ); ?></span>
-							<?php endif; ?>
-						</span>
-					</span>
-					<span class="svl-rank__price">
-						<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-						<small>celkom tam aj späť</small>
-						<?php echo self::go( $d['url'] ? $d['url'] : $links['kayak'], 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-					</span>
-				</li>
-			<?php endforeach; ?>
+		<ol class="svl-rank svl-tix-grid">
+			<?php
+			foreach ( array_slice( $best, 0, max( 1, (int) $limit ) ) as $i => $d ) {
+				self::ticket( $d, array( 'rank' => $i + 1 ) );
+			}
+			?>
 		</ol>
 		<?php
 	}
@@ -299,10 +276,7 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from">tam aj späť od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
-							<?php if ( $min['airline'] ) : ?>
-								<span class="svl-exo__airline">s <?php echo esc_html( $min['airline'] ); ?></span>
-							<?php endif; ?>
+						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
 						</p>
 					<?php else : ?>
 						<p class="svl-exo__from">porovnajte aktuálne ceny</p>
@@ -312,7 +286,7 @@ class SVL_Render {
 			<ul class="svl-exo__list">
 				<?php
 				if ( $min ) {
-					self::flight_row( $min );
+					self::ticket( $min, array( 'head' => false ) );
 				} else {
 					$o     = $origins ? $origins[0] : 'VIE';
 					$links = SVL_Format::compare_links( $o, $dest, gmdate( 'Y-m-d', strtotime( '+30 days' ) ), gmdate( 'Y-m-d', strtotime( '+44 days' ) ) );
@@ -331,40 +305,89 @@ class SVL_Render {
 		<?php
 	}
 
-	private static function flight_row( array $d ) {
-		$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
-		$url    = $d['url'] ? $d['url'] : $links['kayak'];
-		$nights = SVL_Format::nights( $d['depart'], $d['return'] );
-		$when   = SVL_Format::date( $d['depart'] ) . ( $d['return'] ? ' – ' . SVL_Format::date( $d['return'] ) : '' );
-		if ( $nights ) {
-			$when .= ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' );
-		}
+	/**
+	 * Letenka ako „palubný lístok“: trasa, termín tam a späť, aerolinka a celková cena.
+	 *
+	 * @param array $args head (bool) – hlavička s mestom, rank (int), class, attrs (data-*).
+	 */
+	private static function ticket( array $d, array $args = array() ) {
+		$args    = wp_parse_args(
+			$args,
+			array(
+				'head'  => true,
+				'rank'  => 0,
+				'class' => '',
+				'attrs' => array(),
+			)
+		);
+		$links   = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
+		$url     = $d['url'] ? $d['url'] : $links['kayak'];
+		$nights  = SVL_Format::nights( $d['depart'], $d['return'] );
 		$stops   = SVL_Format::stops( $d['stops'] );
-		$airline = $d['airline'] ? $d['airline'] : 'Letecká spoločnosť neuvedená';
+		$from    = svl_airport( $d['origin'], $d['origin_city'] ?? '' );
+		$airline = $d['airline'] ? $d['airline'] : SVL_Format::source_label( $d['source'] );
+		$attrs   = '';
+		foreach ( $args['attrs'] as $k => $v ) {
+			$attrs .= ' ' . $k . '="' . esc_attr( $v ) . '"';
+		}
+		$classes = trim( 'svl-tix ' . $args['class'] . ( 1 === $args['rank'] ? ' is-top' : '' ) );
 		?>
-		<li class="svl-flight">
-			<div class="svl-flight__route" aria-hidden="true"><span><?php echo esc_html( $d['origin'] ); ?></span><span class="svl-flight__plane"></span><span><?php echo esc_html( $d['destination'] ); ?></span></div>
-			<div class="svl-flight__info">
-				<strong><?php echo esc_html( self::from_label( $d['origin'], $d['origin_city'] ) ); ?></strong>
-				<span><?php echo esc_html( $when ); ?></span>
-				<span class="svl-airline">
-					<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-					<span class="svl-airline__name"><?php echo esc_html( $airline ); ?></span>
+		<li class="<?php echo esc_attr( $classes ); ?>"<?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+			<?php if ( $args['head'] ) : ?>
+				<div class="svl-tix__head">
+					<span class="svl-tix__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
+					<span class="svl-tix__dest">
+						<strong class="svl-tix__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
+						<span class="svl-tix__country"><?php echo esc_html( $d['dest_country'] ); ?></span>
+					</span>
+					<?php if ( 1 === $args['rank'] ) : ?>
+						<span class="svl-tix__tag svl-tix__tag--gold">Najlacnejšie</span>
+					<?php elseif ( $args['rank'] ) : ?>
+						<span class="svl-tix__tag">#<?php echo (int) $args['rank']; ?></span>
+					<?php elseif ( ! empty( $d['low'] ) ) : ?>
+						<span class="svl-tix__tag svl-tix__tag--gold">Top cena</span>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+			<div class="svl-tix__route">
+				<span class="svl-tix__pt">
+					<b><?php echo esc_html( $d['origin'] ); ?></b>
+					<small><?php echo esc_html( $from['city'] ); ?></small>
+				</span>
+				<span class="svl-tix__line">
+					<span class="svl-tix__plane" aria-hidden="true"></span>
 					<?php if ( $stops ) : ?>
-						<span class="svl-stops<?php echo 0 === $d['stops'] ? ' is-direct' : ''; ?>"><?php echo esc_html( $stops ); ?></span>
+						<span class="svl-tix__stops<?php echo 0 === $d['stops'] ? ' is-direct' : ''; ?>"><?php echo esc_html( $stops ); ?></span>
 					<?php endif; ?>
 				</span>
-			</div>
-			<div class="svl-flight__price">
-				<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-				<small>celkom tam aj späť</small>
-				<small class="svl-source"><?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small>
-			</div>
-			<div class="svl-flight__cta">
-				<?php echo self::go( $url, 'Zobraziť' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-				<span class="svl-compare">
-					<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<span class="svl-tix__pt svl-tix__pt--end">
+					<b><?php echo esc_html( $d['destination'] ); ?></b>
+					<small><?php echo esc_html( $d['dest_city'] ); ?></small>
 				</span>
+			</div>
+			<div class="svl-tix__dates">
+				<span class="svl-tix__date"><small>Tam</small><b><?php echo esc_html( SVL_Format::date( $d['depart'] ) ); ?></b></span>
+				<?php if ( $nights ) : ?>
+					<span class="svl-tix__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span>
+				<?php endif; ?>
+				<span class="svl-tix__date svl-tix__date--end"><small>Späť</small><b><?php echo esc_html( SVL_Format::date( $d['return'] ) ); ?></b></span>
+			</div>
+			<div class="svl-tix__foot">
+				<span class="svl-tix__airline">
+					<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<span><b><?php echo esc_html( $airline ); ?></b><?php if ( SVL_Format::source_label( $d['source'] ) !== $airline ) : ?><small>cez <?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small><?php endif; ?></span>
+				</span>
+				<span class="svl-tix__price">
+					<small>tam aj späť</small>
+					<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
+				</span>
+				<button type="button" class="svl-tix__go" data-svl-go="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( 'Zobraziť letenku ' . $d['origin'] . ' – ' . $d['dest_city'] . ' za ' . SVL_Format::price( $d['price'] ) ); ?>">
+					<span class="svl-tix__go-label">Zobraziť</span>
+				</button>
+			</div>
+			<div class="svl-tix__compare">
+				<span>Porovnať</span>
+				<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			</div>
 		</li>
 		<?php
@@ -411,35 +434,23 @@ class SVL_Render {
 					<?php echo self::go( 'https://' . SVL_Settings::get( 'kayak_domain' ) . '/explore/' . ( $origins ? $origins[0] : 'BTS' ) . '-anywhere', 'Kayak Explore', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>.
 				</p>
 			<?php else : ?>
-				<ol class="svl-eu-list">
+				<ol class="svl-eu-list svl-tix-grid">
 					<?php
-					foreach ( $deals as $i => $d ) :
-						$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
-						$nights = SVL_Format::nights( $d['depart'], $d['return'] );
-						$url   = $d['url'] ? $d['url'] : $links['kayak'];
-						?>
-						<li class="svl-eu" data-origin="<?php echo esc_attr( $d['origin'] ); ?>" data-best="<?php echo isset( $best[ $i ] ) ? '1' : '0'; ?>" data-price="<?php echo esc_attr( $d['price'] ); ?>" data-date="<?php echo esc_attr( $d['depart'] ); ?>">
-							<button type="button" class="svl-eu__main" data-svl-go="<?php echo esc_url( $url ); ?>">
-								<span class="svl-eu__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $d['dest_iso'] ) ); ?></span>
-								<span class="svl-eu__text">
-									<strong class="svl-eu__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
-									<span class="svl-eu__meta"><?php echo esc_html( trim( $d['dest_country'] . ' · ' . self::from_label( $d['origin'], $d['origin_city'] ), ' ·' ) ); ?></span>
-									<span class="svl-eu__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) ); ?><?php if ( $nights ) : ?> <span class="svl-eu__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span><?php endif; ?></span>
-								</span>
-								<span class="svl-eu__price">
-									<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
-									<small>celkom tam aj späť</small>
-									<small class="svl-source"><?php echo esc_html( $d['airline'] ? $d['airline'] : SVL_Format::source_label( $d['source'] ) ); ?></small>
-								</span>
-							</button>
-							<?php if ( $d['low'] ) : ?>
-								<span class="svl-badge svl-badge--float">Top cena</span>
-							<?php endif; ?>
-							<span class="svl-compare">
-								<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-							</span>
-						</li>
-					<?php endforeach; ?>
+					foreach ( $deals as $i => $d ) {
+						self::ticket(
+							$d,
+							array(
+								'class' => 'svl-eu',
+								'attrs' => array(
+									'data-origin' => $d['origin'],
+									'data-best'   => isset( $best[ $i ] ) ? '1' : '0',
+									'data-price'  => $d['price'],
+									'data-date'   => $d['depart'],
+								),
+							)
+						);
+					}
+					?>
 				</ol>
 				<button type="button" class="svl-more" data-svl-more hidden>Zobraziť ďalšie destinácie</button>
 			<?php endif; ?>
