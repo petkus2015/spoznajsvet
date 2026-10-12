@@ -10,7 +10,7 @@ get_header();
 
 <section class="page-hero page-hero--flights">
 	<div class="container page-hero__inner">
-		<p class="eyebrow eyebrow--light">Aktualizované každých 30 minút</p>
+		<p class="eyebrow eyebrow--light">Každých 30 min · na vyžiadanie max. 15 min staré</p>
 		<h1 class="page-hero__title"><?php the_title(); ?> <em>za pár eur</em></h1>
 		<p class="page-hero__text">Najlacnejšie letenky do Bangkoku, Dubaja a Abu Dhabi z Viedne, Bratislavy a Budapešti – a európske mestá na víkend. Ceny z Ryanair, Wizz Air a vyhľadávačov, s porovnaním na Kayak a momondo.</p>
 		<nav class="chips chips--scroll chips--glass" aria-label="Sekcie">

@@ -45,7 +45,7 @@ class SVL_Store {
 	}
 
 	/**
-	 * Obnoví všetky ponuky. Volá WP-Cron každých 30 minút.
+	 * Obnoví všetky ponuky. Volá WP-Cron každých 30 minút a SVL_Cron::refresh_if_stale() na vyžiadanie.
 	 */
 	public static function refresh( $force = false ) {
 		if ( ! $force && get_transient( 'svl_lock' ) ) {

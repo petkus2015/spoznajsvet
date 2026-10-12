@@ -13,6 +13,15 @@ class SVL_Rest {
 	public static function routes() {
 		register_rest_route(
 			'spoznajsvet/v1',
+			'/letenky/obnovit',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => array( __CLASS__, 'trigger' ),
+			)
+		);
+		register_rest_route(
+			'spoznajsvet/v1',
 			'/letenky',
 			array(
 				'methods'             => 'GET',
@@ -47,6 +56,20 @@ class SVL_Rest {
 		);
 	}
 
+	/** POST /letenky/obnovit – obnova na vyžiadanie (len ak sú ceny staršie ako 15 min). */
+	public static function trigger() {
+		$refreshing = SVL_Cron::refresh_if_stale();
+		$res        = rest_ensure_response(
+			array(
+				'updated'    => (int) SVL_Store::data()['updated'],
+				'refreshing' => $refreshing,
+				'max_age'    => SVL_Cron::MAX_AGE,
+			)
+		);
+		$res->header( 'Cache-Control', 'no-store' );
+		return $res;
+	}
+
 	public static function get( WP_REST_Request $req ) {
 		$group = $req['skupina'];
 		$data  = SVL_Store::data();
@@ -66,7 +89,7 @@ class SVL_Rest {
 				'html'    => SVL_Render::html( $group, (int) $req['limit'], (bool) $req['nadpis'], (bool) $req['kompaktne'], (bool) $req['stav'] ),
 			)
 		);
-		$res->header( 'Cache-Control', 'public, max-age=300' );
+		$res->header( 'Cache-Control', SVL_Cron::age() < SVL_Cron::MAX_AGE ? 'public, max-age=60' : 'no-store' );
 		return $res;
 	}
 }

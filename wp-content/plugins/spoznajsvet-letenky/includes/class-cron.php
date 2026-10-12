@@ -12,6 +12,7 @@ class SVL_Cron {
 	const HOOK     = 'svl_refresh_deals';
 	const HOOK_NOW = 'svl_refresh_deals_now';
 	const INTERVAL = 30 * MINUTE_IN_SECONDS;
+	const MAX_AGE  = 15 * MINUTE_IN_SECONDS; // Na vyžiadanie (návšteva, tlačidlo) nie staršie ako 15 min.
 
 	public static function init() {
 		add_filter( 'cron_schedules', array( __CLASS__, 'schedules' ) );
@@ -48,6 +49,56 @@ class SVL_Cron {
 		if ( ! wp_next_scheduled( self::HOOK_NOW ) ) {
 			wp_schedule_single_event( time(), self::HOOK_NOW );
 		}
+	}
+
+	public static function age() {
+		$updated = (int) SVL_Store::data()['updated'];
+		return $updated ? time() - $updated : PHP_INT_MAX;
+	}
+
+	public static function running() {
+		return (bool) get_transient( 'svl_lock' );
+	}
+
+	/**
+	 * Obnova na vyžiadanie, ak sú ceny staršie ako 15 min. Beží na pozadí –
+	 * návštevník nečaká, nové ceny si stránka doplní sama.
+	 *
+	 * @return bool či obnova práve beží alebo sa spustila
+	 */
+	public static function refresh_if_stale() {
+		if ( self::running() ) {
+			return true;
+		}
+		if ( self::age() < self::MAX_AGE ) {
+			return false;
+		}
+		// Poistka proti opakovanému spúšťaniu (napr. veľa návštev naraz).
+		if ( get_transient( 'svl_kick' ) ) {
+			return true;
+		}
+		set_transient( 'svl_kick', 1, 2 * MINUTE_IN_SECONDS );
+
+		if ( function_exists( 'fastcgi_finish_request' ) || function_exists( 'litespeed_finish_request' ) ) {
+			// Najprv odošleme odpoveď návštevníkovi, potom v tom istom procese stiahneme ceny.
+			add_action(
+				'shutdown',
+				static function () {
+					if ( function_exists( 'fastcgi_finish_request' ) ) {
+						fastcgi_finish_request();
+					} else {
+						litespeed_finish_request();
+					}
+					ignore_user_abort( true );
+					SVL_Store::refresh();
+				},
+				PHP_INT_MAX
+			);
+		} else {
+			self::refresh_soon();
+			spawn_cron();
+		}
+		return true;
 	}
 
 	public static function activate() {

@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.0
+Stable tag: 1.14.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.14.0 =
+* Aktualizácia každých 30 minút a na vyžiadanie: pri návšteve alebo kliknutí na „Obnoviť“ sa ceny staršie ako 15 minút obnovia na pozadí a stránka si ich doplní sama.
 
 = 1.13.0 =
 * Nový dizajn výpisu leteniek ako palubný lístok: trasa (napr. VIE ✈ RAK), termín tam a späť s počtom nocí, aerolinka a výrazná celková cena; celá karta je klikateľná.

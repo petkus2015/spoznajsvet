@@ -58,7 +58,7 @@ Kayak ani momondo nemajú verejné API a ich automatické sťahovanie porušuje 
 `[spoznajsvet_letenky]`, `[spoznajsvet_letenky skupina="exotika"]`, `[spoznajsvet_letenky skupina="europa" limit="20"]`
 alebo blok **Letenky** v editore. REST: `/wp-json/spoznajsvet/v1/letenky`.
 
-### Aktualizácia každých 30 minút
+### Aktualizácia každých 30 minút, na vyžiadanie max. 15 minút staré
 
 Plugin sa naplánuje do WP-Cron. WP-Cron však beží iba pri návšteve webu, preto na produkcii odporúčame skutočný cron:
 
@@ -70,8 +70,10 @@ define( 'DISABLE_WP_CRON', true );
 */30 * * * * curl -s https://www.spoznajsvet.sk/wp-cron.php?doing_wp_cron > /dev/null
 ```
 
-Ručne: tlačidlo **Aktualizovať teraz** alebo `wp letenky refresh` (WP-CLI).
-Otvorená stránka s letenkami si nové ceny načíta sama, bez obnovenia.
+**Na vyžiadanie:** keď niekto otvorí stránku s letenkami alebo klikne na **Obnoviť** a ceny sú staršie ako 15 minút, plugin ich začne obnovovať na pozadí (`POST /wp-json/spoznajsvet/v1/letenky/obnovit`). Stránka sa načíta hneď a nové ceny si doplní sama, bez obnovenia. Mladšie ceny sa znova nesťahujú a súbežné požiadavky spustia len jednu obnovu.
+Wizz Air obnovuje linky postupne (každá linka max. raz za hodinu), aby ho plugin nezahltil.
+
+Ručne: tlačidlo **Aktualizovať teraz** v administrácii alebo `wp letenky refresh` (WP-CLI).
 
 ## Dizajn
 

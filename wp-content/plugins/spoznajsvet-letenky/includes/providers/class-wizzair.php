@@ -5,13 +5,13 @@ defined( 'ABSPATH' ) || exit;
  * Wizz Air – neoficiálne API webu wizzair.com (mapa liniek + cenový kalendár „timetable“).
  * Vždy hľadá spiatočné letenky (tam aj späť v jednej požiadavke).
  *
- * Aby sme Wizz Air nezahltili, v každom behu (30 min) obnovíme len obmedzený
+ * Aby sme Wizz Air nezahltili, v každom behu (každých 30 min a na vyžiadanie) obnovíme len obmedzený
  * počet liniek; ostatné sa berú z vyrovnávacej pamäte (max. 24 h).
  */
 class SVL_Provider_Wizzair extends SVL_Provider {
 
 	const CACHE_OPTION = 'svl_wizz_cache';
-	const ROUTE_TTL    = 3 * HOUR_IN_SECONDS;
+	const ROUTE_TTL    = HOUR_IN_SECONDS;
 	const PER_RUN      = 14;
 	const WINDOW_DAYS  = 42; // Timetable API prijme max. ~6 týždňov.
 

@@ -107,7 +107,7 @@ $latest    = new WP_Query(
 				<div>
 					<p class="eyebrow">Letenky</p>
 					<h2 class="section-title">Aktuálne najlacnejšie <em>letenky</em></h2>
-					<p class="section-lead">Kontrolujem ceny Ryanair, Wizz Air a vyhľadávačov každých 30 minút.</p>
+					<p class="section-lead">Kontrolujem ceny Ryanair, Wizz Air a vyhľadávačov každých 30 minút. Keď si stránku otvoríš, nie sú staršie ako 15 minút.</p>
 				</div>
 				<?php if ( sst_flights_url() ) : ?>
 					<a class="link-arrow" href="<?php echo esc_url( sst_flights_url() ); ?>">Všetky ponuky <?php echo sst_icon( 'arrow-right', 18 ); // phpcs:ignore ?></a>

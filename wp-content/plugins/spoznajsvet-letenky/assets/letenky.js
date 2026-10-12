@@ -1,4 +1,4 @@
-/* Spoznaj Svet – Letenky: filtre, zoradenie, „pred X min“ a automatická obnova bez reloadu. */
+/* Spoznaj Svet – Letenky: filtre, zoradenie, „pred X min“, obnova na vyžiadanie (ceny max. 15 min) bez reloadu. */
 (function () {
 	'use strict';
 
@@ -52,7 +52,6 @@
 
 	function init(root) {
 		(root || document).querySelectorAll('[data-svl-eu]').forEach(function (b) { applyEurope(b); });
-		tick();
 	}
 
 	// Ponuky sú tlačidlá (nie odkazy), aby prehliadač pri prejdení myšou neukazoval adresu v rohu.
@@ -90,52 +89,147 @@
 		if (more) applyEurope(more.closest('[data-svl-eu]'), true);
 	});
 
+	function age(sec) {
+		var updated = parseInt(sec.dataset.updated, 10) || 0;
+		return updated ? Date.now() / 1000 - updated : Infinity;
+	}
+
+	function maxAge(sec) {
+		return parseInt(sec.dataset.maxAge, 10) || 900;
+	}
+
+	function setStatus(sec, text, busy) {
+		var el = sec.querySelector('[data-svl-status]');
+		if (el) el.textContent = text;
+		sec.classList.toggle('is-refreshing', !!busy);
+		var btn = sec.querySelector('[data-svl-refresh]');
+		if (btn) btn.disabled = !!busy;
+	}
+
+	function showAgo(sec) {
+		var updated = parseInt(sec.dataset.updated, 10);
+		var el = sec.querySelector('[data-svl-status]');
+		if (!el || !updated) return;
+		el.textContent = 'Aktualizované ';
+		var t = document.createElement('time');
+		t.setAttribute('data-svl-ago', '');
+		t.textContent = minutesAgo(updated);
+		el.appendChild(t);
+	}
+
 	function tick() {
 		var now = Date.now() / 1000;
 		document.querySelectorAll('[data-svl]').forEach(function (sec) {
-			var updated = parseInt(sec.dataset.updated, 10);
-			var next = parseInt(sec.dataset.next, 10);
+			if (sec.dataset.loading) return;
 			var ago = sec.querySelector('[data-svl-ago]');
+			var updated = parseInt(sec.dataset.updated, 10);
 			if (ago && updated) ago.textContent = minutesAgo(updated);
-			var nx = sec.querySelector('[data-svl-next]');
-			if (nx && next) {
-				var m = Math.ceil((next - now) / 60);
-				nx.textContent = m > 0 ? 'o ' + m + ' min' : 'o chvíľu';
+			if (document.visibilityState !== 'visible') return;
+			// Stránka otvorená dlhšie: ceny staršie ako 15 min → obnova na vyžiadanie.
+			if (age(sec) > maxAge(sec) && now - (parseFloat(sec.dataset.tried) || 0) > maxAge(sec)) {
+				requestRefresh(sec);
+				return;
 			}
-			// Nové dáta by už mali byť k dispozícii → potichu načítame.
-			if (next && now > next + 90 && !sec.dataset.loading && document.visibilityState === 'visible') {
-				refresh(sec);
-			}
+			var next = parseInt(sec.dataset.next, 10);
+			if (next && now > next + 90) load(sec);
 		});
 	}
 
-	function refresh(sec) {
-		var url = sec.dataset.rest;
-		if (!url || !window.fetch) return;
+	function url(base) {
+		return base + (base.indexOf('?') < 0 ? '?' : '&') + '_=' + Date.now();
+	}
+
+	// Načíta aktuálne HTML; ak sú novšie ceny, vymení blok bez obnovenia stránky.
+	function load(sec, onDone) {
+		if (!sec.dataset.rest || !window.fetch) return;
 		sec.dataset.loading = '1';
-		fetch(url, { headers: { Accept: 'application/json' } })
+		return fetch(url(sec.dataset.rest), { headers: { Accept: 'application/json' }, cache: 'no-store' })
 			.then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
 			.then(function (json) {
-				if (!json || !json.html || json.updated <= parseInt(sec.dataset.updated, 10)) {
-					// Zatiaľ nič nové – skúsime znova o 5 minút.
+				sec.dataset.loading = '';
+				if (!json || !json.html || json.updated <= (parseInt(sec.dataset.updated, 10) || 0)) {
 					sec.dataset.next = String(Math.floor(Date.now() / 1000) + 300 - 90);
-					sec.dataset.loading = '';
+					if (onDone) onDone(false);
 					return;
 				}
 				var tpl = document.createElement('template');
 				tpl.innerHTML = json.html.trim();
 				var fresh = tpl.content.firstElementChild;
+				fresh.dataset.tried = String(Date.now() / 1000);
+				fresh.removeAttribute('data-refreshing');
 				sec.replaceWith(fresh);
 				fresh.classList.add('svl--fresh');
 				init(fresh.parentNode);
+				if (onDone) onDone(true);
 			})
-			.catch(function () { sec.dataset.loading = ''; sec.dataset.next = String(Math.floor(Date.now() / 1000) + 300); });
+			.catch(function () {
+				sec.dataset.loading = '';
+				sec.dataset.next = String(Math.floor(Date.now() / 1000) + 300);
+				if (onDone) onDone(false);
+			});
+	}
+
+	// Po spustení obnovy na serveri čakáme na nové ceny (max. ~3 min).
+	function poll(sec, start) {
+		start = start || Date.now();
+		setStatus(sec, 'Hľadám najnovšie ceny…', true);
+		setTimeout(function () {
+			if (!sec.isConnected) return;
+			load(sec, function (changed) {
+				if (changed) return;
+				if (Date.now() - start < 180000) {
+					poll(sec, start);
+				} else {
+					setStatus(sec, '', false);
+					showAgo(sec);
+				}
+			});
+		}, 6000);
+	}
+
+	function requestRefresh(sec, manual) {
+		if (!sec.dataset.refresh || !window.fetch || sec.classList.contains('is-refreshing')) return;
+		sec.dataset.tried = String(Date.now() / 1000);
+		setStatus(sec, manual ? 'Kontrolujem ceny…' : 'Hľadám najnovšie ceny…', true);
+		fetch(url(sec.dataset.refresh), { method: 'POST', headers: { Accept: 'application/json' }, cache: 'no-store', credentials: 'omit' })
+			.then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+			.then(function (json) {
+				if (json.updated > (parseInt(sec.dataset.updated, 10) || 0)) {
+					load(sec); // medzitým sa už obnovilo
+				} else if (json.refreshing) {
+					poll(sec);
+				} else {
+					// Ceny nie sú staršie ako 15 min – netreba nič sťahovať.
+					setStatus(sec, '', false);
+					showAgo(sec);
+					var el = sec.querySelector('[data-svl-status]');
+					if (el && manual) el.appendChild(document.createTextNode(' · ceny sú aktuálne'));
+				}
+			})
+			.catch(function () { setStatus(sec, '', false); showAgo(sec); });
+	}
+
+	document.addEventListener('click', function (e) {
+		var btn = e.target.closest('[data-svl-refresh]');
+		if (btn) requestRefresh(btn.closest('[data-svl]'), true);
+	});
+
+	function boot() {
+		document.querySelectorAll('[data-svl]').forEach(function (sec) {
+			if (sec.dataset.refreshing) {
+				sec.dataset.tried = String(Date.now() / 1000);
+				poll(sec);
+			} else if (age(sec) > maxAge(sec)) {
+				requestRefresh(sec); // napr. stránka z cache – ceny staršie ako 15 min
+			}
+		});
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', function () { init(); });
+		document.addEventListener('DOMContentLoaded', function () { init(); boot(); });
 	} else {
 		init();
+		boot();
 	}
 	setInterval(tick, 30000);
 	document.addEventListener('visibilitychange', tick);

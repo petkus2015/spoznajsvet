@@ -88,6 +88,8 @@ class SVL_Render {
 		$data    = SVL_Store::data();
 		$updated = (int) $data['updated'];
 		$next    = SVL_Cron::next_run();
+		// Na vyžiadanie: ceny staršie ako 15 min sa začnú obnovovať na pozadí.
+		$refreshing = SVL_Cron::refresh_if_stale();
 		$rest    = add_query_arg(
 			array(
 				'skupina'   => $group,
@@ -101,16 +103,22 @@ class SVL_Render {
 
 		ob_start();
 		?>
-		<section class="svl<?php echo $compact ? ' svl--compact' : ''; ?>" data-svl data-updated="<?php echo esc_attr( $updated ); ?>" data-next="<?php echo esc_attr( $next ); ?>" data-rest="<?php echo esc_url( $rest ); ?>">
-			<p class="svl-status" role="status"<?php echo $status ? '' : ' hidden'; ?>>
+		<section class="svl<?php echo $compact ? ' svl--compact' : ''; ?>" data-svl data-updated="<?php echo esc_attr( $updated ); ?>" data-next="<?php echo esc_attr( $next ); ?>" data-rest="<?php echo esc_url( $rest ); ?>" data-refresh="<?php echo esc_url( rest_url( 'spoznajsvet/v1/letenky/obnovit' ) ); ?>" data-max-age="<?php echo (int) SVL_Cron::MAX_AGE; ?>"<?php echo $refreshing ? ' data-refreshing="1"' : ''; ?>>
+			<div class="svl-status"<?php echo $status ? '' : ' hidden'; ?>>
 				<span class="svl-dot" aria-hidden="true"></span>
-				<?php if ( $updated ) : ?>
-					Aktualizované <time data-svl-ago datetime="<?php echo esc_attr( gmdate( 'c', $updated ) ); ?>"><?php echo esc_html( SVL_Format::ago( $updated ) ); ?></time>
-					<span class="svl-status__next">· ďalšia kontrola <span data-svl-next>o <?php echo esc_html( max( 1, (int) ceil( ( $next - time() ) / 60 ) ) ); ?> min</span></span>
-				<?php else : ?>
-					Ceny sa práve načítavajú…
-				<?php endif; ?>
-			</p>
+				<span class="svl-status__text" role="status" data-svl-status>
+					<?php if ( $refreshing ) : ?>
+						Hľadám najnovšie ceny…
+					<?php elseif ( $updated ) : ?>
+						Aktualizované <time data-svl-ago datetime="<?php echo esc_attr( gmdate( 'c', $updated ) ); ?>"><?php echo esc_html( SVL_Format::ago( $updated ) ); ?></time>
+					<?php else : ?>
+						Ceny sa práve načítavajú…
+					<?php endif; ?>
+				</span>
+				<button type="button" class="svl-status__btn" data-svl-refresh aria-label="Obnoviť ceny leteniek">
+					<span class="svl-status__icon" aria-hidden="true"></span><span class="svl-status__label">Obnoviť</span>
+				</button>
+			</div>
 			<?php
 			if ( 'europa' !== $group ) {
 				self::exotic( $heading, $compact, 9 );
