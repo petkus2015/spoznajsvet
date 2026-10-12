@@ -3,7 +3,7 @@
  * Plugin Name:       Spoznaj Svet – Letenky
  * Plugin URI:        https://www.spoznajsvet.sk/letenky/
  * Description:       Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + porovnanie na Kayak a momondo). Aktualizácia každých 30 minút. Shortcode [spoznajsvet_letenky] a blok „Letenky“.
- * Version:           1.8.1
+ * Version:           1.9.0
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Spoznaj Svet
@@ -18,7 +18,7 @@ if ( defined( 'SVL_VERSION' ) ) {
 	return;
 }
 
-define( 'SVL_VERSION', '1.8.1' );
+define( 'SVL_VERSION', '1.9.0' );
 define( 'SVL_FILE', __FILE__ );
 define( 'SVL_DIR', plugin_dir_path( __FILE__ ) );
 // Téma, ktorá letenky pribaľuje, si URL nastaví sama (SVL_URL a SVL_BUNDLED).
@@ -35,6 +35,7 @@ require_once SVL_DIR . 'includes/providers/class-ryanair.php';
 require_once SVL_DIR . 'includes/providers/class-wizzair.php';
 require_once SVL_DIR . 'includes/providers/class-travelpayouts.php';
 require_once SVL_DIR . 'includes/providers/class-manual.php';
+require_once SVL_DIR . 'includes/class-weather.php';
 require_once SVL_DIR . 'includes/class-store.php';
 require_once SVL_DIR . 'includes/class-cron.php';
 require_once SVL_DIR . 'includes/class-render.php';

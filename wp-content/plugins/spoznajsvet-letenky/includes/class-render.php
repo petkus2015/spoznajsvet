@@ -130,6 +130,9 @@ class SVL_Render {
 			?>
 			<p class="svl-note">
 				Všetky ceny sú celkové ceny spiatočnej letenky (tam aj späť) za 1 osobu v EUR. Menia sa každú chvíľu – pred kúpou ich vždy overte.
+				<?php if ( SVL_Weather::enabled() ) : ?>
+					Počasie v destinácii počas pobytu (najvyššia denná teplota): pri odlete do 16 dní predpoveď, pri neskoršom odlete <strong>~</strong> odhad podľa rovnakého obdobia v minulých rokoch (Open-Meteo).
+				<?php endif; ?>
 				Zdroje: Ryanair, Wizz Air, Aviasales · porovnanie: Kayak, momondo.
 			</p>
 		</section>
@@ -376,9 +379,12 @@ class SVL_Render {
 			</div>
 			<div class="svl-tix__dates">
 				<span class="svl-tix__date"><small>Tam</small><b><?php echo esc_html( SVL_Format::date( $d['depart'] ) ); ?></b></span>
-				<?php if ( $nights ) : ?>
-					<span class="svl-tix__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span>
-				<?php endif; ?>
+				<span class="svl-tix__mid">
+					<?php if ( $nights ) : ?>
+						<span class="svl-tix__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span>
+					<?php endif; ?>
+					<?php echo SVL_Weather::badge( $d ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				</span>
 				<span class="svl-tix__date svl-tix__date--end"><small>Späť</small><b><?php echo esc_html( SVL_Format::date( $d['return'] ) ); ?></b></span>
 			</div>
 			<div class="svl-tix__foot">

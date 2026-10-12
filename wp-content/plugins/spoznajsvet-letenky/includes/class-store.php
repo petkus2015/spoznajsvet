@@ -98,6 +98,17 @@ class SVL_Store {
 		}
 
 		$deals = self::mark_lows( self::clean( $deals ) );
+		// Počasie v destináciách (predpoveď / odhad). Chyba počasia nikdy nezastaví letenky.
+		try {
+			SVL_Weather::update( $deals );
+		} catch ( Throwable $e ) {
+			$status['weather'] = array(
+				'ok'    => false,
+				'count' => 0,
+				'time'  => time(),
+				'msg'   => wp_strip_all_tags( $e->getMessage() ),
+			);
+		}
 		$data  = array(
 			'updated' => time(),
 			'deals'   => $deals,

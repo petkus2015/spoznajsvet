@@ -28,6 +28,7 @@ class SVL_Settings {
 			'europe_min_nights'   => 2,
 			'europe_max_nights'   => 7,
 			'europe_only'         => 1,
+			'weather'             => 1,
 			'kayak_domain'        => 'www.kayak.com',
 			'momondo_domain'      => 'www.momondo.com',
 			'manual'              => '',
@@ -72,7 +73,7 @@ class SVL_Settings {
 	public static function sanitize( $input ) {
 		$d   = self::defaults();
 		$out = array();
-		foreach ( array( 'ryanair', 'wizzair', 'travelpayouts', 'europe_only' ) as $k ) {
+		foreach ( array( 'ryanair', 'wizzair', 'travelpayouts', 'europe_only', 'weather' ) as $k ) {
 			$out[ $k ] = empty( $input[ $k ] ) ? 0 : 1;
 		}
 		foreach ( array( 'exotic_origins', 'exotic_destinations', 'europe_origins' ) as $k ) {

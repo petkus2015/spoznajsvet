@@ -45,6 +45,7 @@ URL: `/destinacie/taliansko/`, `/destinacie/taliansko/florencia/`.
 | **Ryanair** | najlacnejšia spiatočná letenka do každej destinácie z BTS/VIE | netreba |
 | **Wizz Air** | cenový kalendár na linkách z VIE/BUD (aj Abu Dhabi/Dubaj, ak ich Wizz lieta) | netreba |
 | **Aviasales (Travelpayouts)** | klasické aerolínie – Qatar, Emirates, Etihad, Turkish… hlavne pre **Bangkok, Dubaj, Abu Dhabi** | bezplatný token z travelpayouts.com |
+| **Open-Meteo** | počasie v destinácii ku každej letenke: do 16 dní predpoveď, neskôr odhad „~“ podľa minulých rokov | netreba |
 | **Kayak, momondo** | ku každej ponuke odkaz „porovnať“ s rovnakou trasou a dátumami; akcie odtiaľ môžete vložiť ako **ručné tipy** | – |
 
 Kayak ani momondo nemajú verejné API a ich automatické sťahovanie porušuje ich podmienky. Preto slúžia ako porovnávač (odkazy) a zdroj ručných tipov. Ryanair a Wizz Air používajú neoficiálne API svojich webov – keď ho zmenia alebo dočasne zablokujú, plugin ukazuje posledné platné ceny (max. 24 h) a chybu uvidíte v *Nastavenia → Letenky → Stav*.

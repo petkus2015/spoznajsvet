@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.16.0
+Stable tag: 1.17.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.17.0 =
+* Počasie v destinácii pri každej letenke (ikona + najvyššia denná teplota počas pobytu): pri odlete do 16 dní predpoveď, pri neskoršom odlete odhad podľa rovnakého obdobia v minulých rokoch so znakom ~ (Open-Meteo, bez kľúča). Dá sa vypnúť v Nastavenia → Letenky.
 
 = 1.16.0 =
 * Podrobná mapa (Natural Earth 1:10m): štáty aj samostatné ostrovy a súostrovia – Azory, Madeira, Kanárske a Baleárske ostrovy, Sicília, Sardínia, Korzika, Havaj…

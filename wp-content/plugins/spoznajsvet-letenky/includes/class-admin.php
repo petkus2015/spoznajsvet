@@ -114,6 +114,7 @@ class SVL_Admin {
 					self::field( 'travelpayouts', 'Aviasales / Travelpayouts', 'Klasické aerolínie (Qatar, Emirates, Etihad, Turkish…) – najmä pre Bangkok, Dubaj, Abu Dhabi.', 'checkbox' );
 					self::field( 'tp_token', 'Travelpayouts API token', 'Zadarmo po registrácii na <a href="https://www.travelpayouts.com/" target="_blank" rel="noopener">travelpayouts.com</a> → Tools → API.', 'password' );
 					self::field( 'tp_marker', 'Travelpayouts marker', 'Voliteľné – vaše partnerské ID (provízia z predaných leteniek).' );
+					self::field( 'weather', 'Počasie v destinácii', 'Ku každej letenke ikona a teplota (Open-Meteo, bez kľúča): do 16 dní predpoveď, neskôr odhad podľa minulých rokov so znakom ~.', 'checkbox' );
 					self::field( 'kayak_domain', 'Doména Kayak', 'Napr. www.kayak.com, www.kayak.de' );
 					self::field( 'momondo_domain', 'Doména momondo', 'Napr. www.momondo.com, www.momondo.de' );
 					?>

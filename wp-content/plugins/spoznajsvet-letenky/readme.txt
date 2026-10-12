@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.8.1
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,9 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.9.0 =
+* Počasie v destinácii pri každej letenke (ikona + najvyššia denná teplota počas pobytu): pri odlete do 16 dní predpoveď, pri neskoršom odlete odhad podľa rovnakého obdobia v minulých rokoch so znakom ~ (Open-Meteo, bez kľúča). Dá sa vypnúť v Nastavenia → Letenky.
 
 = 1.8.1 =
 * Najprv najlacnejšie ponuky v Európe, potom exotika.

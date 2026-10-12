@@ -251,6 +251,20 @@
 	.svl-tix__price strong { font-size: 1.35rem; }
 }
 
+/* Počasie v destinácii (ikona + teplota; odhad so znakom ~) */
+.svl-tix__mid { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.svl-wx { display: inline-flex; align-items: center; gap: .25rem; color: var(--svl-heading); font-size: .82rem; font-weight: 800; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.svl-wx__icon { width: 20px; height: 20px; flex: 0 0 auto; background: center / contain no-repeat; }
+.svl-wx.is-estimate { color: var(--svl-text); font-weight: 700; }
+.svl-wx.is-estimate .svl-wx__icon { opacity: .8; }
+.svl-wx--sun .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><g stroke=%22%23F5A623%22 stroke-width=%222%22 stroke-linecap=%22round%22><path d=%22M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8%22/></g><circle cx=%2212%22 cy=%2212%22 r=%224.6%22 fill=%22%23FBBF24%22/></svg>"); }
+.svl-wx--partly .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><g stroke=%22%23F5A623%22 stroke-width=%221.8%22 stroke-linecap=%22round%22><path d=%22M9 1.8v2M2.6 8.4h2M4.4 3.8l1.4 1.4M13.6 3.8l-1.4 1.4%22/></g><circle cx=%229%22 cy=%228.6%22 r=%223.8%22 fill=%22%23FBBF24%22/><path d=%22M8 20h9.5a3.8 3.8 0 0 0 .4-7.58 5.2 5.2 0 0 0-9.9 1.05A3.3 3.3 0 0 0 8 20z%22 fill=%22%23E6ECEE%22 stroke=%22%2394A3A8%22 stroke-width=%221.3%22/></svg>"); }
+.svl-wx--cloud .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M7 18h10a4 4 0 0 0 .4-7.98A5.5 5.5 0 0 0 6.9 11.1 3.5 3.5 0 0 0 7 18z%22 fill=%22%23CBD5D8%22 stroke=%22%238A9A9F%22 stroke-width=%221.4%22/></svg>"); }
+.svl-wx--rain .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M7 15h10a4 4 0 0 0 .4-7.98A5.5 5.5 0 0 0 6.9 8.1 3.5 3.5 0 0 0 7 15z%22 fill=%22%23CBD5D8%22 stroke=%22%238A9A9F%22 stroke-width=%221.4%22/><g stroke=%22%233B82F6%22 stroke-width=%222%22 stroke-linecap=%22round%22><path d=%22M8.5 18l-1 2.5M12.5 18l-1 2.5M16.5 18l-1 2.5%22/></g></svg>"); }
+.svl-wx--storm .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M7 15h10a4 4 0 0 0 .4-7.98A5.5 5.5 0 0 0 6.9 8.1 3.5 3.5 0 0 0 7 15z%22 fill=%22%239AA8AD%22 stroke=%22%2366767B%22 stroke-width=%221.4%22/><path d=%22M12.8 13.5l-3 4.6h2.6l-1.2 4.4 4-5.6h-2.7l1.3-3.4z%22 fill=%22%23FBBF24%22 stroke=%22%23D97706%22 stroke-width=%22.8%22 stroke-linejoin=%22round%22/></svg>"); }
+.svl-wx--snow .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M7 15h10a4 4 0 0 0 .4-7.98A5.5 5.5 0 0 0 6.9 8.1 3.5 3.5 0 0 0 7 15z%22 fill=%22%23E6ECEE%22 stroke=%22%238A9A9F%22 stroke-width=%221.4%22/><g fill=%22%2360A5FA%22><circle cx=%228.5%22 cy=%2219%22 r=%221.3%22/><circle cx=%2212.5%22 cy=%2220.5%22 r=%221.3%22/><circle cx=%2216.5%22 cy=%2219%22 r=%221.3%22/></g></svg>"); }
+.svl-sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 /* Lístok vo vnútri karty Bangkok / Dubaj / Abu Dhabi */
 .svl-exo__list { padding: 0; }
 .svl-exo__list .svl-tix { border: 0; border-radius: 0; background: none; box-shadow: none; transform: none; padding-top: .9rem; }
