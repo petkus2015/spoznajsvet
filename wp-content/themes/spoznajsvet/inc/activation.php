@@ -11,7 +11,9 @@ defined( 'ABSPATH' ) || exit;
 function sst_ensure_page( $title, $slug, $template = '', $content = '' ) {
 	$existing = get_page_by_path( $slug );
 	if ( $existing ) {
-		if ( $template && ! get_page_template_slug( $existing ) ) {
+		$current = get_page_template_slug( $existing );
+		// Prázdna šablóna alebo šablóna zo starej témy (v tejto téme neexistuje) → šablóna témy.
+		if ( $template && $current !== $template && ( ! $current || ! file_exists( get_template_directory() . '/' . $current ) ) ) {
 			update_post_meta( $existing->ID, '_wp_page_template', $template );
 		}
 		return $existing->ID;

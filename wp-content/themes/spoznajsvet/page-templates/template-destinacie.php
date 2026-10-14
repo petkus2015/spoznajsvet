@@ -42,7 +42,7 @@ foreach ( $countries as $c ) {
 <?php
 while ( have_posts() ) :
 	the_post();
-	if ( get_the_content() ) :
+	if ( sst_has_page_content() ) :
 		?>
 		<div class="container container--narrow section section--tight entry-content"><?php the_content(); ?></div>
 		<?php

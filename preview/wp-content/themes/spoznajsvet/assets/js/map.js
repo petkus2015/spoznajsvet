@@ -469,9 +469,15 @@
 
 	function init() {
 		document.querySelectorAll('[data-world-map]:not([data-map-admin])').forEach(function (root) {
+			if (!window.fetch) return;
 			var dataEl = root.querySelector('[data-map-data]');
-			if (!dataEl || !window.fetch) return;
-			mount(root, { data: JSON.parse(dataEl.textContent) });
+			var data = null;
+			try { data = JSON.parse(dataEl.textContent); } catch (e) { data = null; }
+			if (data && data.regions) { mount(root, { data: data }); return; }
+			// Záloha: dáta zo servera (napr. keď optimalizačný plugin zmenil vložený JSON).
+			fetch(root.getAttribute('data-map-rest'))
+				.then(function (r) { return r.json(); })
+				.then(function (d) { if (d && d.regions) mount(root, { data: d }); });
 		});
 	}
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

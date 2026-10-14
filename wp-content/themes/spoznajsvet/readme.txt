@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.18.1
+Stable tag: 1.18.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,11 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.18.2 =
+* Mapa: kód krajiny sa doplní sám podľa názvu destinácie (Taliansko → IT, Anglicko → GB…), mapa sa už neskryje potichu – admin vidí, čo doplniť; na úvodnej stránke aj bez článkov; záloha dát cez REST.
+* Prechod zo starej témy: kód tagDiv Composer / WPBakery ([tdc_zone …], [vc_row …]) sa na webe nezobrazuje, v Stránkach upozornenie a tlačidlo „Vyčistiť starý kód“ (pôvodný obsah ostane v revíziách).
+* Stránky Destinácie a Letenky dostanú šablónu témy aj po nahratí novej verzie (aj keď mali šablónu zo starej témy).
 
 = 1.18.1 =
 * Zrušená animácia názvu krajiny a mesta z 1.18.0 – nadpis je opäť ako predtým.

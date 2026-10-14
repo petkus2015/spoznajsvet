@@ -56,7 +56,7 @@ $latest    = new WP_Query(
 	</div>
 </section>
 
-<?php if ( $countries ) : ?>
+<?php if ( $countries || sst_map_data()['units'] || current_user_can( 'manage_categories' ) ) : ?>
 	<section class="section">
 		<div class="container">
 			<header class="section-head">

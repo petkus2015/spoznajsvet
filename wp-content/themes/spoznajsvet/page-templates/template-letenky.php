@@ -42,7 +42,7 @@ get_header();
 <?php
 while ( have_posts() ) :
 	the_post();
-	if ( get_the_content() ) :
+	if ( sst_has_page_content() ) :
 		?>
 		<section class="section section--tight">
 			<div class="container container--narrow entry-content"><?php the_content(); ?></div>

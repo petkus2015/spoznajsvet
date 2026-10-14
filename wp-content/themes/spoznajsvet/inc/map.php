@@ -37,6 +37,231 @@ function sst_map_units() {
 	return sst_map_geo()['units'];
 }
 
+/**
+ * Slovenské názvy štátov (pre doplnenie kódu krajiny podľa názvu, aj bez rozšírenia intl).
+ *
+ * @return array<string,string> ISO => názov
+ */
+function sst_map_sk_names() {
+	return array(
+		'AL' => 'Albánsko',
+		'AD' => 'Andorra',
+		'AT' => 'Rakúsko',
+		'BE' => 'Belgicko',
+		'BY' => 'Bielorusko',
+		'BA' => 'Bosna a Hercegovina',
+		'BG' => 'Bulharsko',
+		'HR' => 'Chorvátsko',
+		'CY' => 'Cyprus',
+		'CZ' => 'Česko',
+		'DK' => 'Dánsko',
+		'EE' => 'Estónsko',
+		'FI' => 'Fínsko',
+		'FR' => 'Francúzsko',
+		'DE' => 'Nemecko',
+		'GR' => 'Grécko',
+		'HU' => 'Maďarsko',
+		'IS' => 'Island',
+		'IE' => 'Írsko',
+		'IT' => 'Taliansko',
+		'XK' => 'Kosovo',
+		'LV' => 'Lotyšsko',
+		'LI' => 'Lichtenštajnsko',
+		'LT' => 'Litva',
+		'LU' => 'Luxembursko',
+		'MT' => 'Malta',
+		'MD' => 'Moldavsko',
+		'MC' => 'Monako',
+		'ME' => 'Čierna Hora',
+		'NL' => 'Holandsko',
+		'MK' => 'Severné Macedónsko',
+		'NO' => 'Nórsko',
+		'PL' => 'Poľsko',
+		'PT' => 'Portugalsko',
+		'RO' => 'Rumunsko',
+		'RU' => 'Rusko',
+		'SM' => 'San Maríno',
+		'RS' => 'Srbsko',
+		'SK' => 'Slovensko',
+		'SI' => 'Slovinsko',
+		'ES' => 'Španielsko',
+		'SE' => 'Švédsko',
+		'CH' => 'Švajčiarsko',
+		'UA' => 'Ukrajina',
+		'GB' => 'Veľká Británia',
+		'VA' => 'Vatikán',
+		'TR' => 'Turecko',
+		'GE' => 'Gruzínsko',
+		'AM' => 'Arménsko',
+		'AZ' => 'Azerbajdžan',
+		'AE' => 'Spojené arabské emiráty',
+		'QA' => 'Katar',
+		'OM' => 'Omán',
+		'SA' => 'Saudská Arábia',
+		'BH' => 'Bahrajn',
+		'KW' => 'Kuvajt',
+		'JO' => 'Jordánsko',
+		'IL' => 'Izrael',
+		'LB' => 'Libanon',
+		'IR' => 'Irán',
+		'IQ' => 'Irak',
+		'EG' => 'Egypt',
+		'MA' => 'Maroko',
+		'TN' => 'Tunisko',
+		'DZ' => 'Alžírsko',
+		'TH' => 'Thajsko',
+		'VN' => 'Vietnam',
+		'KH' => 'Kambodža',
+		'LA' => 'Laos',
+		'MM' => 'Mjanmarsko',
+		'MY' => 'Malajzia',
+		'SG' => 'Singapur',
+		'ID' => 'Indonézia',
+		'PH' => 'Filipíny',
+		'CN' => 'Čína',
+		'HK' => 'Hongkong',
+		'TW' => 'Taiwan',
+		'JP' => 'Japonsko',
+		'KR' => 'Južná Kórea',
+		'KP' => 'Severná Kórea',
+		'MN' => 'Mongolsko',
+		'IN' => 'India',
+		'LK' => 'Srí Lanka',
+		'MV' => 'Maldivy',
+		'NP' => 'Nepál',
+		'BT' => 'Bhután',
+		'BD' => 'Bangladéš',
+		'PK' => 'Pakistan',
+		'UZ' => 'Uzbekistan',
+		'KZ' => 'Kazachstan',
+		'KG' => 'Kirgizsko',
+		'TJ' => 'Tadžikistan',
+		'TM' => 'Turkménsko',
+		'TZ' => 'Tanzánia',
+		'KE' => 'Keňa',
+		'ZA' => 'Južná Afrika',
+		'NA' => 'Namíbia',
+		'BW' => 'Botswana',
+		'ZW' => 'Zimbabwe',
+		'ZM' => 'Zambia',
+		'MU' => 'Maurícius',
+		'SC' => 'Seychely',
+		'MG' => 'Madagaskar',
+		'ET' => 'Etiópia',
+		'UG' => 'Uganda',
+		'RW' => 'Rwanda',
+		'GH' => 'Ghana',
+		'SN' => 'Senegal',
+		'CV' => 'Kapverdy',
+		'US' => 'Spojené štáty',
+		'CA' => 'Kanada',
+		'MX' => 'Mexiko',
+		'CU' => 'Kuba',
+		'DO' => 'Dominikánska republika',
+		'JM' => 'Jamajka',
+		'CR' => 'Kostarika',
+		'PA' => 'Panama',
+		'GT' => 'Guatemala',
+		'BZ' => 'Belize',
+		'CO' => 'Kolumbia',
+		'PE' => 'Peru',
+		'BR' => 'Brazília',
+		'AR' => 'Argentína',
+		'CL' => 'Čile',
+		'BO' => 'Bolívia',
+		'EC' => 'Ekvádor',
+		'UY' => 'Uruguaj',
+		'VE' => 'Venezuela',
+		'AU' => 'Austrália',
+		'NZ' => 'Nový Zéland',
+		'FJ' => 'Fidži',
+		'PF' => 'Francúzska Polynézia',
+	);
+}
+
+/**
+ * Kód krajiny podľa názvu destinácie („Taliansko“ → IT, „Anglicko“ → GB). Prázdny reťazec, ak nevieme.
+ */
+function sst_map_guess_iso( $name ) {
+	static $index = null;
+	if ( null === $index ) {
+		$index = array();
+		foreach ( sst_map_units() as $u ) {
+			if ( $u['i'] && ! empty( $u['m'] ) ) {
+				$index[ sst_map_key( $u['n'] ) ] = $u['i']; // anglický názov
+				if ( class_exists( 'Locale' ) ) {
+					$index[ sst_map_key( Locale::getDisplayRegion( '-' . $u['i'], 'sk' ) ) ] = $u['i'];
+				}
+			}
+		}
+		foreach ( sst_map_sk_names() as $iso => $n ) {
+			$index[ sst_map_key( $n ) ] = $iso;
+		}
+		$aliases = array(
+			'Anglicko' => 'GB',
+			'Škótsko' => 'GB',
+			'Wales' => 'GB',
+			'Spojené kráľovstvo' => 'GB',
+			'Británia' => 'GB',
+			'Česká republika' => 'CZ',
+			'Nizozemsko' => 'NL',
+			'USA' => 'US',
+			'Amerika' => 'US',
+			'Spojené štáty americké' => 'US',
+			'SAE' => 'AE',
+			'Emiráty' => 'AE',
+			'Dubaj' => 'AE',
+			'Bosna' => 'BA',
+			'Macedónsko' => 'MK',
+			'Čierna hora' => 'ME',
+			'Kórea' => 'KR',
+			'Barma' => 'MM',
+			'Ceylon' => 'LK',
+			'Bali' => 'ID',
+			'Kanárske ostrovy' => 'ES',
+			'Tenerife' => 'ES',
+			'Mallorca' => 'ES',
+			'Madeira' => 'PT',
+			'Azory' => 'PT',
+			'Sicília' => 'IT',
+			'Sardínia' => 'IT',
+			'Korzika' => 'FR',
+			'Havaj' => 'US',
+			'Zanzibar' => 'TZ',
+			'Kostarika' => 'CR',
+			'Dominikána' => 'DO',
+			'Krym' => 'UA',
+			'Vatikán' => 'VA',
+			'Hong Kong' => 'HK',
+			'Juhoafrická republika' => 'ZA',
+			'JAR' => 'ZA',
+			'Rakusko' => 'AT',
+		);
+		foreach ( $aliases as $n => $iso ) {
+			$index[ sst_map_key( $n ) ] = $iso;
+		}
+	}
+	$k = sst_map_key( $name );
+	return $index[ $k ] ?? '';
+}
+
+/** Kód krajiny destinácie; ak chýba, doplní ho podľa názvu a uloží (pribudne aj vlajka). */
+function sst_map_term_iso( WP_Term $c ) {
+	$iso = strtoupper( (string) get_term_meta( $c->term_id, 'sst_iso', true ) );
+	if ( preg_match( '/^[A-Z]{2}$/', $iso ) ) {
+		return $iso;
+	}
+	$iso = sst_map_guess_iso( $c->name );
+	if ( ! $iso ) {
+		$iso = sst_map_guess_iso( str_replace( '-', ' ', $c->slug ) );
+	}
+	if ( $iso ) {
+		update_term_meta( $c->term_id, 'sst_iso', $iso );
+	}
+	return $iso;
+}
+
+
 /** Slovenský názov štátu podľa ISO kódu. */
 function sst_map_country_name( $iso ) {
 	static $cache = array();
@@ -49,6 +274,9 @@ function sst_map_country_name( $iso ) {
 		if ( $name === $iso ) {
 			$name = '';
 		}
+	}
+	if ( ! $name ) {
+		$name = sst_map_sk_names()[ $iso ] ?? '';
 	}
 	if ( ! $name ) {
 		foreach ( sst_map_units() as $u ) {
@@ -549,11 +777,13 @@ function sst_map_data() {
 	$n_cities  = 0;
 	$missing   = 0;
 	$need_poly = array();
+	$no_iso    = array();
 
 	// 1) Destinácie: krajiny a mestá.
 	foreach ( sst_countries( array( 'hide_empty' => false ) ) as $c ) {
-		$iso = strtoupper( (string) get_term_meta( $c->term_id, 'sst_iso', true ) );
-		if ( ! preg_match( '/^[A-Z]{2}$/', $iso ) ) {
+		$iso = sst_map_term_iso( $c );
+		if ( ! $iso ) {
+			$no_iso[] = $c->name;
 			continue;
 		}
 		$cities = array();
@@ -718,6 +948,7 @@ function sst_map_data() {
 		'states'     => count( $countries ),
 		'continents' => count( $continents ),
 		'missing'    => $missing,
+		'no_iso'     => $no_iso,
 	);
 	set_transient( 'sst_map_data', $data, DAY_IN_SECONDS );
 	return $data;
@@ -847,6 +1078,12 @@ function sst_world_map( $args = array() ) {
 	);
 	$payload = sst_map_payload();
 	if ( ! $payload['units'] && ! $payload['countries'] ) {
+		// Prázdna mapa návštevníkom nič nepovie – adminovi vysvetlíme, čo doplniť.
+		if ( current_user_can( 'manage_categories' ) ) {
+			$no_iso = sst_map_data()['no_iso'] ?? array();
+			echo '<p class="notice-box world-map__empty"><strong>Mapa ciest je zatiaľ prázdna</strong> (vidíš to len ty ako admin). Vyznač navštívené štáty v <a href="' . esc_url( admin_url( 'edit.php?page=sst-mapa' ) ) . '">Články → Mapa ciest</a>'
+				. ( $no_iso ? ', alebo doplň <em>kód krajiny</em> (napr. IT, TH) pri destináciách: ' . esc_html( implode( ', ', $no_iso ) ) : ', alebo pridaj krajiny v Články → Destinácie' ) . '.</p>';
+		}
 		return;
 	}
 	if ( sst_map_data()['missing'] && ! wp_next_scheduled( 'sst_geocode_missing' ) ) {
@@ -856,7 +1093,7 @@ function sst_world_map( $args = array() ) {
 	$regions = sst_map_regions();
 	$fit     = $payload['fit'];
 	?>
-	<div class="world-map" data-world-map="<?php echo esc_url( SST_URI . '/assets/map/world.svg?ver=' . SST_VERSION ); ?>">
+	<div class="world-map" data-world-map="<?php echo esc_url( SST_URI . '/assets/map/world.svg?ver=' . SST_VERSION ); ?>" data-map-rest="<?php echo esc_url( rest_url( 'spoznajsvet/v1/mapa' ) ); ?>">
 		<?php if ( $args['title'] ) : ?>
 			<header class="section-head world-map__head">
 				<div>
@@ -928,5 +1165,23 @@ add_shortcode(
 		ob_start();
 		sst_world_map( array( 'title' => '0' !== (string) $atts['nadpis'] ) );
 		return ob_get_clean();
+	}
+);
+
+/** Dáta mapy aj cez REST – záloha, keby optimalizačný plugin zmenil vložené dáta na stránke. */
+add_action(
+	'rest_api_init',
+	static function () {
+		register_rest_route(
+			'spoznajsvet/v1',
+			'/mapa',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => '__return_true',
+				'callback'            => static function () {
+					return rest_ensure_response( sst_map_payload() );
+				},
+			)
+		);
 	}
 );
