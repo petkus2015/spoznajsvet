@@ -19,11 +19,13 @@ $deal    = sst_cheapest_flight_to( $term );
 <section class="page-hero page-hero--dest"<?php echo $cover ? ' style="--hero-img:url(' . esc_url( $cover ) . ')"' : ''; ?>>
 	<div class="container page-hero__inner">
 		<?php sst_breadcrumbs( $term ); ?>
-		<h1 class="page-hero__title">
-			<?php if ( $flag ) : ?>
-				<span class="page-hero__flag" aria-hidden="true"><?php echo esc_html( $flag ); ?></span>
-			<?php endif; ?>
-			<?php echo esc_html( $term->name ); ?>
+		<?php // Názov krajiny / mesta sa „dekóduje“ písmeno po písmene (assets/js/theme.js). ?>
+		<h1 class="page-hero__title dest-title" data-decode>
+			<span class="dest-title__kicker" aria-hidden="true"><?php echo esc_html( trim( $flag . ' ' . ( $is_city ? $country->name : 'Ďalšia zastávka' ) ) ); ?></span>
+			<span class="dest-title__word">
+				<span class="dest-title__text"><?php echo esc_html( $term->name ); ?></span>
+				<span class="dest-title__type" aria-hidden="true"></span>
+			</span>
 		</h1>
 		<?php if ( $term->description ) : ?>
 			<div class="page-hero__text"><?php echo wp_kses_post( wpautop( $term->description ) ); ?></div>

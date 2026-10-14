@@ -469,6 +469,30 @@ button { font: inherit; }
 .page-hero__inner { width: 100%; }
 .page-hero__title { margin: .25rem 0 .75rem; color: #fff; font-size: clamp(2.2rem, 9vw, 4.5rem); line-height: 1.02; }
 .page-hero__title--post { font-size: clamp(2rem, 6.5vw, 3.6rem); max-width: 22ch; }
+/* Názov krajiny / mesta: „dekódovanie“ písmeno po písmene (ako titulky v cestovateľských videách). */
+.dest-title { display: inline-flex; flex-direction: column; align-items: flex-end; max-width: 100%; margin-bottom: 1rem; }
+.dest-title__kicker {
+	margin: 0 .2em -.15em 0; color: rgba(255, 255, 255, .82); font-family: var(--font-sans); font-size: clamp(.78rem, 1.8vw, 1.05rem);
+	font-weight: 600; letter-spacing: .24em; line-height: 1.2; text-transform: uppercase; white-space: nowrap;
+}
+.dest-title__word { position: relative; display: block; align-self: stretch; }
+.dest-title__text, .dest-title__type {
+	display: block; font-family: var(--font-sans); font-size: clamp(2.8rem, 13.5vw, 7.25rem); font-weight: 800; line-height: 1.04;
+	letter-spacing: -.01em; text-transform: uppercase; overflow-wrap: anywhere; color: rgba(255, 255, 255, .94);
+	text-shadow: 0 2px 30px rgba(4, 20, 24, .35);
+}
+.dest-title__type { position: absolute; inset: 0; pointer-events: none; }
+.dest-title__type:empty { display: none; }
+/* Počas animácie ostáva skutočný text (pre čítačky a rozloženie) neviditeľný na svojom mieste. */
+.dest-title.is-decoding .dest-title__text { color: transparent; text-shadow: none; }
+.dest-title__glitch { opacity: .5; }
+.dest-title.is-decoding .dest-title__kicker { animation: dest-kicker 1.2s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes dest-kicker { from { opacity: 0; letter-spacing: .6em; } to { opacity: 1; letter-spacing: .24em; } }
+.dest-title.is-decoding .dest-title__word { animation: dest-zoom 3.5s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes dest-zoom { from { transform: scale(1.04); transform-origin: left bottom; } to { transform: scale(1); transform-origin: left bottom; } }
+@media (prefers-reduced-motion: reduce) {
+	.dest-title.is-decoding .dest-title__kicker, .dest-title.is-decoding .dest-title__word { animation: none; }
+}
 .page-hero__flag { display: inline-block; margin-right: .2em; font-size: .8em; vertical-align: .05em; }
 .page-hero__text { max-width: 40rem; color: inherit; opacity: .88; font-size: 1.05rem; }
 .page-hero__text p { margin: 0 0 .5rem; }
