@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.18.0
+Stable tag: 1.18.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,8 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 
 == Changelog ==
 
-= 1.18.0 =
-* Stránka krajiny a mesta: veľký názov verzálkami nabieha písmeno po písmene, každé písmeno najprv preblikne náhodnými písmenami (ako titulky v cestovateľských videách); nad ním „Ďalšia zastávka“ s vlajkou (pri meste názov krajiny). Pri vypnutých animáciách sa zobrazí hneď.
+= 1.18.1 =
+* Zrušená animácia názvu krajiny a mesta z 1.18.0 – nadpis je opäť ako predtým.
 
 = 1.17.0 =
 * Počasie v destinácii pri každej letenke (ikona + najvyššia denná teplota počas pobytu): pri odlete do 16 dní predpoveď, pri neskoršom odlete odhad podľa rovnakého obdobia v minulých rokoch so znakom ~ (Open-Meteo, bez kľúča). Dá sa vypnúť v Nastavenia → Letenky.

@@ -214,43 +214,4 @@
 			});
 		}
 	});
-	/* Názov krajiny / mesta: písmená nabiehajú postupne, každé najprv preblikne náhodnými písmenami. */
-	(function () {
-		var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		var pool = 'ABCDEFGHIJKLMNOPRSTUVZÁČĎÉÍĽŇÓŠŤÚÝŽ';
-		doc.querySelectorAll('[data-decode]').forEach(function (h) {
-			var src = h.querySelector('.dest-title__text');
-			var out = h.querySelector('.dest-title__type');
-			if (!src || !out || reduce) return;
-			var chars = Array.from(src.textContent.trim());
-			var per = Math.max(80, Math.min(240, 3000 / chars.length)); // dlhé názvy rýchlejšie
-			var i = 0;
-			h.classList.add('is-decoding');
-			function done() {
-				out.textContent = '';
-				h.classList.remove('is-decoding');
-			}
-			function step() {
-				if (i >= chars.length) { setTimeout(done, 400); return; }
-				var prefix = chars.slice(0, i).join('');
-				if (/\s/.test(chars[i])) { i++; out.textContent = prefix + ' '; setTimeout(step, per * 0.3); return; }
-				var flicks = 2 + Math.floor(Math.random() * 2), k = 0;
-				var glitch = doc.createElement('span');
-				glitch.className = 'dest-title__glitch';
-				(function flick() {
-					if (k++ < flicks) {
-						glitch.textContent = pool.charAt(Math.floor(Math.random() * pool.length));
-						out.textContent = prefix;
-						out.appendChild(glitch);
-						setTimeout(flick, per * 0.22);
-					} else {
-						i++;
-						out.textContent = chars.slice(0, i).join('');
-						setTimeout(step, per * 0.34);
-					}
-				})();
-			}
-			setTimeout(step, 300);
-		});
-	})();
 })();
