@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.18.2
+Stable tag: 1.18.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.18.3 =
+* Štatistiky nad mapou: kontinenty, štáty, ostrovy (navštívené súostrovia a ostrovy ako Sicília, Azory, Havaj) a % sveta – bez počtu miest.
 
 = 1.18.2 =
 * Mapa: kód krajiny sa doplní sám podľa názvu destinácie (Taliansko → IT, Anglicko → GB…), mapa sa už neskryje potichu – admin vidí, čo doplniť; na úvodnej stránke aj bez článkov; záloha dát cez REST.

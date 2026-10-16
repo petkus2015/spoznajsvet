@@ -87,7 +87,7 @@ Ručne: tlačidlo **Aktualizovať teraz** v administrácii alebo `wp letenky ref
 
 ## Mapa sveta
 
-Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol“ (inde shortcode `[spoznajsvet_mapa]`, bez nadpisu `[spoznajsvet_mapa nadpis="0"]`). Nad mapou je počet **štátov, miest, kontinentov** a percento sveta.
+Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol“ (inde shortcode `[spoznajsvet_mapa]`, bez nadpisu `[spoznajsvet_mapa nadpis="0"]`). Nad mapou je počet **kontinentov, štátov, ostrovov** (navštívené súostrovia a ostrovy ako Sicília, Azory, Havaj) a percento sveta.
 
 **Vyznačenie v administrácii – *Články → Mapa ciest***
 

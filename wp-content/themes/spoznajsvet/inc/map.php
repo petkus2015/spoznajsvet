@@ -946,6 +946,15 @@ function sst_map_data() {
 		'names'      => $names,
 		'cities'     => $n_cities,
 		'states'     => count( $countries ),
+		'islands'    => count(
+			array_filter(
+				array_keys( $out_units ),
+				static function ( $su ) use ( $units ) {
+					// Ostrov / súostrovie = samostatná časť štátu na mape (Sicília, Azory, Havaj…), nie pevninské časti.
+					return empty( $units[ $su ]['m'] ) && ! in_array( $su, array( 'USK', 'RUK', 'SCT', 'WLS', 'NIR', 'KAS', 'SPI', 'BRT', 'CLP', 'FSA' ), true );
+				}
+			)
+		),
 		'continents' => count( $continents ),
 		'missing'    => $missing,
 		'no_iso'     => $no_iso,
@@ -1014,7 +1023,7 @@ function sst_map_payload( $admin = false ) {
 		'ty'        => $meta['ty'],
 		'stats'     => array(
 			'states'     => $data['states'],
-			'cities'     => $data['cities'],
+			'islands'    => $data['islands'] ?? 0,
 			'continents' => $data['continents'],
 		),
 		'detail'    => SST_URI . '/assets/map/world-detail.svg?ver=' . SST_VERSION,
@@ -1051,9 +1060,9 @@ function sst_map_payload( $admin = false ) {
 function sst_map_stats_html( array $stats ) {
 	$world = max( 1, round( $stats['states'] / 195 * 100 ) );
 	$items = array(
-		array( $stats['states'], sst_plural( $stats['states'], 'štát', 'štáty', 'štátov' ), 'globe' ),
-		array( $stats['cities'], sst_plural( $stats['cities'], 'miesto', 'miesta', 'miest' ), 'pin' ),
 		array( $stats['continents'], sst_plural( $stats['continents'], 'kontinent', 'kontinenty', 'kontinentov' ), 'compass' ),
+		array( $stats['states'], sst_plural( $stats['states'], 'štát', 'štáty', 'štátov' ), 'globe' ),
+		array( $stats['islands'] ?? 0, sst_plural( $stats['islands'] ?? 0, 'ostrov', 'ostrovy', 'ostrovov' ), 'island' ),
 		array( $world . ' %', 'sveta', 'map' ),
 	);
 	$html = '<ul class="world-map__stats">';
