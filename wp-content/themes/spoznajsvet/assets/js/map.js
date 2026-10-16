@@ -82,7 +82,7 @@
 				svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 				canvas.insertBefore(svg, canvas.firstChild);
 				canvas.classList.add('is-ready');
-				paint();
+				try { paint(); } catch (err) { if (window.console) console.warn('Mapa:', err); }
 				// „Moje cesty“: všetky vyznačené štáty, ostrovy aj mestá.
 				var fit = computeFit();
 				if (fit) { if (!want || want === data.fit) want = fit; data.fit = fit; }
@@ -150,8 +150,13 @@
 				(p.getAttribute('d') || '').split('M').forEach(function (sub) {
 					var r = sub ? parseRing(sub) : [];
 					if (r.length < 3) return;
-					var xs = r.map(function (q) { return q[0]; }), ys = r.map(function (q) { return q[1]; });
-					var area = (Math.max.apply(null, xs) - Math.min.apply(null, xs)) * (Math.max.apply(null, ys) - Math.min.apply(null, ys));
+					// Ohraničenie bez Math.max.apply (Safari má limit počtu argumentov).
+					var x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+					for (var i = 0; i < r.length; i++) {
+						if (r[i][0] < x0) x0 = r[i][0]; if (r[i][0] > x1) x1 = r[i][0];
+						if (r[i][1] < y0) y0 = r[i][1]; if (r[i][1] > y1) y1 = r[i][1];
+					}
+					var area = (x1 - x0) * (y1 - y0);
 					if (inRing(r, x, y)) {
 						if (area < bestArea) { bestArea = area; best = 'M' + sub; }
 					} else if (!best) {
@@ -211,21 +216,23 @@
 			islesG = document.createElementNS(NS, 'g');
 			islesG.setAttribute('class', 'world-map__isles');
 			var isleMiss = [];
-			Object.keys(data.countries).forEach(function (iso) {
-				var c = data.countries[iso];
-				c.c.forEach(function (city) {
-					if (!city.isl || city.x == null) return;
-					var d = city.su ? findIsle(city.su, city.x, city.y) : null;
-					if (!d) { isleMiss.push({ iso: iso, city: city, l: c.l }); return; }
-					var o = document.createElementNS(NS, 'path');
-					o.setAttribute('d', d);
-					o.setAttribute('class', 'world-map__isle lvl-' + c.l);
-					o.setAttribute('data-iso', iso);
-					o.setAttribute('data-unit', city.su);
-					o.setAttribute('data-city', city.n);
-					islesG.appendChild(o);
+			try {
+				Object.keys(data.countries).forEach(function (iso) {
+					var c = data.countries[iso];
+					c.c.forEach(function (city) {
+						if (!city.isl || city.x == null) return;
+						var d = city.su ? findIsle(city.su, city.x, city.y) : null;
+						if (!d) { isleMiss.push({ iso: iso, city: city, l: c.l }); return; }
+						var o = document.createElementNS(NS, 'path');
+						o.setAttribute('d', d);
+						o.setAttribute('class', 'world-map__isle lvl-' + c.l);
+						o.setAttribute('data-iso', iso);
+						o.setAttribute('data-unit', city.su);
+						o.setAttribute('data-city', city.n);
+						islesG.appendChild(o);
+					});
 				});
-			});
+			} catch (err) { /* zvýraznenie ostrovov nesmie zastaviť mapu */ }
 			svg.appendChild(islesG);
 			halosG = document.createElementNS(NS, 'g');
 			halosG.setAttribute('class', 'world-map__halos');
@@ -235,6 +242,7 @@
 				var b;
 				if (p.hasAttribute('data-isle')) return; // drobné ostrovy z vrstvy ostrovov – bez krúžku
 				try { b = p.getBBox(); } catch (e) { return; }
+				if (!b) return;
 				if (b.width > 5 || b.height > 5) return;
 				var h = document.createElementNS(NS, 'circle');
 				h.setAttribute('cx', b.x + b.width / 2);

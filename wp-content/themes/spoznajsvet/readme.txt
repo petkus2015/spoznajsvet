@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.19.0
+Stable tag: 1.19.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.19.1 =
+* Mapa na mobile: záložné farby pre staršie iPhony (bez color-mix), záložná výška bez aspect-ratio (iOS 14), chyba pri zvýraznení ostrovov už nezastaví celú mapu, výpočet bez limitu argumentov v Safari.
 
 = 1.19.0 =
 * Malé ostrovy na mape: Santorini, Mykonos, Korfu, Phuket, Koh Samui, Hvar, Capri… – navštívený ostrov sa vyfarbí zlatou, veľmi malé (napr. Koh Tao) majú zlatý krúžok.
