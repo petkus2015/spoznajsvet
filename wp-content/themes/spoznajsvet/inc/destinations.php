@@ -88,6 +88,7 @@ function sst_term_fields( $term = null ) {
 	$lat       = $term ? get_term_meta( $term->term_id, 'sst_lat', true ) : '';
 	$lng       = $term ? get_term_meta( $term->term_id, 'sst_lng', true ) : '';
 	$geo       = ( '' !== $lat && '' !== $lng ) ? $lat . ', ' . $lng : '';
+	$island    = $term ? (bool) get_term_meta( $term->term_id, 'sst_island', true ) : false;
 	$img       = $cover ? wp_get_attachment_image_url( $cover, 'medium' ) : '';
 	wp_nonce_field( 'sst_term_meta', 'sst_term_nonce' );
 
@@ -106,6 +107,11 @@ function sst_term_fields( $term = null ) {
 			'label' => 'Poloha mesta na mape',
 			'html'  => '<input type="text" name="sst_geo" id="sst_geo" value="' . esc_attr( $geo ) . '" style="width:16em" placeholder="napr. 43.7696, 11.2558">',
 			'help'  => 'Len pre mestá. Nechajte prázdne – poloha sa doplní automaticky (známe mestá hneď, ostatné cez OpenStreetMap). Súradnice nájdete aj v Google Maps (pravý klik na miesto).',
+		),
+		'island'    => array(
+			'label' => 'Ostrov',
+			'html'  => '<label><input type="checkbox" name="sst_island" id="sst_island" value="1"' . checked( $island, true, false ) . '> Toto miesto je ostrov (napr. Santorini, Koh Samui)</label>',
+			'help'  => 'Na mape sa vyznačí ostrov a zaráta sa medzi navštívené ostrovy. Mestá na ostrovoch (napr. Fira, Phuket) mapa spozná sama.',
 		),
 		'cover'     => array(
 			'label' => 'Titulná fotka',
@@ -144,6 +150,12 @@ function sst_save_term_fields( $term_id ) {
 	update_term_meta( $term_id, 'sst_continent', array_key_exists( $continent, sst_continents() ) ? $continent : '' );
 
 	update_term_meta( $term_id, 'sst_cover', absint( $_POST['sst_cover'] ?? 0 ) );
+
+	if ( ! empty( $_POST['sst_island'] ) ) {
+		update_term_meta( $term_id, 'sst_island', 1 );
+	} else {
+		delete_term_meta( $term_id, 'sst_island' );
+	}
 
 	// Poloha mesta: „lat, lng“. Prázdne → dohľadá sa automaticky.
 	$geo = trim( sanitize_text_field( wp_unslash( $_POST['sst_geo'] ?? '' ) ) );

@@ -1,11 +1,11 @@
 {
   "name": "spoznajsvet-map",
   "private": true,
-  "description": "Vygeneruje assets/map/world.svg, world-detail.svg a world.json pre tému (Natural Earth 1:10m map subunits, Equal Earth).",
+  "description": "Vygeneruje assets/map/world.svg, world-detail.svg, world-islands.svg a world.json pre tému (Natural Earth 1:10m map subunits, Equal Earth).",
   "type": "module",
   "scripts": {
     "fetch": "curl -L -o ne_10m_admin_0_map_subunits.geojson https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_map_subunits.geojson",
-    "build": "node prep.cjs ne_10m_admin_0_map_subunits.geojson prep.geojson && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 1% keep-shapes -o low.geojson force && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 10% keep-shapes -o high.geojson force && node build.mjs low.geojson high.geojson ../../wp-content/themes/spoznajsvet/assets/map"
+    "build": "node prep.cjs ne_10m_admin_0_map_subunits.geojson prep.geojson && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 1% keep-shapes -o low.geojson force && mapshaper prep.geojson -dissolve2 UNIT copy-fields=ISO,NAME,CONT -filter-islands min-area=3km2 -simplify 10% keep-shapes -o high.geojson force && node build.mjs low.geojson high.geojson ../../wp-content/themes/spoznajsvet/assets/map && mapshaper prep.geojson -explode -each 'AREA=this.area, LAT=this.centroidY' -filter 'AREA > 2.5e6 && AREA < 1.2e9 && LAT > -48 && LAT < 58' -simplify interval=450 -o isles.geojson force && node islands.mjs isles.geojson ../../wp-content/themes/spoznajsvet/assets/map/world-islands.svg ../../wp-content/themes/spoznajsvet/assets/map/world.json"
   },
   "dependencies": {
     "d3-geo": "3.1.1",

@@ -92,6 +92,7 @@ Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol�
 **Vyznačenie v administrácii – *Články → Mapa ciest***
 
 - Režim **Vyznačiť štáty a ostrovy**: klik na štát alebo ostrov ho vyznačí / zruší. Malé ostrovy nájdete aj cez vyhľadávanie („Azory“, „Havaj“…). V zozname vpravo má každý štát prepínače svojich častí (napr. Portugalsko: Pevnina · Azory · Madeira).
+- **Ostrovy** (aj malé – Santorini, Koh Samui, Hvar…): vyhľadávaním v zozname obľúbených ostrovov, kliknutím do mapy s voľbou „Je to ostrov“, alebo políčkom „Ostrov“ pri mieste. Navštívený ostrov sa vyfarbí zlatou a zaráta medzi ostrovy.
 - Režim **Pridať miesto**: klik do mapy → názov miesta (navrhne sa z OpenStreetMap) → miesto sa pridá do *Destinácií*, aj s krajinou, ak chýba.
 - Štáty a mestá z *Destinácií* (s vyplneným kódom krajiny) sú na mape automaticky – vyfarbí sa časť, v ktorej mesto leží (Palermo → Sicília). Ručne ich môžete skryť.
 - Sýtosť farby podľa počtu miest v štáte: 1 · 2 – 3 · 4 – 6 · 7 a viac. Mestá sú body; polohu známych miest téma pozná, ostatné dohľadá cez OpenStreetMap, presná poloha sa dá zadať pri meste.

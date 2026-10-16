@@ -704,13 +704,14 @@ add_action( 'sst_geocode_missing', 'sst_geocode_missing' );
  * @param string[] $wanted
  */
 function sst_map_rings( array $wanted ) {
-	$svg = (string) file_get_contents( SST_DIR . '/assets/map/world-detail.svg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	// Podrobná mapa + vrstva malých ostrovov (Santorini, Koh Tao…), ktoré v podrobnej mape chýbajú.
+	$svg = (string) file_get_contents( SST_DIR . '/assets/map/world-detail.svg' ) . (string) file_get_contents( SST_DIR . '/assets/map/world-islands.svg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 	$out = array();
 	foreach ( $wanted as $su ) {
-		if ( ! preg_match( '/data-unit="' . preg_quote( $su, '/' ) . '"[^>]*\sd="([^"]+)"/', $svg, $m ) ) {
+		if ( ! preg_match_all( '/data-unit="' . preg_quote( $su, '/' ) . '"[^>]*\sd="([^"]+)"/', $svg, $mm ) ) {
 			continue;
 		}
-		foreach ( explode( 'M', $m[1] ) as $part ) {
+		foreach ( explode( 'M', implode( 'M', $mm[1] ) ) as $part ) {
 			preg_match_all( '/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/', $part, $pts, PREG_SET_ORDER );
 			if ( count( $pts ) >= 3 ) {
 				$out[ $su ][] = array_map(
@@ -723,6 +724,155 @@ function sst_map_rings( array $wanted ) {
 		}
 	}
 	return $out;
+}
+
+/**
+ * Obľúbené ostrovy s polohou – na vyhľadávanie v administrácii (Santorini, Koh Samui…).
+ * Doplniť sa dajú filtrom `sst_map_islands`.
+ *
+ * @return array<int, array{0:string,1:string,2:float,3:float}> názov, kód štátu, šírka, dĺžka
+ */
+function sst_map_islands() {
+	return apply_filters(
+		'sst_map_islands',
+		array(
+			array( 'Kréta', 'GR', 35.24, 24.90 ),
+			array( 'Santorini', 'GR', 36.40, 25.43 ),
+			array( 'Mykonos', 'GR', 37.45, 25.36 ),
+			array( 'Naxos', 'GR', 37.05, 25.47 ),
+			array( 'Paros', 'GR', 37.06, 25.19 ),
+			array( 'Rodos', 'GR', 36.20, 27.95 ),
+			array( 'Korfu', 'GR', 39.62, 19.86 ),
+			array( 'Zakynthos', 'GR', 37.78, 20.80 ),
+			array( 'Kefalónia', 'GR', 38.22, 20.55 ),
+			array( 'Lefkada', 'GR', 38.73, 20.64 ),
+			array( 'Kos', 'GR', 36.85, 27.10 ),
+			array( 'Lesbos', 'GR', 39.20, 26.30 ),
+			array( 'Chios', 'GR', 38.38, 26.00 ),
+			array( 'Samos', 'GR', 37.72, 26.82 ),
+			array( 'Thassos', 'GR', 40.68, 24.65 ),
+			array( 'Skiathos', 'GR', 39.17, 23.48 ),
+			array( 'Skopelos', 'GR', 39.12, 23.70 ),
+			array( 'Milos', 'GR', 36.70, 24.43 ),
+			array( 'Ios', 'GR', 36.73, 25.33 ),
+			array( 'Hydra', 'GR', 37.33, 23.47 ),
+			array( 'Aegina', 'GR', 37.73, 23.50 ),
+			array( 'Karpathos', 'GR', 35.60, 27.13 ),
+			array( 'Ithaka', 'GR', 38.38, 20.70 ),
+			array( 'Folegandros', 'GR', 36.62, 24.92 ),
+			array( 'Sifnos', 'GR', 36.97, 24.70 ),
+			array( 'Tinos', 'GR', 37.60, 25.13 ),
+			array( 'Syros', 'GR', 37.44, 24.92 ),
+			array( 'Andros', 'GR', 37.83, 24.85 ),
+			array( 'Patmos', 'GR', 37.32, 26.55 ),
+			array( 'Symi', 'GR', 36.59, 27.84 ),
+			array( 'Kalymnos', 'GR', 36.97, 26.98 ),
+			array( 'Evia', 'GR', 38.50, 23.85 ),
+			array( 'Alonissos', 'GR', 39.15, 23.87 ),
+			array( 'Amorgos', 'GR', 36.85, 25.90 ),
+			array( 'Kythira', 'GR', 36.25, 23.00 ),
+			array( 'Spetses', 'GR', 37.25, 23.14 ),
+			array( 'Poros', 'GR', 37.51, 23.47 ),
+			array( 'Samothraki', 'GR', 40.47, 25.53 ),
+			array( 'Lemnos', 'GR', 39.90, 25.25 ),
+			array( 'Ikaria', 'GR', 37.60, 26.15 ),
+			array( 'Astypalaia', 'GR', 36.55, 26.35 ),
+			array( 'Paxos', 'GR', 39.20, 20.17 ),
+			array( 'Antiparos', 'GR', 36.99, 25.06 ),
+			array( 'Kea', 'GR', 37.62, 24.33 ),
+			array( 'Phuket', 'TH', 7.95, 98.34 ),
+			array( 'Koh Samui', 'TH', 9.50, 100.00 ),
+			array( 'Koh Phangan', 'TH', 9.74, 100.03 ),
+			array( 'Koh Tao', 'TH', 10.09, 99.84 ),
+			array( 'Koh Phi Phi', 'TH', 7.74, 98.77 ),
+			array( 'Koh Lanta', 'TH', 7.62, 99.08 ),
+			array( 'Koh Chang', 'TH', 12.06, 102.33 ),
+			array( 'Koh Lipe', 'TH', 6.49, 99.30 ),
+			array( 'Koh Samet', 'TH', 12.57, 101.45 ),
+			array( 'Koh Yao Noi', 'TH', 8.14, 98.61 ),
+			array( 'Koh Yao Yai', 'TH', 8.00, 98.58 ),
+			array( 'Koh Kood', 'TH', 11.66, 102.56 ),
+			array( 'Koh Mak', 'TH', 11.82, 102.48 ),
+			array( 'Koh Larn', 'TH', 12.92, 100.78 ),
+			array( 'Koh Jum', 'TH', 7.80, 98.99 ),
+			array( 'Koh Libong', 'TH', 7.25, 99.40 ),
+			array( 'Koh Si Chang', 'TH', 13.15, 100.81 ),
+			array( 'Koh Tarutao', 'TH', 6.60, 99.65 ),
+			array( 'Hvar', 'HR', 43.15, 16.65 ),
+			array( 'Brač', 'HR', 43.31, 16.63 ),
+			array( 'Korčula', 'HR', 42.95, 16.85 ),
+			array( 'Krk', 'HR', 45.06, 14.58 ),
+			array( 'Rab', 'HR', 44.76, 14.76 ),
+			array( 'Pag', 'HR', 44.45, 15.00 ),
+			array( 'Vis', 'HR', 43.05, 16.15 ),
+			array( 'Mljet', 'HR', 42.75, 17.55 ),
+			array( 'Lošinj', 'HR', 44.55, 14.45 ),
+			array( 'Cres', 'HR', 44.90, 14.38 ),
+			array( 'Šolta', 'HR', 43.38, 16.29 ),
+			array( 'Dugi otok', 'HR', 44.00, 15.05 ),
+			array( 'Mallorca', 'ES', 39.62, 2.95 ),
+			array( 'Menorca', 'ES', 39.95, 4.10 ),
+			array( 'Ibiza', 'ES', 38.98, 1.43 ),
+			array( 'Formentera', 'ES', 38.70, 1.45 ),
+			array( 'Tenerife', 'ES', 28.29, -16.62 ),
+			array( 'Gran Canaria', 'ES', 27.95, -15.60 ),
+			array( 'Lanzarote', 'ES', 29.04, -13.63 ),
+			array( 'Fuerteventura', 'ES', 28.40, -14.00 ),
+			array( 'La Palma', 'ES', 28.68, -17.85 ),
+			array( 'La Gomera', 'ES', 28.10, -17.22 ),
+			array( 'El Hierro', 'ES', 27.74, -18.02 ),
+			array( 'Capri', 'IT', 40.55, 14.24 ),
+			array( 'Ischia', 'IT', 40.73, 13.90 ),
+			array( 'Elba', 'IT', 42.78, 10.25 ),
+			array( 'Procida', 'IT', 40.76, 14.02 ),
+			array( 'Lampedusa', 'IT', 35.51, 12.60 ),
+			array( 'Lipari', 'IT', 38.48, 14.94 ),
+			array( 'Stromboli', 'IT', 38.79, 15.21 ),
+			array( 'Vulcano', 'IT', 38.40, 14.96 ),
+			array( 'Salina', 'IT', 38.56, 14.85 ),
+			array( 'Favignana', 'IT', 37.93, 12.33 ),
+			array( 'La Maddalena', 'IT', 41.22, 9.41 ),
+			array( 'Giglio', 'IT', 42.36, 10.90 ),
+			array( 'São Miguel', 'PT', 37.78, -25.50 ),
+			array( 'Pico', 'PT', 38.46, -28.33 ),
+			array( 'Faial', 'PT', 38.58, -28.70 ),
+			array( 'Terceira', 'PT', 38.72, -27.22 ),
+			array( 'Flores', 'PT', 39.45, -31.20 ),
+			array( 'Porto Santo', 'PT', 33.07, -16.34 ),
+			array( 'Gozo', 'MT', 36.05, 14.25 ),
+			array( 'Comino', 'MT', 36.01, 14.33 ),
+			array( 'Bali', 'ID', -8.40, 115.19 ),
+			array( 'Lombok', 'ID', -8.60, 116.30 ),
+			array( 'Gili Trawangan', 'ID', -8.35, 116.04 ),
+			array( 'Gili Air', 'ID', -8.36, 116.08 ),
+			array( 'Nusa Penida', 'ID', -8.73, 115.54 ),
+			array( 'Nusa Lembongan', 'ID', -8.68, 115.45 ),
+			array( 'Komodo', 'ID', -8.55, 119.48 ),
+			array( 'Flores (Indonézia)', 'ID', -8.65, 121.10 ),
+			array( 'Jáva', 'ID', -7.30, 110.00 ),
+			array( 'Sumatra', 'ID', -0.50, 101.50 ),
+			array( 'Sulawesi', 'ID', -2.00, 120.30 ),
+			array( 'Palawan', 'PH', 9.80, 118.70 ),
+			array( 'Boracay', 'PH', 11.97, 121.92 ),
+			array( 'Cebu', 'PH', 10.32, 123.75 ),
+			array( 'Siargao', 'PH', 9.85, 126.05 ),
+			array( 'Bohol', 'PH', 9.85, 124.15 ),
+			array( 'Coron', 'PH', 12.00, 120.20 ),
+			array( 'Langkawi', 'MY', 6.35, 99.80 ),
+			array( 'Penang', 'MY', 5.40, 100.25 ),
+			array( 'Tioman', 'MY', 2.80, 104.17 ),
+			array( 'Perhentian', 'MY', 5.91, 102.74 ),
+			array( 'Borneo – Sabah', 'MY', 5.50, 117.00 ),
+			array( 'Phu Quoc', 'VN', 10.25, 103.95 ),
+			array( 'Con Dao', 'VN', 8.69, 106.61 ),
+			array( 'Koh Rong', 'KH', 10.72, 103.25 ),
+			array( 'Male', 'MV', 4.18, 73.51 ),
+			array( 'Mahé', 'SC', -4.68, 55.48 ),
+			array( 'Praslin', 'SC', -4.33, 55.73 ),
+			array( 'Havaj – Oahu', 'US', 21.47, -157.98 ),
+			array( 'Maui', 'US', 20.80, -156.33 ),
+		)
+	);
 }
 
 /** Leží bod v časti? (párno-nepárne pravidlo cez všetky krúžky) */
@@ -776,7 +926,6 @@ function sst_map_data() {
 	$auto      = array();
 	$n_cities  = 0;
 	$missing   = 0;
-	$need_poly = array();
 	$no_iso    = array();
 
 	// 1) Destinácie: krajiny a mestá.
@@ -815,48 +964,72 @@ function sst_map_data() {
 				'c'  => $cities,
 			);
 		}
-		if ( count( $by_iso[ $iso ] ?? array() ) > 1 ) {
-			$need_poly = array_merge( $need_poly, $by_iso[ $iso ] );
-		}
 	}
 
 	// 2) Automaticky vyznačené časti: tá, v ktorej leží mesto; bez miest hlavná časť štátu.
-	$rings = $need_poly ? sst_map_rings( $need_poly ) : array();
+	//    Zároveň zistíme ostrovy: mesto / miesto mimo hlavnej pevniny štátu (Santorini, Phuket, Palermo…).
+	$need = array();
+	foreach ( $countries as $iso => $country ) {
+		if ( $country['c'] ) {
+			$need = array_merge( $need, $by_iso[ $iso ] ?? array() );
+		}
+	}
+	$rings   = $need ? sst_map_rings( array_unique( $need ) ) : array();
+	$islands  = array();
+	$gaz_keys = array();
+	foreach ( sst_map_islands() as $g ) {
+		$gaz_keys[ $g[1] . '|' . sst_map_key( $g[0] ) ] = true;
+	}
+	$not_isle = array( 'USK', 'RUK', 'SCT', 'WLS', 'NIR', 'KAS', 'SPI', 'BRT', 'CLP', 'FSA' );
 	foreach ( $countries as $iso => &$country ) {
 		$parts = $by_iso[ $iso ] ?? array();
+		$hit   = array();
+		foreach ( $country['c'] as &$city ) {
+			// Ostrov: označený pri mieste, alebo sa volá ako známy ostrov (Phuket, Santorini…).
+			$flag = ( ! empty( $city['id'] ) && get_term_meta( $city['id'], 'sst_island', true ) ) || isset( $gaz_keys[ $iso . '|' . sst_map_key( $city['n'] ) ] );
+			if ( null === $city['x'] ) {
+				if ( $flag ) {
+					$islands[ 'p' . $city['id'] ] = true;
+				}
+				continue;
+			}
+			// Krúžok (pevnina / ostrov), v ktorom miesto leží; inak najbližší do ~12 km (pobrežie, malé ostrovy).
+			$found = null;
+			$near  = 0.3;
+			foreach ( $parts as $su ) {
+				foreach ( $rings[ $su ] ?? array() as $ri => $r ) {
+					if ( sst_map_inside( array( $r ), $city['x'], $city['y'] ) ) {
+						$found = array( $su, $ri );
+						break 2;
+					}
+					$d = sst_map_distance( array( $r ), $city['x'], $city['y'] );
+					if ( $d < $near ) {
+						$near  = $d;
+						$found = array( $su, $ri );
+					}
+				}
+			}
+			if ( $found ) {
+				$city['su'] = $found[0];
+				$hit[]      = $found[0];
+				// Mesto na samostatnej časti mapy (Palermo → Sicília) je na ostrove; inak len označené ostrovy –
+				// mestá ako Benátky či Abu Dhabi ležia technicky na ostrove, ale ako ostrov ich nerátame.
+				$isle_unit = empty( $units[ $found[0] ]['m'] ) && ! in_array( $found[0], $not_isle, true );
+				if ( $flag || $isle_unit ) {
+					$city['isl']                                = 1;
+					$islands[ $found[0] . ':' . $found[1] ] = true;
+				}
+			} elseif ( $flag ) {
+				$city['isl']                  = 1; // Veľmi malý ostrov, ktorý mapa nemá – zobrazí sa krúžkom.
+				$islands[ 'p' . $city['id'] ] = true;
+			}
+		}
+		unset( $city );
 		if ( ! $parts ) {
 			continue; // Štát nie je na mape (veľmi malý) – zobrazí sa len bod mesta.
 		}
-		$hit = array();
 		if ( count( $parts ) === 1 ) {
-			$hit[] = $parts[0];
-		} else {
-			foreach ( $country['c'] as &$city ) {
-				if ( null === $city['x'] ) {
-					continue;
-				}
-				$found = null;
-				$near  = INF;
-				foreach ( $parts as $su ) {
-					if ( empty( $rings[ $su ] ) ) {
-						continue;
-					}
-					if ( sst_map_inside( $rings[ $su ], $city['x'], $city['y'] ) ) {
-						$found = $su;
-						break;
-					}
-					$d = sst_map_distance( $rings[ $su ], $city['x'], $city['y'] );
-					if ( $d < $near && $d < 6 ) {
-						$near  = $d;
-						$found = $su;
-					}
-				}
-				if ( $found ) {
-					$city['su'] = $found;
-					$hit[]      = $found;
-				}
-			}
-			unset( $city );
+			$hit = array( $parts[0] );
 		}
 		if ( ! $hit ) {
 			foreach ( $parts as $su ) {
@@ -946,12 +1119,20 @@ function sst_map_data() {
 		'names'      => $names,
 		'cities'     => $n_cities,
 		'states'     => count( $countries ),
-		'islands'    => count(
+		'islands'    => count( $islands ) + count(
 			array_filter(
 				array_keys( $out_units ),
-				static function ( $su ) use ( $units ) {
-					// Ostrov / súostrovie = samostatná časť štátu na mape (Sicília, Azory, Havaj…), nie pevninské časti.
-					return empty( $units[ $su ]['m'] ) && ! in_array( $su, array( 'USK', 'RUK', 'SCT', 'WLS', 'NIR', 'KAS', 'SPI', 'BRT', 'CLP', 'FSA' ), true );
+				static function ( $su ) use ( $units, $islands, $not_isle ) {
+					// Navštívené súostrovie ako celok (napr. ručne vyznačené Azory) bez konkrétneho ostrova z miest.
+					if ( ! empty( $units[ $su ]['m'] ) || in_array( $su, $not_isle, true ) ) {
+						return false;
+					}
+					foreach ( array_keys( $islands ) as $k ) {
+						if ( 0 === strpos( $k, $su . ':' ) ) {
+							return false;
+						}
+					}
+					return true;
 				}
 			)
 		),
@@ -1027,6 +1208,7 @@ function sst_map_payload( $admin = false ) {
 			'continents' => $data['continents'],
 		),
 		'detail'    => SST_URI . '/assets/map/world-detail.svg?ver=' . SST_VERSION,
+		'isles'     => SST_URI . '/assets/map/world-islands.svg?ver=' . SST_VERSION,
 	);
 	if ( $admin ) {
 		// Všetky časti s názvami – na vyhľadávanie a vyznačovanie.
@@ -1043,6 +1225,7 @@ function sst_map_payload( $admin = false ) {
 			);
 		}
 		$payload['all']   = $all;
+		$payload['gaz']   = sst_map_islands();
 		$payload['marks'] = (object) sst_map_marks();
 		foreach ( $payload['countries'] as $iso => &$c ) {
 			$c['e'] = $c['id'] ? get_edit_term_link( $c['id'], 'destinacia' ) : '';
@@ -1141,6 +1324,7 @@ function sst_world_map( $args = array() ) {
 				<span><i class="lvl-3"></i>4 – 6</span>
 				<span><i class="lvl-4"></i>7 a viac</span>
 				<span><i class="dot"></i>mesto</span>
+				<span><i class="isle"></i>navštívený ostrov</span>
 			</div>
 		</div>
 

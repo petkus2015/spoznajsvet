@@ -142,6 +142,7 @@
 					go.type = 'button';
 					go.title = city.x == null ? 'Poloha zatiaľ chýba – doplní sa automaticky' : 'Ukázať na mape';
 					if (city.x == null) go.classList.add('is-missing');
+					if (city.isl) { go.classList.add('is-island'); go.title += ' · ostrov'; }
 					go.addEventListener('click', function () {
 						if (city.x == null) return;
 						var ll = window.SSTMap.invert(data, city.x, city.y);
@@ -170,7 +171,18 @@
 			var u = data.all[su], cn = countryName(u.i);
 			var label = u.m ? cn : cn + ' – ' + u.n;
 			return { su: su, iso: u.i, label: label, key: norm(label + ' ' + u.n) };
-		}).sort(function (a, b) { return a.label.localeCompare(b.label, 'sk'); });
+		});
+		// Obľúbené ostrovy (Santorini, Koh Samui…) – pridajú sa ako miesto s polohou.
+		(data.gaz || []).forEach(function (g) {
+			var label = g[0] + ' – ostrov, ' + countryName(g[1]);
+			index.push({ isle: g, iso: g[1], label: label, key: norm(label + ' ostrov') });
+		});
+		index.sort(function (a, b) { return a.label.localeCompare(b.label, 'sk'); });
+	}
+
+	function visitedPlace(iso, name) {
+		var c = data.countries[iso];
+		return !!(c && c.c.some(function (x) { return norm(x.n) === norm(name); }));
 	}
 
 	function renderResults() {
@@ -183,6 +195,23 @@
 			results.appendChild(el('li', 'sst-map-admin__noresult', 'Nič sa nenašlo'));
 		}
 		hits.forEach(function (x) {
+			if (x.isle) {
+				var g = x.isle, have = visitedPlace(g[1], g[0]);
+				var li2 = el('li');
+				var b2 = el('button', have ? 'is-on' : '');
+				b2.type = 'button';
+				b2.appendChild(el('span', 'sst-map-admin__flag', flag(g[1])));
+				b2.appendChild(el('span', 'sst-map-admin__label', x.label));
+				b2.appendChild(el('span', 'sst-map-admin__state', have ? '✓ navštívené' : '+ pridať ostrov'));
+				b2.addEventListener('click', function () {
+					map.zoomTo(g[2], g[3], 12);
+					if (have) { renderResults(); return; }
+					post('sst_map_add_place', { name: g[0], lat: g[2], lng: g[3], iso: g[1], island: 1 }).then(function () { renderResults(); });
+				});
+				li2.appendChild(b2);
+				results.appendChild(li2);
+				return;
+			}
 			var on = !!data.units[x.su];
 			var li = el('li');
 			var b = el('button', on ? 'is-on' : '');
@@ -240,6 +269,12 @@
 		input.placeholder = 'Hľadám názov…';
 		label.appendChild(input);
 		form.appendChild(label);
+		var islLabel = el('label', 'sst-map-admin__check');
+		var isl = el('input');
+		isl.type = 'checkbox';
+		islLabel.appendChild(isl);
+		islLabel.appendChild(document.createTextNode(' Je to ostrov (napr. Santorini, Koh Samui)'));
+		form.appendChild(islLabel);
 		form.appendChild(el('p', 'sst-map-admin__coords', info.at.lat.toFixed(4) + ', ' + info.at.lng.toFixed(4)));
 		var actions = el('div', 'sst-map-admin__actions');
 		var ok = el('button', 'button button-primary', 'Pridať miesto');
@@ -253,7 +288,7 @@
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
 			ok.disabled = true;
-			post('sst_map_add_place', { name: input.value, lat: info.at.lat, lng: info.at.lng, unit: su })
+			post('sst_map_add_place', { name: input.value, lat: info.at.lat, lng: info.at.lng, unit: su, island: isl.checked ? 1 : '' })
 				.then(closePop, function () { ok.disabled = false; });
 		});
 		pop.appendChild(form);
@@ -265,7 +300,9 @@
 			.then(function (r) { return r.json(); })
 			.then(function (j) {
 				var a = j && j.address || {};
-				var n = a.city || a.town || a.village || a.municipality || a.island || a.county || a.state || '';
+				// Na ostrove navrhneme názov ostrova (Santorini, nie Fira) a zaškrtneme „Je to ostrov“.
+				if (a.island || a.archipelago) isl.checked = true;
+				var n = a.island || a.city || a.town || a.village || a.municipality || a.county || a.state || '';
 				if (n && !input.value) input.value = n;
 				input.placeholder = 'napr. Ponta Delgada';
 				input.select();

@@ -37,6 +37,7 @@
 .sst-map-admin__where { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--c-heading); }
 .sst-map-admin__form label { display: block; font-weight: 600; font-size: 12px; color: var(--c-muted); }
 .sst-map-admin__form input[type="text"] { display: block; width: 100%; margin-top: 4px; }
+.sst-map-admin__check { display: flex !important; align-items: center; gap: 6px; margin-top: 8px; color: var(--c-text) !important; font-weight: 500 !important; }
 .sst-map-admin__coords { margin: 6px 0 10px; font-size: 11px; color: var(--c-muted); font-variant-numeric: tabular-nums; }
 .sst-map-admin__actions { display: flex; flex-wrap: wrap; gap: 6px; }
 
@@ -77,6 +78,7 @@
 .sst-map-admin__cities li { margin: 0; display: inline-flex; align-items: center; gap: 2px; }
 .sst-map-admin__city { padding: 0; border: 0; background: none; color: var(--c-text); font-size: 12px; cursor: pointer; }
 .sst-map-admin__city::before { content: "● "; color: var(--c-gold); }
+.sst-map-admin__city.is-island::before { content: "◉ "; color: var(--c-accent); }
 .sst-map-admin__city.is-missing { color: var(--c-muted); }
 .sst-map-admin__city.is-missing::before { color: var(--c-line); }
 .sst-map-admin__city:hover { color: var(--c-accent); }

@@ -61,9 +61,10 @@
 		var W = data.w, H = data.h;
 		var view = [0, 0, W, H];
 		var want = data.fit || data.regions.svet;
-		var svg, dotsG, halosG, dots = [], halos = [], selected = null, anim = null, detail = 'none';
+		var svg, dotsG, halosG, islesG, dots = [], halos = [], selected = null, anim = null, detail = 'none', isles = 'none';
 		var drag = false, moved = false;
 		var api = { root: root, canvas: canvas };
+		root.sstMap = api; // napr. root.sstMap.zoomTo(37.4, 25.4, 10)
 
 		function loadSvg(url) {
 			return fetch(url).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (text) {
@@ -108,7 +109,60 @@
 				detail = 'done';
 				canvas.classList.remove('is-loading');
 				paint();
+				maybeIsles();
 			}).catch(function () { detail = 'none'; canvas.classList.remove('is-loading'); });
+		}
+
+		// Malé ostrovy (Santorini, Koh Samui…) – samostatná vrstva, až pri väčšom priblížení.
+		function maybeIsles() {
+			if (isles !== 'none' || detail !== 'done' || !data.isles || view[2] > W * 0.16) return;
+			isles = 'loading';
+			loadSvg(data.isles).then(function (s) {
+				var frag = document.createDocumentFragment();
+				Array.prototype.slice.call(s.querySelectorAll('path')).forEach(function (p) { p.setAttribute('data-isle', '1'); frag.appendChild(p); });
+				svg.insertBefore(frag, svg.firstChild);
+				isles = 'done';
+				paint();
+			}).catch(function () { isles = 'none'; });
+		}
+
+		// Obrys konkrétneho ostrova, na ktorom leží miesto (podcesta „M…Z“ z cesty štátu).
+		function parseRing(sub) {
+			var nums = sub.match(/-?\d+(?:\.\d+)?/g) || [], pts = [];
+			for (var i = 0; i + 1 < nums.length; i += 2) pts.push([+nums[i], +nums[i + 1]]);
+			return pts;
+		}
+		function inRing(r, x, y) {
+			var inside = false;
+			for (var i = 0, j = r.length - 1; i < r.length; j = i++) {
+				if ((r[i][1] > y) !== (r[j][1] > y) && x < (r[j][0] - r[i][0]) * (y - r[i][1]) / ((r[j][1] - r[i][1]) || 1e-9) + r[i][0]) inside = !inside;
+			}
+			return inside;
+		}
+		function ringDist(r, x, y) {
+			var best = Infinity;
+			r.forEach(function (p) { best = Math.min(best, Math.hypot(p[0] - x, p[1] - y)); });
+			return best;
+		}
+		function findIsle(su, x, y) {
+			var best = null, bestArea = Infinity, near = null, nearD = 0.3, nearArea = Infinity;
+			svg.querySelectorAll('path[data-unit="' + su + '"]:not(.world-map__isle)').forEach(function (p) {
+				(p.getAttribute('d') || '').split('M').forEach(function (sub) {
+					var r = sub ? parseRing(sub) : [];
+					if (r.length < 3) return;
+					var xs = r.map(function (q) { return q[0]; }), ys = r.map(function (q) { return q[1]; });
+					var area = (Math.max.apply(null, xs) - Math.min.apply(null, xs)) * (Math.max.apply(null, ys) - Math.min.apply(null, ys));
+					if (inRing(r, x, y)) {
+						if (area < bestArea) { bestArea = area; best = 'M' + sub; }
+					} else if (!best) {
+						var d = ringDist(r, x, y);
+						if (d < nearD) { nearD = d; near = 'M' + sub; nearArea = area; }
+					}
+				});
+			});
+			if (!best && near) { best = near; bestArea = nearArea; }
+			// Ak v tejto mierke ostrov chýba a trafili sme pevninu, radšej krúžok.
+			return best && bestArea < 400 ? best : null;
 		}
 
 		function countryOf(su) {
@@ -129,6 +183,7 @@
 
 		function paint() {
 			var visitedPaths = [];
+			if (islesG) { islesG.remove(); islesG = null; } // staré zvýraznenia ostrovov preč skôr, než prejdeme cesty
 			svg.querySelectorAll('path[data-unit]').forEach(function (p) {
 				var su = p.getAttribute('data-unit');
 				var u = data.units[su];
@@ -153,12 +208,32 @@
 
 			if (halosG) halosG.remove();
 			if (dotsG) dotsG.remove();
+			islesG = document.createElementNS(NS, 'g');
+			islesG.setAttribute('class', 'world-map__isles');
+			var isleMiss = [];
+			Object.keys(data.countries).forEach(function (iso) {
+				var c = data.countries[iso];
+				c.c.forEach(function (city) {
+					if (!city.isl || city.x == null) return;
+					var d = city.su ? findIsle(city.su, city.x, city.y) : null;
+					if (!d) { isleMiss.push({ iso: iso, city: city, l: c.l }); return; }
+					var o = document.createElementNS(NS, 'path');
+					o.setAttribute('d', d);
+					o.setAttribute('class', 'world-map__isle lvl-' + c.l);
+					o.setAttribute('data-iso', iso);
+					o.setAttribute('data-unit', city.su);
+					o.setAttribute('data-city', city.n);
+					islesG.appendChild(o);
+				});
+			});
+			svg.appendChild(islesG);
 			halosG = document.createElementNS(NS, 'g');
 			halosG.setAttribute('class', 'world-map__halos');
 			halos = [];
 			// Malé navštívené ostrovy (Azory, Maldivy…) dostanú krúžok, aby boli vidieť aj pri celom svete.
 			visitedPaths.forEach(function (p) {
 				var b;
+				if (p.hasAttribute('data-isle')) return; // drobné ostrovy z vrstvy ostrovov – bez krúžku
 				try { b = p.getBBox(); } catch (e) { return; }
 				if (b.width > 5 || b.height > 5) return;
 				var h = document.createElementNS(NS, 'circle');
@@ -168,6 +243,19 @@
 				h.setAttribute('data-unit', p.getAttribute('data-unit'));
 				h.setAttribute('data-iso', p.getAttribute('data-iso') || '');
 				h._base = Math.max(b.width, b.height) / 2;
+				halosG.appendChild(h);
+				halos.push(h);
+			});
+			// Ostrov, ktorý v tejto mierke mapy nie je (príliš malý) – krúžok okolo miesta.
+			isleMiss.forEach(function (m) {
+				var h = document.createElementNS(NS, 'circle');
+				h.setAttribute('cx', m.city.x);
+				h.setAttribute('cy', m.city.y);
+				h.setAttribute('class', 'world-map__halo is-isle lvl-' + m.l);
+				h.setAttribute('data-iso', m.iso);
+				h.setAttribute('data-unit', m.city.su || '');
+				h.setAttribute('data-city', m.city.n);
+				h._base = 0.4;
 				halosG.appendChild(h);
 				halos.push(h);
 			});
@@ -182,7 +270,7 @@
 					var d = document.createElementNS(NS, 'circle');
 					d.setAttribute('cx', city.x);
 					d.setAttribute('cy', city.y);
-					d.setAttribute('class', 'world-map__dot');
+					d.setAttribute('class', 'world-map__dot' + (city.isl ? ' is-island' : ''));
 					d.setAttribute('data-iso', iso);
 					d.setAttribute('data-city', city.n);
 					d.setAttribute('data-id', city.id || '');
@@ -236,6 +324,7 @@
 			sizeMarks();
 			canvas.classList.toggle('is-zoomed', v[2] < W * 0.98);
 			maybeDetail();
+			maybeIsles();
 		}
 
 		function setView(box, animate) {
@@ -337,9 +426,12 @@
 			svg.addEventListener('pointermove', function (e) {
 				if (e.pointerType !== 'mouse' || drag) return;
 				var t = e.target, su = t.getAttribute && t.getAttribute('data-unit');
-				if (t.classList.contains('world-map__dot')) {
+				if (t.getAttribute && t.getAttribute('data-city') && !t.classList.contains('world-map__dot')) {
+					var ci = data.countries[t.getAttribute('data-iso')];
+					showTip((ci && ci.f ? ci.f + ' ' : '') + t.getAttribute('data-city') + ' · ostrov', e);
+				} else if (t.classList.contains('world-map__dot')) {
 					var c = data.countries[t.getAttribute('data-iso')];
-					showTip(t.getAttribute('data-city') + (c ? ' · ' + c.n : ''), e);
+					showTip(t.getAttribute('data-city') + (c ? ' · ' + c.n : '') + (t.classList.contains('is-island') ? ' · ostrov' : ''), e);
 				} else if (su && data.units[su]) {
 					var cc = countryOf(su);
 					showTip(unitLabel(su, data.units[su].i) + (cc && summary(cc) ? ' · ' + summary(cc) : ''), e);

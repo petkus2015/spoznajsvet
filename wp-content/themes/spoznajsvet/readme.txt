@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.18.3
+Stable tag: 1.19.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,12 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.19.0 =
+* Malé ostrovy na mape: Santorini, Mykonos, Korfu, Phuket, Koh Samui, Hvar, Capri… – navštívený ostrov sa vyfarbí zlatou, veľmi malé (napr. Koh Tao) majú zlatý krúžok.
+* Pridanie ostrova: v Články → Mapa ciest vyhľadávaním (vyše 130 obľúbených ostrovov s polohou) alebo kliknutím do mapy s voľbou „Je to ostrov“ (OpenStreetMap ju zaškrtne sám); pri mieste v Destináciách políčko „Ostrov“.
+* Ostrov sa rozpozná aj podľa názvu miesta (Phuket, Santorini) a pri mestách na samostatných častiach mapy (Palermo → Sicília).
+* Vrstva malých ostrovov (~195 kB) sa načíta až pri veľkom priblížení.
 
 = 1.18.3 =
 * Štatistiky nad mapou: kontinenty, štáty, ostrovy (navštívené súostrovia a ostrovy ako Sicília, Azory, Havaj) a % sveta – bez počtu miest.

@@ -50,6 +50,10 @@
 .world-map__svg path.is-selected { stroke: var(--c-gold); stroke-width: 2px; }
 .world-map__halo { fill: none; stroke-width: 2px; vector-effect: non-scaling-stroke; pointer-events: all; cursor: pointer; }
 .world-map__halo.lvl-1 { stroke: var(--map-l1); } .world-map__halo.lvl-2 { stroke: var(--map-l2); } .world-map__halo.lvl-3 { stroke: var(--map-l3); } .world-map__halo.lvl-4 { stroke: var(--map-l4); }
+.world-map__svg path.world-map__isle { fill: var(--c-gold); stroke: #6b4f1d; stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-linejoin: round; cursor: pointer; }
+.world-map__svg path.world-map__isle:hover { filter: brightness(1.08); }
+.world-map__halo.is-isle { stroke: var(--c-gold); stroke-width: 2.5px; fill: color-mix(in srgb, var(--c-gold) 25%, transparent); }
+.world-map__dot.is-island { fill: #fff; stroke: #6b4f1d; stroke-width: 1.5px; }
 .world-map__dot { fill: var(--map-dot); stroke: #0e2a30; stroke-width: 1px; vector-effect: non-scaling-stroke; cursor: pointer; transition: r .2s ease; }
 .world-map__dot.is-selected { fill: #fff; stroke: var(--c-gold); stroke-width: 2px; }
 
@@ -71,6 +75,7 @@
 .world-map__legend .lvl-3 { background: var(--map-l3); }
 .world-map__legend .lvl-4 { background: var(--map-l4); }
 .world-map__legend .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--map-dot); box-shadow: 0 0 0 1px #0e2a30; }
+.world-map__legend .isle { width: 14px; height: 14px; border-radius: 4px; background: var(--c-gold); box-shadow: inset 0 0 0 1px #6b4f1d; }
 
 .world-map__card { margin-top: 1rem; padding: 1.1rem; border: 1px solid var(--c-line); border-radius: var(--radius-l); background: var(--c-surface); box-shadow: var(--shadow-card); animation: wm-in .25s ease; }
 .world-map__card[hidden] { display: none; }

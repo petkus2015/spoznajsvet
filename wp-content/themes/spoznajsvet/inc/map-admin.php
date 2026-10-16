@@ -86,6 +86,7 @@ function sst_map_admin_page() {
 							<span><i class="lvl-4"></i>7 a viac</span>
 							<span><i class="manual"></i>vyznačené ručne</span>
 							<span><i class="dot"></i>miesto</span>
+							<span><i class="isle"></i>navštívený ostrov</span>
 						</div>
 					</div>
 				</div>
@@ -95,8 +96,8 @@ function sst_map_admin_page() {
 			<aside class="sst-map-admin__side">
 				<div data-stats><?php echo sst_map_stats_html( $payload['stats'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 				<div class="sst-map-admin__search">
-					<label for="sst-map-search">Pridať štát alebo ostrov</label>
-					<input type="search" id="sst-map-search" placeholder="napr. Azory, Japonsko, Havaj…" autocomplete="off" data-search>
+					<label for="sst-map-search">Pridať štát, ostrov alebo súostrovie</label>
+					<input type="search" id="sst-map-search" placeholder="napr. Santorini, Koh Samui, Azory, Japonsko…" autocomplete="off" data-search>
 					<ul class="sst-map-admin__results" data-results hidden></ul>
 				</div>
 				<h2 class="sst-map-admin__title">Navštívené <span data-count></span></h2>
@@ -159,6 +160,16 @@ add_action(
 		if ( '' === $name || abs( $lat ) > 90 || abs( $lng ) > 180 ) {
 			wp_send_json_error( array( 'msg' => 'Zadaj názov miesta.' ) );
 		}
+		// Ostrov z vyhľadávania príde s kódom štátu namiesto časti mapy.
+		$iso_in = strtoupper( preg_replace( '/[^A-Za-z]/', '', wp_unslash( $_POST['iso'] ?? '' ) ) );
+		if ( ! isset( $units[ $su ] ) && preg_match( '/^[A-Z]{2}$/', $iso_in ) ) {
+			foreach ( $units as $code => $u ) {
+				if ( $u['i'] === $iso_in && ! empty( $u['m'] ) ) {
+					$su = $code;
+					break;
+				}
+			}
+		}
 		if ( ! isset( $units[ $su ] ) || ! $units[ $su ]['i'] ) {
 			wp_send_json_error( array( 'msg' => 'Klikni na pevninu alebo ostrov.' ) );
 		}
@@ -207,7 +218,10 @@ add_action(
 		}
 		update_term_meta( $city_id, 'sst_lat', round( $lat, 5 ) );
 		update_term_meta( $city_id, 'sst_lng', round( $lng, 5 ) );
-		sst_map_ajax_done( ( $exists ? 'Poloha upravená: ' : 'Pridané miesto ' ) . $name . $created );
+		if ( ! empty( $_POST['island'] ) ) {
+			update_term_meta( $city_id, 'sst_island', 1 );
+		}
+		sst_map_ajax_done( ( $exists ? 'Poloha upravená: ' : ( empty( $_POST['island'] ) ? 'Pridané miesto ' : 'Pridaný ostrov ' ) ) . $name . $created );
 	}
 );
 
