@@ -212,7 +212,7 @@ class SVL_Render {
 				<header class="svl-head">
 					<p class="svl-eyebrow">Ázia a exotika</p>
 					<h2 class="svl-title">Najlacnejšie spiatočné letenky za teplom</h2>
-					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> od Wizz Air, Ryanairu aj klasických aerolínií. Do každého mesta len tá najlacnejšia.</p>
+					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> – len nízkonákladovky (Wizz Air, Ryanair, flydubai, Air Arabia…); klasické aerolinky iba tam, kam nízkonákladovka nelieta.</p>
 				</header>
 			<?php endif; ?>
 			<?php self::admin_token_note(); ?>
@@ -241,8 +241,14 @@ class SVL_Render {
 	private static function asia_ranking( $limit ) {
 		$best = array();
 		foreach ( array_merge( SVL_Store::deals( 'azia' ), SVL_Store::deals( 'exotika' ) ) as $d ) {
+			if ( ! $d['return'] ) {
+				continue;
+			}
 			$key = $d['dest_city'] ? $d['dest_city'] : $d['destination'];
-			if ( $d['return'] && ( ! isset( $best[ $key ] ) || $d['price'] < $best[ $key ]['price'] ) ) {
+			$lc  = SVL_Format::is_lowcost( $d );
+			// Len nízkonákladovky; klasickú linku berieme iba tam, kam nízkonákladovka nelieta.
+			if ( ! isset( $best[ $key ] ) || ( $lc && ! $best[ $key ]['_lc'] ) || ( $lc === $best[ $key ]['_lc'] && $d['price'] < $best[ $key ]['price'] ) ) {
+				$d['_lc']     = $lc;
 				$best[ $key ] = $d;
 			}
 		}
@@ -252,14 +258,21 @@ class SVL_Render {
 		usort(
 			$best,
 			static function ( $a, $b ) {
-				return $a['price'] <=> $b['price'];
+				// Najprv mestá s nízkonákladovkou (od najlacnejšej), potom tie, kam lietajú len klasické aerolinky.
+				return array( $a['_lc'] ? 0 : 1, $a['price'] ) <=> array( $b['_lc'] ? 0 : 1, $b['price'] );
 			}
 		);
 		?>
 		<ol class="svl-rank svl-tix-grid">
 			<?php
 			foreach ( array_slice( $best, 0, max( 1, (int) $limit ) ) as $i => $d ) {
-				self::ticket( $d, array( 'rank' => $i + 1 ) );
+				self::ticket(
+					$d,
+					$d['_lc'] ? array( 'rank' => $i + 1 ) : array(
+						'tag'   => array( 'Klasická linka', 'svl-tix__tag--classic' ),
+						'class' => 'is-classic',
+					)
+				);
 			}
 			?>
 		</ol>
@@ -296,6 +309,7 @@ class SVL_Render {
 				}
 			)
 		);
+		// Len nízkonákladovka; klasická linka iba vtedy, keď nízkonákladovka nie je.
 		$min  = $lc ? $lc : $cl;
 		$info = svl_airport( $dest );
 		$img  = apply_filters( 'svl_destination_image', '', $dest, $info['city'] );
@@ -311,7 +325,7 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( min( $lc ? $lc['price'] : INF, $cl ? $cl['price'] : INF ) ) ); ?></strong>
+						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
 						</p>
 					<?php else : ?>
 						<p class="svl-exo__from">porovnajte aktuálne ceny</p>
@@ -321,25 +335,13 @@ class SVL_Render {
 			<ul class="svl-exo__list">
 				<?php
 				if ( $min ) {
-					if ( $lc ) {
-						self::ticket(
-							$lc,
-							array(
-								'head' => false,
-								'tag'  => array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ),
-							)
-						);
-					}
-					if ( $cl ) {
-						self::ticket(
-							$cl,
-							array(
-								'head'  => false,
-								'tag'   => array( 'Klasická linka', 'svl-tix__tag--classic' ),
-								'class' => $lc ? 'is-second' : '',
-							)
-						);
-					}
+					self::ticket(
+						$min,
+						array(
+							'head' => false,
+							'tag'  => $lc ? array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ) : array( 'Klasická linka – nízkonákladovka sem nelieta', 'svl-tix__tag--classic' ),
+						)
+					);
 				} else {
 					$o     = $origins ? $origins[0] : 'VIE';
 					$links = SVL_Format::compare_links( $o, $dest, gmdate( 'Y-m-d', strtotime( '+30 days' ) ), gmdate( 'Y-m-d', strtotime( '+44 days' ) ) );

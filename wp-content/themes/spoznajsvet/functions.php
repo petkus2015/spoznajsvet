@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SST_VERSION', '1.21.0' );
+define( 'SST_VERSION', '1.21.1' );
 define( 'SST_DIR', get_template_directory() );
 define( 'SST_URI', get_template_directory_uri() );
 
