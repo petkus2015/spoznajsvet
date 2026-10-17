@@ -291,11 +291,45 @@
 	.svl--compact .svl-more { display: none; }
 }
 
-/* Najnavštevovanejšie mestá Európy */
-.svl-tix__tag--lowcost { background: color-mix(in srgb, #22c55e 16%, var(--svl-surface)); color: #15803d; }
-.svl-tix__tag--classic { background: var(--svl-soft); color: var(--svl-muted); }
-.svl-rank .svl-tix.is-classic, .svl-top-list .svl-tix.is-classic { background: color-mix(in srgb, var(--svl-soft) 45%, var(--svl-surface)); }
-.svl-top-missing { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .5rem; margin-top: 1rem; color: var(--svl-muted); font-size: .82rem; }
+/* Najnavštevovanejšie mestá Európy – prehľadný zoznam ako „Explore“ */
+.svl-cities { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .svl-cities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .svl-cities { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.svl-city { margin: 0; }
+.svl-city__main {
+	position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .9rem;
+	width: 100%; padding: .9rem 3.4rem .9rem .9rem; border: 1px solid var(--svl-line); border-radius: 20px;
+	background: var(--svl-surface); color: inherit; font: inherit; text-align: left; cursor: pointer;
+	transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.svl-city__main:hover { transform: translateY(-2px); box-shadow: var(--svl-shadow); border-color: color-mix(in srgb, var(--svl-accent) 35%, var(--svl-line)); }
+.svl-city__main:focus-visible { outline: 3px solid var(--svl-gold); outline-offset: 2px; }
+.svl-city__flag {
+	display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; font-size: 1.75rem; line-height: 1;
+	background: linear-gradient(145deg, var(--svl-soft), color-mix(in srgb, var(--svl-soft) 40%, var(--svl-surface)));
+	box-shadow: inset 0 0 0 1px var(--svl-line);
+}
+.svl-city__body { display: flex; flex-direction: column; gap: .12rem; min-width: 0; }
+.svl-city__name { color: var(--svl-heading); font-size: 1.08rem; font-weight: 800; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.svl-city__route, .svl-city__when { color: var(--svl-muted); font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.svl-city__route { color: var(--svl-text); font-weight: 600; }
+.svl-city__side { display: flex; flex-direction: column; align-items: flex-end; gap: .2rem; line-height: 1.05; }
+.svl-city__price { color: var(--svl-accent); font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.svl-city__note { color: var(--svl-muted); font-size: .66rem; font-weight: 600; white-space: nowrap; }
+.svl-city__side .svl-wx { font-size: .74rem; }
+.svl-city__side .svl-wx__icon { width: 16px; height: 16px; }
+.svl-city__go {
+	position: absolute; right: .85rem; top: 50%; width: 28px; height: 28px; margin-top: -14px; border-radius: 50%;
+	background: var(--svl-soft); transition: background .18s ease, transform .18s ease;
+}
+.svl-city__go::after { content: ""; position: absolute; inset: 0; margin: auto; width: 7px; height: 7px; border: solid var(--svl-heading); border-width: 2px 2px 0 0; transform: translateX(-1px) rotate(45deg); }
+.svl-city__main:hover .svl-city__go { background: var(--svl-accent); transform: translateX(2px); }
+.svl-city__main:hover .svl-city__go::after { border-color: var(--svl-accent-ink); }
+.svl-top-missing { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .5rem; margin-top: 1.1rem; color: var(--svl-muted); font-size: .82rem; }
 .svl-top-missing .svl-link { min-height: 32px; padding: .25rem .75rem; font-size: .78rem; }
-.svl-tix__tag--inline { align-self: flex-start; margin-bottom: .6rem; }
-.svl-exo__list .svl-tix.is-second { border-top: 1px dashed var(--svl-line); background: color-mix(in srgb, var(--svl-soft) 40%, transparent); }
+@media (max-width: 400px) {
+	.svl-city__main { gap: .7rem; padding-right: 3rem; }
+	.svl-city__flag { width: 44px; height: 44px; font-size: 1.5rem; border-radius: 14px; }
+	.svl-city__price { font-size: 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) { .svl-city__main, .svl-city__go { transition: none; } .svl-city__main:hover { transform: none; } }

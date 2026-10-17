@@ -212,7 +212,7 @@ class SVL_Render {
 				<header class="svl-head">
 					<p class="svl-eyebrow">Ázia a exotika</p>
 					<h2 class="svl-title">Najlacnejšie spiatočné letenky za teplom</h2>
-					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> – len nízkonákladovky (Wizz Air, Ryanair, flydubai, Air Arabia…); klasické aerolinky iba tam, kam nízkonákladovka nelieta.</p>
+					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> do Ázie a exotiky. Do každého mesta tá najvýhodnejšia.</p>
 				</header>
 			<?php endif; ?>
 			<?php self::admin_token_note(); ?>
@@ -266,13 +266,7 @@ class SVL_Render {
 		<ol class="svl-rank svl-tix-grid">
 			<?php
 			foreach ( array_slice( $best, 0, max( 1, (int) $limit ) ) as $i => $d ) {
-				self::ticket(
-					$d,
-					$d['_lc'] ? array( 'rank' => $i + 1 ) : array(
-						'tag'   => array( 'Klasická linka', 'svl-tix__tag--classic' ),
-						'class' => 'is-classic',
-					)
-				);
+				self::ticket( $d, array( 'rank' => $i + 1 ) );
 			}
 			?>
 		</ol>
@@ -335,13 +329,7 @@ class SVL_Render {
 			<ul class="svl-exo__list">
 				<?php
 				if ( $min ) {
-					self::ticket(
-						$min,
-						array(
-							'head' => false,
-							'tag'  => $lc ? array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ) : array( 'Klasická linka – nízkonákladovka sem nelieta', 'svl-tix__tag--classic' ),
-						)
-					);
+					self::ticket( $min, array( 'head' => false ) );
 				} else {
 					$o     = $origins ? $origins[0] : 'VIE';
 					$links = SVL_Format::compare_links( $o, $dest, gmdate( 'Y-m-d', strtotime( '+30 days' ) ), gmdate( 'Y-m-d', strtotime( '+44 days' ) ) );
@@ -485,27 +473,39 @@ class SVL_Render {
 				<header class="svl-head">
 					<p class="svl-eyebrow">Obľúbené mestá</p>
 					<h2 class="svl-title">Najnavštevovanejšie mestá Európy</h2>
-					<p class="svl-lead">Londýn, Paríž, Rím, Barcelona… – najlacnejšia spiatočná letenka <?php echo esc_html( self::origin_sentence( $origins ) ); ?>. Najprv nízkonákladovky (Ryanair, Wizz Air, easyJet…), klasické aerolinky len tam, kde nízkonákladovka nelieta.</p>
+					<p class="svl-lead">Londýn, Paríž, Rím, Barcelona… – najlacnejšie spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>.</p>
 				</header>
 			<?php endif; ?>
 			<?php if ( $list ) : ?>
-				<ol class="svl-tix-grid svl-top-list">
-					<?php
-					foreach ( array_slice( $list, 0, max( 1, (int) $limit ) ) as $d ) {
-						self::ticket(
-							$d,
-							array(
-								'tag'   => empty( $d['lowcost'] ) ? array( 'Klasická linka', 'svl-tix__tag--classic' ) : array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ),
-								'class' => empty( $d['lowcost'] ) ? 'is-classic' : 'is-lowcost',
-							)
-						);
-					}
-					?>
+				<ol class="svl-cities">
+					<?php foreach ( array_slice( $list, 0, max( 1, (int) $limit ) ) as $d ) : ?>
+						<?php
+						$links  = SVL_Format::compare_links( $d['origin'], $d['destination'], $d['depart'], $d['return'] );
+						$nights = SVL_Format::nights( $d['depart'], $d['return'] );
+						$city   = $cities[ $d['top_city'] ] ?? array( $d['dest_city'], $d['dest_iso'] );
+						?>
+						<li class="svl-city">
+							<button type="button" class="svl-city__main" data-svl-go="<?php echo esc_url( $d['url'] ? $d['url'] : $links['kayak'] ); ?>" aria-label="<?php echo esc_attr( $city[0] . ': spiatočná letenka ' . SVL_Format::price( $d['price'] ) ); ?>">
+								<span class="svl-city__flag" aria-hidden="true"><?php echo esc_html( SVL_Format::flag( $city[1] ) ); ?></span>
+								<span class="svl-city__body">
+									<strong class="svl-city__name"><?php echo esc_html( $city[0] ); ?></strong>
+									<span class="svl-city__route"><?php echo esc_html( $d['origin'] . ' → ' . $d['destination'] . ( $d['airline'] ? ' · ' . $d['airline'] : '' ) ); ?></span>
+									<span class="svl-city__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) . ( $nights ? ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) : '' ) ); ?></span>
+								</span>
+								<span class="svl-city__side">
+									<?php echo SVL_Weather::badge( $d ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+									<span class="svl-city__price"><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></span>
+									<span class="svl-city__note">tam aj späť</span>
+								</span>
+								<span class="svl-city__go" aria-hidden="true"></span>
+							</button>
+						</li>
+					<?php endforeach; ?>
 				</ol>
 			<?php endif; ?>
 			<?php if ( $missing ) : ?>
 				<div class="svl-top-missing">
-					<span>Zatiaľ bez ponuky – porovnať:</span>
+					<span>Ďalšie obľúbené mestá – porovnať ceny:</span>
 					<?php
 					foreach ( $missing as $city ) {
 						$code = $city[2][0];

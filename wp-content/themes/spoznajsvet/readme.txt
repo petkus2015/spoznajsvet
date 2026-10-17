@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.21.1
+Stable tag: 1.22.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.22.0 =
+* Najnavštevovanejšie mestá Európy v novom prehľadnom dizajne (zoznam: vlajka, mesto, trasa a aerolinka, termín, počasie, cena, celý riadok klikateľný). Na webe sa už nepíše „nízkonákladovka / klasická linka“ – uprednostnenie nízkonákladoviek ostáva len v pozadí.
 
 = 1.21.1 =
 * Exotika (rebríček aj karty Bangkok, Dubaj, Abu Dhabi): len nízkonákladovky; klasická linka iba tam, kam nízkonákladovka nelieta (so štítkom „Klasická linka“).
