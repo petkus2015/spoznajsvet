@@ -290,3 +290,10 @@
 	.svl--compact .svl-rank { margin-bottom: 1rem; }
 	.svl--compact .svl-more { display: none; }
 }
+
+/* Najnavštevovanejšie mestá Európy */
+.svl-tix__tag--lowcost { background: color-mix(in srgb, #22c55e 16%, var(--svl-surface)); color: #15803d; }
+.svl-tix__tag--classic { background: var(--svl-soft); color: var(--svl-muted); }
+.svl-top-list .svl-tix.is-classic { background: color-mix(in srgb, var(--svl-soft) 45%, var(--svl-surface)); }
+.svl-top-missing { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .5rem; margin-top: 1rem; color: var(--svl-muted); font-size: .82rem; }
+.svl-top-missing .svl-link { min-height: 32px; padding: .25rem .75rem; font-size: .78rem; }

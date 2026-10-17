@@ -15,6 +15,7 @@ get_header();
 		<p class="page-hero__text">Najlacnejšie európske mestá na víkend a letenky do Bangkoku, Dubaja a Abu Dhabi z Viedne, Bratislavy a Budapešti. Ceny z Ryanair, Wizz Air a vyhľadávačov, s porovnaním na Kayak a momondo.</p>
 		<nav class="chips chips--scroll chips--glass" aria-label="Sekcie">
 			<a class="chip" href="#europa">🏛️ Európa</a>
+			<a class="chip" href="#oblubene">⭐ Obľúbené mestá</a>
 			<a class="chip" href="#exotika">🌴 Exotika</a>
 		</nav>
 	</div>
@@ -27,6 +28,20 @@ get_header();
 			array(
 				'skupina' => 'europa',
 				'limit'   => 18,
+			)
+		);
+		?>
+	</div>
+</section>
+
+<section class="section section--tight" id="oblubene">
+	<div class="container">
+		<?php
+		sst_flights(
+			array(
+				'skupina' => 'top',
+				'limit'   => 24,
+				'stav'    => '0',
 			)
 		);
 		?>

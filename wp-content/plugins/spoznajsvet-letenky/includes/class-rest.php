@@ -30,7 +30,7 @@ class SVL_Rest {
 				'args'                => array(
 					'skupina'   => array(
 						'type'    => 'string',
-						'enum'    => array( 'exotika', 'europa', 'vsetko' ),
+						'enum'    => array( 'exotika', 'europa', 'top', 'vsetko' ),
 						'default' => 'vsetko',
 					),
 					'limit'     => array(

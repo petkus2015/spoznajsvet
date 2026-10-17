@@ -71,7 +71,7 @@ class SVL_Render {
 			(array) $atts,
 			'spoznajsvet_letenky'
 		);
-		$group   = in_array( $atts['skupina'], array( 'exotika', 'europa' ), true ) ? $atts['skupina'] : 'vsetko';
+		$group   = in_array( $atts['skupina'], array( 'exotika', 'europa', 'top' ), true ) ? $atts['skupina'] : 'vsetko';
 		$limit   = max( 1, (int) $atts['limit'] );
 		$heading = '1' === (string) $atts['nadpis'] || 'true' === (string) $atts['nadpis'];
 		$compact = '1' === (string) $atts['kompaktne'] || 'true' === (string) $atts['kompaktne'];
@@ -121,11 +121,15 @@ class SVL_Render {
 			</div>
 			<?php
 			// Najprv najlacnejšie ponuky v Európe, potom exotika.
-			if ( 'exotika' !== $group ) {
-				self::europe( $heading, $limit, $compact );
-			}
-			if ( 'europa' !== $group ) {
-				self::exotic( $heading, $compact, 9 );
+			if ( 'top' === $group ) {
+				self::top( $heading, $limit );
+			} else {
+				if ( 'exotika' !== $group ) {
+					self::europe( $heading, $limit, $compact );
+				}
+				if ( 'europa' !== $group ) {
+					self::exotic( $heading, $compact, 9 );
+				}
 			}
 			?>
 			<p class="svl-note">
@@ -328,6 +332,7 @@ class SVL_Render {
 			array(
 				'head'  => true,
 				'rank'  => 0,
+				'tag'   => null, // [text, trieda] namiesto poradia
 				'class' => '',
 				'attrs' => array(),
 			)
@@ -352,7 +357,9 @@ class SVL_Render {
 						<strong class="svl-tix__city"><?php echo esc_html( $d['dest_city'] ); ?></strong>
 						<span class="svl-tix__country"><?php echo esc_html( $d['dest_country'] ); ?></span>
 					</span>
-					<?php if ( 1 === $args['rank'] ) : ?>
+					<?php if ( $args['tag'] ) : ?>
+						<span class="svl-tix__tag <?php echo esc_attr( $args['tag'][1] ); ?>"><?php echo esc_html( $args['tag'][0] ); ?></span>
+					<?php elseif ( 1 === $args['rank'] ) : ?>
 						<span class="svl-tix__tag svl-tix__tag--gold">Najlacnejšie</span>
 					<?php elseif ( $args['rank'] ) : ?>
 						<span class="svl-tix__tag">#<?php echo (int) $args['rank']; ?></span>
@@ -405,6 +412,68 @@ class SVL_Render {
 				<?php echo self::go( $links['kayak'], 'Kayak', 'svl-compare__btn' ) . self::go( $links['momondo'], 'momondo', 'svl-compare__btn' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			</div>
 		</li>
+		<?php
+	}
+
+	/** Najnavštevovanejšie mestá Európy: najprv najlacnejšia nízkonákladovka, potom klasické linky. */
+	private static function top( $heading, $limit ) {
+		$origins = SVL_Settings::codes( 'europe_origins' );
+		$cities  = SVL_Settings::top_cities();
+		$best    = array();
+		foreach ( SVL_Store::deals( 'top' ) as $d ) {
+			$k = $d['top_city'];
+			// Nízkonákladovka má prednosť; klasickú linku berieme len tam, kde nízkonákladovka nelieta.
+			if ( ! isset( $best[ $k ] ) || ( ! empty( $d['lowcost'] ) && empty( $best[ $k ]['lowcost'] ) )
+				|| ( ! empty( $d['lowcost'] ) === ! empty( $best[ $k ]['lowcost'] ) && $d['price'] < $best[ $k ]['price'] ) ) {
+				$best[ $k ] = $d;
+			}
+		}
+		$list = array_values( $best );
+		usort(
+			$list,
+			static function ( $a, $b ) {
+				// Nízkonákladovky prvé, v rámci skupiny od najlacnejšej.
+				return array( empty( $a['lowcost'] ) ? 1 : 0, $a['price'] ) <=> array( empty( $b['lowcost'] ) ? 1 : 0, $b['price'] );
+			}
+		);
+		$missing = array_diff_key( $cities, $best );
+		?>
+		<div class="svl-block svl-block--top">
+			<?php if ( $heading ) : ?>
+				<header class="svl-head">
+					<p class="svl-eyebrow">Obľúbené mestá</p>
+					<h2 class="svl-title">Najnavštevovanejšie mestá Európy</h2>
+					<p class="svl-lead">Londýn, Paríž, Rím, Barcelona… – najlacnejšia spiatočná letenka <?php echo esc_html( self::origin_sentence( $origins ) ); ?>. Najprv nízkonákladovky (Ryanair, Wizz Air, easyJet…), klasické aerolinky len tam, kde nízkonákladovka nelieta.</p>
+				</header>
+			<?php endif; ?>
+			<?php if ( $list ) : ?>
+				<ol class="svl-tix-grid svl-top-list">
+					<?php
+					foreach ( array_slice( $list, 0, max( 1, (int) $limit ) ) as $d ) {
+						self::ticket(
+							$d,
+							array(
+								'tag'   => empty( $d['lowcost'] ) ? array( 'Klasická linka', 'svl-tix__tag--classic' ) : array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ),
+								'class' => empty( $d['lowcost'] ) ? 'is-classic' : 'is-lowcost',
+							)
+						);
+					}
+					?>
+				</ol>
+			<?php endif; ?>
+			<?php if ( $missing ) : ?>
+				<div class="svl-top-missing">
+					<span>Zatiaľ bez ponuky – porovnať:</span>
+					<?php
+					foreach ( $missing as $city ) {
+						$code = $city[2][0];
+						$link = SVL_Format::compare_links( $origins ? $origins[0] : 'BTS', $code, gmdate( 'Y-m-d', strtotime( '+21 days' ) ), gmdate( 'Y-m-d', strtotime( '+25 days' ) ) );
+						echo self::go( $link['kayak'], SVL_Format::flag( $city[1] ) . ' ' . $city[0], 'svl-link' ); // phpcs:ignore WordPress.Security.EscapeOutput
+					}
+					?>
+				</div>
+			<?php endif; ?>
+		</div>
 		<?php
 	}
 

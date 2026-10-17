@@ -337,6 +337,8 @@ function svl_airlines() {
 		'RJ' => 'Royal Jordanian', 'GF' => 'Gulf Air', 'WY' => 'Oman Air', 'SV' => 'Saudia', 'CA' => 'Air China', 'MU' => 'China Eastern',
 		'HU' => 'Hainan Airlines', 'AI' => 'Air India', 'UL' => 'SriLankan', 'KC' => 'Air Astana', 'SQ' => 'Singapore Airlines',
 		'CX' => 'Cathay Pacific', 'J2' => 'AZAL', 'DE' => 'Condor', 'XQ' => 'SunExpress', 'H4' => 'HiSky', 'BT' => 'airBaltic',
+		'EI' => 'Aer Lingus', 'DY' => 'Norwegian', 'D8' => 'Norwegian', 'LS' => 'Jet2', 'TO' => 'Transavia France', 'V7' => 'Volotea',
+		'DS' => 'easyJet Switzerland', 'SK' => 'SAS', 'AY' => 'Finnair', 'EN' => 'Air Dolomiti', 'J9' => 'Jazeera Airways', 'UX' => 'Air Europa',
 	);
 }
 

@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,9 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.10.0 =
+* Nová sekcia „Najnavštevovanejšie mestá Európy“ (Londýn, Paríž, Istanbul, Rím, Barcelona, Amsterdam, Miláno… 24 miest, všetky letiská mesta spolu): najlacnejšia spiatočná letenka – najprv nízkonákladovky (Ryanair, Wizz Air, easyJet, Vueling, Pegasus…), klasické aerolinky len tam, kde nízkonákladovka nelieta. Shortcode [spoznajsvet_letenky skupina="top"].
 
 = 1.9.0 =
 * Počasie v destinácii pri každej letenke (ikona + najvyššia denná teplota počas pobytu): pri odlete do 16 dní predpoveď, pri neskoršom odlete odhad podľa rovnakého obdobia v minulých rokoch so znakom ~ (Open-Meteo, bez kľúča). Dá sa vypnúť v Nastavenia → Letenky.

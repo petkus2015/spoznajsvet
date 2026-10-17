@@ -65,6 +65,52 @@ class SVL_Settings {
 		);
 	}
 
+	/**
+	 * Najnavštevovanejšie mestá Európy (podľa počtu zahraničných návštevníkov) a ich letiská.
+	 * Doplniť / zmeniť sa dajú filtrom `svl_top_cities`.
+	 *
+	 * @return array<string, array{0:string,1:string,2:string[]}> kľúč => [názov, kód krajiny, letiská a mestské kódy]
+	 */
+	public static function top_cities() {
+		return apply_filters(
+			'svl_top_cities',
+			array(
+				'londyn'     => array( 'Londýn', 'GB', array( 'LON', 'STN', 'LTN', 'LGW', 'LHR', 'SEN', 'LCY' ) ),
+				'pariz'      => array( 'Paríž', 'FR', array( 'PAR', 'CDG', 'ORY', 'BVA' ) ),
+				'istanbul'   => array( 'Istanbul', 'TR', array( 'IST', 'SAW' ) ),
+				'rim'        => array( 'Rím', 'IT', array( 'ROM', 'FCO', 'CIA' ) ),
+				'barcelona'  => array( 'Barcelona', 'ES', array( 'BCN', 'GRO', 'REU' ) ),
+				'amsterdam'  => array( 'Amsterdam', 'NL', array( 'AMS', 'EIN' ) ),
+				'milano'     => array( 'Miláno', 'IT', array( 'MIL', 'MXP', 'BGY', 'LIN' ) ),
+				'madrid'     => array( 'Madrid', 'ES', array( 'MAD' ) ),
+				'ateny'      => array( 'Atény', 'GR', array( 'ATH' ) ),
+				'dublin'     => array( 'Dublin', 'IE', array( 'DUB' ) ),
+				'lisabon'    => array( 'Lisabon', 'PT', array( 'LIS' ) ),
+				'benatky'    => array( 'Benátky', 'IT', array( 'VCE', 'TSF' ) ),
+				'berlin'     => array( 'Berlín', 'DE', array( 'BER' ) ),
+				'florencia'  => array( 'Florencia / Pisa', 'IT', array( 'FLR', 'PSA' ) ),
+				'kodan'      => array( 'Kodaň', 'DK', array( 'CPH' ) ),
+				'edinburgh'  => array( 'Edinburgh', 'GB', array( 'EDI' ) ),
+				'brusel'     => array( 'Brusel', 'BE', array( 'BRU', 'CRL' ) ),
+				'nizza'      => array( 'Nice', 'FR', array( 'NCE' ) ),
+				'neapol'     => array( 'Neapol', 'IT', array( 'NAP' ) ),
+				'porto'      => array( 'Porto', 'PT', array( 'OPO' ) ),
+				'sevilla'    => array( 'Sevilla', 'ES', array( 'SVQ' ) ),
+				'malaga'     => array( 'Málaga', 'ES', array( 'AGP' ) ),
+				'mallorca'   => array( 'Mallorca', 'ES', array( 'PMI' ) ),
+				'stockholm'  => array( 'Štokholm', 'SE', array( 'STO', 'ARN', 'NYO', 'BMA' ) ),
+			)
+		);
+	}
+
+	/** Nízkonákladové letecké spoločnosti (IATA kódy) – v obľúbených mestách majú prednosť. */
+	public static function lowcost_airlines() {
+		return apply_filters(
+			'svl_lowcost_airlines',
+			array( 'FR', 'RK', 'AL', 'W6', 'W4', 'W9', '5W', 'U2', 'EC', 'DS', 'VY', 'V7', 'HV', 'TO', 'EW', 'LS', 'PC', 'DY', 'D8', 'XQ', 'FZ', 'G9', 'J9' )
+		);
+	}
+
 	/** Zapnuté oblasti rebríčka Exotika. */
 	public static function exotic_regions() {
 		return array_values( array_filter( explode( ',', (string) self::get( 'exotic_regions' ) ) ) );

@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.19.1
+Stable tag: 1.20.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.20.0 =
+* Nová sekcia „Najnavštevovanejšie mestá Európy“ (Londýn, Paríž, Istanbul, Rím, Barcelona, Amsterdam, Miláno… 24 miest, všetky letiská mesta spolu): najlacnejšia spiatočná letenka – najprv nízkonákladovky (Ryanair, Wizz Air, easyJet, Vueling, Pegasus…), klasické aerolinky len tam, kde nízkonákladovka nelieta. Shortcode [spoznajsvet_letenky skupina="top"]. Na stránke Letenky medzi Európou a exotikou.
 
 = 1.19.1 =
 * Mapa na mobile: záložné farby pre staršie iPhony (bez color-mix), záložná výška bez aspect-ratio (iOS 14), chyba pri zvýraznení ostrovov už nezastaví celú mapu, výpočet bez limitu argumentov v Safari.

@@ -53,7 +53,7 @@ Kayak ani momondo nemajú verejné API a ich automatické sťahovanie porušuje 
 **Predvolené nastavenie**
 
 - Ázia a exotika (spiatočné): z `VIE, BTS, BUD`, pobyt 5 – 21 nocí, horizont 6 mesiacov; rebríček z Aviasales, Wizz Air a Ryanair (oblasti: Ázia, tropy, severná Afrika; voliteľne Blízky východ) + karty `BKK, DXB, AUH`
-- Poradie: najprv Európa, potom exotika.
+- Poradie: najprv Európa, potom **najnavštevovanejšie mestá Európy** (24 miest; najprv nízkonákladovky, klasické linky len kde nízkonákladovka nelieta; zoznam sa dá zmeniť filtrom `svl_top_cities`), potom exotika.
 - Európa (spiatočné): z `BTS, VIE`, pobyt 2 – 7 nocí, horizont 90 dní, max. 150 €, len Európa
 
 **Použitie:** stránka *Letenky* (šablóna), úvodná stránka, shortcode

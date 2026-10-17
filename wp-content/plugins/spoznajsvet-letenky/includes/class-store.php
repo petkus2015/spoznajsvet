@@ -97,6 +97,7 @@ class SVL_Store {
 			}
 		}
 
+		$deals = array_merge( $deals, self::derive_top( $deals ) );
 		$deals = self::mark_lows( self::clean( $deals ) );
 		// Počasie v destináciách (predpoveď / odhad). Chyba počasia nikdy nezastaví letenky.
 		try {
@@ -121,6 +122,34 @@ class SVL_Store {
 		return $data;
 	}
 
+	/**
+	 * Najnavštevovanejšie mestá Európy: z európskych ponúk (Ryanair, Wizz Air, Aviasales) vyberieme lety
+	 * do týchto miest – všetky letiská mesta spolu (Londýn = Stansted, Luton, Gatwick…), bez cenového limitu.
+	 */
+	public static function derive_top( array $deals ) {
+		$map = array();
+		foreach ( SVL_Settings::top_cities() as $key => $city ) {
+			foreach ( $city[2] as $code ) {
+				$map[ $code ] = $key;
+			}
+		}
+		$lowcost = SVL_Settings::lowcost_airlines();
+		$cities  = SVL_Settings::top_cities();
+		$out     = array();
+		foreach ( $deals as $d ) {
+			if ( 'europa' !== $d['group'] || ! isset( $map[ $d['destination'] ] ) ) {
+				continue;
+			}
+			$key            = $map[ $d['destination'] ];
+			$d['group']     = 'top';
+			$d['top_city']  = $key;
+			$d['dest_city'] = $cities[ $key ][0];
+			$d['lowcost']   = in_array( $d['source'], array( 'ryanair', 'wizzair' ), true ) || in_array( strtoupper( (string) $d['airline_code'] ), $lowcost, true );
+			$out[]          = $d;
+		}
+		return $out;
+	}
+
 	public static function clean( array $deals ) {
 		$today       = gmdate( 'Y-m-d' );
 		$exotic      = SVL_Settings::codes( 'exotic_destinations' );
@@ -143,6 +172,9 @@ class SVL_Store {
 				}
 				// Rebríček: najlacnejšia letenka do každého mesta (z ktoréhokoľvek letiska).
 				$key = $d['group'] . '|' . ( $d['dest_city'] ? $d['dest_city'] : $d['destination'] );
+			} elseif ( 'top' === $d['group'] ) {
+				// Obľúbené mestá: najlacnejšia nízkonákladovka a najlacnejšia klasická linka do každého mesta.
+				$key = 'top|' . $d['top_city'] . '|' . ( empty( $d['lowcost'] ) ? 'cl' : 'lc' );
 			} elseif ( 'exotika' === $d['group'] ) {
 				if ( ! in_array( $d['destination'], $exotic, true ) ) {
 					continue;
