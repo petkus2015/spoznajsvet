@@ -92,9 +92,12 @@ class SVL_Provider_Wizzair extends SVL_Provider {
 		}
 		if ( 'exotika' === $group ) {
 			foreach ( SVL_Settings::codes( 'exotic_origins' ) as $o ) {
-				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $d ) {
-					if ( in_array( $d, $routes[ $o ] ?? array(), true ) ) {
-						$pairs[] = array( $o, $d );
+				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $card ) {
+					// Wizz Air lieta do Dubaja na Al Maktoum (DWC), nie na DXB.
+					foreach ( SVL_Settings::exotic_airports( $card ) as $d ) {
+						if ( in_array( $d, $routes[ $o ] ?? array(), true ) ) {
+							$pairs[] = array( $o, $d );
+						}
 					}
 				}
 			}

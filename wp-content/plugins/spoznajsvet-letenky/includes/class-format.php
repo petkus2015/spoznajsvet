@@ -42,6 +42,11 @@ class SVL_Format {
 		);
 	}
 
+	/** Nízkonákladová letenka? (Ryanair, Wizz Air a aerolinky zo zoznamu – easyJet, Pegasus, flydubai, Air Arabia…) */
+	public static function is_lowcost( array $d ) {
+		return in_array( $d['source'] ?? '', array( 'ryanair', 'wizzair' ), true ) || in_array( strtoupper( (string) ( $d['airline_code'] ?? '' ) ), SVL_Settings::lowcost_airlines(), true );
+	}
+
 	/** Logo aerolinky (verejné CDN Aviasales podľa IATA kódu). */
 	public static function airline_logo( $code, $size = 28 ) {
 		$code = strtoupper( (string) $code );

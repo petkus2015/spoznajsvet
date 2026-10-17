@@ -103,6 +103,34 @@ class SVL_Settings {
 		);
 	}
 
+	/**
+	 * Letiská pre kartu exotiky: Dubaj = DXB aj Al Maktoum (DWC – sem lieta Wizz Air) a Šardžá (SHJ – Air Arabia),
+	 * Bangkok = BKK aj Don Mueang (DMK). Filter `svl_exotic_airports`.
+	 *
+	 * @return string[]
+	 */
+	public static function exotic_airports( $code ) {
+		$map = apply_filters(
+			'svl_exotic_airports',
+			array(
+				'DXB' => array( 'DXB', 'DWC', 'SHJ' ),
+				'AUH' => array( 'AUH' ),
+				'BKK' => array( 'BKK', 'DMK' ),
+			)
+		);
+		return $map[ $code ] ?? array( $code );
+	}
+
+	/** Karta exotiky, kam patrí letisko (DWC → DXB), alebo null. */
+	public static function exotic_card_of( $airport ) {
+		foreach ( self::codes( 'exotic_destinations' ) as $card ) {
+			if ( in_array( $airport, self::exotic_airports( $card ), true ) ) {
+				return $card;
+			}
+		}
+		return null;
+	}
+
 	/** Nízkonákladové letecké spoločnosti (IATA kódy) – v obľúbených mestách majú prednosť. */
 	public static function lowcost_airlines() {
 		return apply_filters(

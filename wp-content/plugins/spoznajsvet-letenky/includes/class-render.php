@@ -220,13 +220,16 @@ class SVL_Render {
 			<?php
 			$by_dest = array();
 			foreach ( SVL_Store::deals( 'exotika' ) as $d ) {
-				$by_dest[ $d['destination'] ][] = $d;
+				$card = SVL_Settings::exotic_card_of( $d['destination'] );
+				if ( $card ) {
+					$by_dest[ $card ][] = $d;
+				}
 			}
 			?>
 			<div class="svl-exo-grid">
 				<?php
 				foreach ( SVL_Settings::codes( 'exotic_destinations' ) as $dest ) {
-					self::exotic_card( $dest, self::cheapest( $by_dest[ $dest ] ?? array() ), $origins );
+					self::exotic_card( $dest, $by_dest[ $dest ] ?? array(), $origins );
 				}
 				?>
 			</div>
@@ -277,7 +280,23 @@ class SVL_Render {
 	}
 
 	/** Karta destinácie s jedinou – najlacnejšou spiatočnou – letenkou. */
-	private static function exotic_card( $dest, $min, array $origins ) {
+	private static function exotic_card( $dest, array $list, array $origins ) {
+		// Ako pri obľúbených mestách: najprv nízkonákladovka (Wizz Air, flydubai, Air Arabia…), potom klasická linka.
+		$lc   = self::cheapest(
+			array_filter(
+				$list,
+				array( 'SVL_Format', 'is_lowcost' )
+			)
+		);
+		$cl   = self::cheapest(
+			array_filter(
+				$list,
+				static function ( $d ) {
+					return ! SVL_Format::is_lowcost( $d );
+				}
+			)
+		);
+		$min  = $lc ? $lc : $cl;
 		$info = svl_airport( $dest );
 		$img  = apply_filters( 'svl_destination_image', '', $dest, $info['city'] );
 		?>
@@ -292,7 +311,7 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
+						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( min( $lc ? $lc['price'] : INF, $cl ? $cl['price'] : INF ) ) ); ?></strong>
 						</p>
 					<?php else : ?>
 						<p class="svl-exo__from">porovnajte aktuálne ceny</p>
@@ -302,7 +321,25 @@ class SVL_Render {
 			<ul class="svl-exo__list">
 				<?php
 				if ( $min ) {
-					self::ticket( $min, array( 'head' => false ) );
+					if ( $lc ) {
+						self::ticket(
+							$lc,
+							array(
+								'head' => false,
+								'tag'  => array( 'Nízkonákladovka', 'svl-tix__tag--lowcost' ),
+							)
+						);
+					}
+					if ( $cl ) {
+						self::ticket(
+							$cl,
+							array(
+								'head'  => false,
+								'tag'   => array( 'Klasická linka', 'svl-tix__tag--classic' ),
+								'class' => $lc ? 'is-second' : '',
+							)
+						);
+					}
 				} else {
 					$o     = $origins ? $origins[0] : 'VIE';
 					$links = SVL_Format::compare_links( $o, $dest, gmdate( 'Y-m-d', strtotime( '+30 days' ) ), gmdate( 'Y-m-d', strtotime( '+44 days' ) ) );
@@ -367,6 +404,9 @@ class SVL_Render {
 						<span class="svl-tix__tag svl-tix__tag--gold">Top cena</span>
 					<?php endif; ?>
 				</div>
+			<?php endif; ?>
+			<?php if ( ! $args['head'] && $args['tag'] ) : ?>
+				<span class="svl-tix__tag svl-tix__tag--inline <?php echo esc_attr( $args['tag'][1] ); ?>"><?php echo esc_html( $args['tag'][0] ); ?></span>
 			<?php endif; ?>
 			<div class="svl-tix__route">
 				<span class="svl-tix__pt">

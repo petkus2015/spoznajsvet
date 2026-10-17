@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.20.0
+Stable tag: 1.21.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.21.0 =
+* Bangkok, Dubaj, Abu Dhabi: ako pri obľúbených mestách – najprv najlacnejšia nízkonákladovka (Wizz Air, flydubai, Air Arabia…), pod ňou klasická linka. Dubaj zahŕňa aj letisko Al Maktoum (DWC), kam lieta Wizz Air, a Šardžá (SHJ); Bangkok aj Don Mueang (DMK).
 
 = 1.20.0 =
 * Nová sekcia „Najnavštevovanejšie mestá Európy“ (Londýn, Paríž, Istanbul, Rím, Barcelona, Amsterdam, Miláno… 24 miest, všetky letiská mesta spolu): najlacnejšia spiatočná letenka – najprv nízkonákladovky (Ryanair, Wizz Air, easyJet, Vueling, Pegasus…), klasické aerolinky len tam, kde nízkonákladovka nelieta. Shortcode [spoznajsvet_letenky skupina="top"]. Na stránke Letenky medzi Európou a exotikou.

@@ -133,7 +133,6 @@ class SVL_Store {
 				$map[ $code ] = $key;
 			}
 		}
-		$lowcost = SVL_Settings::lowcost_airlines();
 		$cities  = SVL_Settings::top_cities();
 		$out     = array();
 		foreach ( $deals as $d ) {
@@ -144,7 +143,7 @@ class SVL_Store {
 			$d['group']     = 'top';
 			$d['top_city']  = $key;
 			$d['dest_city'] = $cities[ $key ][0];
-			$d['lowcost']   = in_array( $d['source'], array( 'ryanair', 'wizzair' ), true ) || in_array( strtoupper( (string) $d['airline_code'] ), $lowcost, true );
+			$d['lowcost']   = SVL_Format::is_lowcost( $d );
 			$out[]          = $d;
 		}
 		return $out;
@@ -176,7 +175,8 @@ class SVL_Store {
 				// Obľúbené mestá: najlacnejšia nízkonákladovka a najlacnejšia klasická linka do každého mesta.
 				$key = 'top|' . $d['top_city'] . '|' . ( empty( $d['lowcost'] ) ? 'cl' : 'lc' );
 			} elseif ( 'exotika' === $d['group'] ) {
-				if ( ! in_array( $d['destination'], $exotic, true ) ) {
+				// Aj ďalšie letiská mesta (Dubaj: DWC – Wizz Air, SHJ – Air Arabia).
+				if ( ! SVL_Settings::exotic_card_of( $d['destination'] ) ) {
 					continue;
 				}
 				$key = implode( '|', array( $d['group'], $d['origin'], $d['destination'], $d['source'], $d['depart'], $d['return'], $d['airline_code'] ?? '' ) );
