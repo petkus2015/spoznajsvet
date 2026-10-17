@@ -9,14 +9,14 @@ defined( 'ABSPATH' ) || exit;
 
 function sst_mod_defaults() {
 	return array(
-		'sst_hero_eyebrow'  => 'Najčastejšie sólo · rád aj v partii',
+		'sst_hero_eyebrow'  => 'Najčastejšie sólo · rád aj so squadom',
 		'sst_hero_title'    => 'Spoznaj',
 		'sst_hero_accent'   => 'svet',
-		'sst_hero_text'     => 'Batoh, letenka za pár eur a chuť zablúdiť. Väčšinou cestujem sám, no rád vyrazím s kýmkoľvek alebo s malou partiou. Tu nájdeš príbehy, itineráre a tipy z miest, kde som bol, aj to, ako sa tam dostať lacno.',
+		'sst_hero_text'     => 'Batoh, letenka za pár eur a chuť zablúdiť. Väčšinou cestujem sám, no rád vyrazím s kýmkoľvek alebo so svojím squadom. Tu nájdeš príbehy, itineráre a tipy z miest, kde som bol, aj to, ako sa tam dostať lacno.',
 		'sst_about_title'   => 'Ahoj, som cestovateľ, ktorý sa nebojí vyraziť aj sám',
-		'sst_about_text'    => 'Najčastejšie cestujem sólo. Sám si určujem tempo, ľahšie sa dám do reči s miestnymi a zažijem veci, ktoré by som v skupine prehliadol. Nie som však samotár: rád cestujem s kýmkoľvek, kto má chuť objavovať, aj s menšou partiou. Na blogu nájdeš úprimné tipy pre sólo cestovateľov aj skupinky. Koľko čo stojí, kde je bezpečne, kde sa oplatí prespať a ako lacno letieť.',
-		'sst_about_tags'    => 'Najčastejšie sólo, Rád aj v partii, Lacné letenky, Overené tipy',
-		'sst_footer_text'   => 'Sólo aj v partii. Príbehy, itineráre a lacné letenky zo Slovenska do celého sveta.',
+		'sst_about_text'    => 'Najčastejšie cestujem sólo. Sám si určujem tempo, ľahšie sa dám do reči s miestnymi a zažijem veci, ktoré by som v skupine prehliadol. Nie som však samotár: rád cestujem s kýmkoľvek, kto má chuť objavovať, aj s malým squadom. Na blogu nájdeš úprimné tipy pre sólo cestovateľov aj celé squady. Koľko čo stojí, kde je bezpečne, kde sa oplatí prespať a ako lacno letieť.',
+		'sst_about_tags'    => 'Najčastejšie sólo, Rád aj so squadom, Lacné letenky, Overené tipy',
+		'sst_footer_text'   => 'Sólo aj so squadom. Príbehy, itineráre a lacné letenky zo Slovenska do celého sveta.',
 		'sst_home_flights'  => 1,
 	);
 }

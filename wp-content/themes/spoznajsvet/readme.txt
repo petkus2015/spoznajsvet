@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.22.0
+Stable tag: 1.22.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.22.1 =
+* Texty: „partia“ nahradená výrazom „squad“ (sólo aj so squadom).
 
 = 1.22.0 =
 * Najnavštevovanejšie mestá Európy v novom prehľadnom dizajne (zoznam: vlajka, mesto, trasa a aerolinka, termín, počasie, cena, celý riadok klikateľný). Na webe sa už nepíše „nízkonákladovka / klasická linka“ – uprednostnenie nízkonákladoviek ostáva len v pozadí.
