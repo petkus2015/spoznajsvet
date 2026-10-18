@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.22.1
+Stable tag: 1.23.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.23.0 =
+* Spodná lišta v štýle Liquid Glass z iOS 27: vyhľadávanie je opäť v jednej kapsule s ostatnými položkami, jasnejšie sklo, „tekutá“ šošovka (pri presune sa natiahne a pruží), dá sa ťahať prstom – pustením sa otvorí položka pod prstom.
 
 = 1.22.1 =
 * Texty: „partia“ nahradená výrazom „squad“ (sólo aj so squadom).

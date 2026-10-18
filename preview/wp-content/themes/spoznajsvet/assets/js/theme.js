@@ -25,43 +25,80 @@
 	}, { passive: true });
 	onScroll();
 
-	/* Spodná navigácia „Liquid Glass“: sklenená šošovka pod aktívnou položkou. */
+	/* Spodná navigácia „Liquid Glass“ (iOS 27): tekutá šošovka pod aktívnou položkou, dá sa ťahať prstom. */
 	var nav = doc.querySelector('[data-bottom-nav]');
 	var lens = nav && nav.querySelector('[data-nav-lens]');
+	var lensX = null, moveT;
 
-	function moveLens(item) {
+	function moveLens(item, instant) {
 		if (!lens) return;
 		if (!item) { lens.classList.remove('is-visible'); return; }
 		var bar = lens.parentElement.getBoundingClientRect();
 		var r = item.getBoundingClientRect();
 		if (!r.width) return;
-		lens.style.setProperty('--lens-x', (r.left - bar.left) + 'px');
+		var x = r.left - bar.left;
+		// Pri presune sa šošovka natiahne ako kvapka a potom dopruží.
+		if (!instant && lensX !== null && Math.abs(x - lensX) > 2 && !reduceMotion) {
+			lens.classList.add('is-moving');
+			clearTimeout(moveT);
+			moveT = setTimeout(function () { lens.classList.remove('is-moving'); }, 260);
+		}
+		lensX = x;
+		lens.style.setProperty('--lens-x', x + 'px');
 		lens.style.setProperty('--lens-w', r.width + 'px');
 		lens.classList.add('is-visible');
 	}
 	function activeItem() { return nav && nav.querySelector('.bottom-nav__item.is-active'); }
+	window.sstNavReset = function () { moveLens(activeItem()); };
 
 	if (nav && lens) {
 		// Prvé umiestnenie bez animácie, potom už plynulo.
 		lens.style.transition = 'none';
-		moveLens(activeItem());
+		moveLens(activeItem(), true);
 		window.requestAnimationFrame(function () {
 			lens.style.transition = '';
 			nav.classList.add('is-ready');
 		});
+		var drag = null;
+		function itemAt(x) {
+			var hit = null;
+			nav.querySelectorAll('.bottom-nav__item').forEach(function (it) {
+				var r = it.getBoundingClientRect();
+				if (x >= r.left && x <= r.right) hit = it;
+			});
+			return hit;
+		}
+		// Odkaz sa nesmie začať „presúvať“ – zrušilo by to ťahanie šošovky.
+		nav.addEventListener('dragstart', function (e) { e.preventDefault(); });
 		nav.addEventListener('pointerdown', function (e) {
 			var item = e.target.closest('.bottom-nav__item');
 			if (!item) return;
+			drag = { start: item, over: item, x: e.clientX, moved: false };
 			moveLens(item);
 			lens.classList.add('is-pressed');
 		});
-		var release = function () { lens.classList.remove('is-pressed'); };
+		// Ťahanie prstom po lište: šošovka ide za prstom, pustením sa otvorí položka pod ním.
+		nav.addEventListener('pointermove', function (e) {
+			if (!drag) return;
+			if (!drag.moved && Math.abs(e.clientX - drag.x) < 8) return;
+			drag.moved = true;
+			lens.classList.add('is-dragging');
+			var it = itemAt(e.clientX);
+			if (it && it !== drag.over) { drag.over = it; moveLens(it); }
+		});
+		var release = function (e) {
+			lens.classList.remove('is-pressed', 'is-dragging');
+			if (drag && drag.moved && drag.over && drag.over !== drag.start && e && e.type === 'pointerup') {
+				drag.over.click();
+			}
+			drag = null;
+		};
 		nav.addEventListener('pointerup', release);
 		nav.addEventListener('pointercancel', function () { release(); moveLens(activeItem()); });
-		nav.addEventListener('pointerleave', release);
-		window.addEventListener('resize', function () { moveLens(activeItem()); });
+		nav.addEventListener('pointerleave', function () { if (drag && !drag.moved) release(); });
+		window.addEventListener('resize', function () { moveLens(activeItem(), true); });
 		// Návrat späť (bfcache) – šošovka na správne miesto.
-		window.addEventListener('pageshow', function () { moveLens(activeItem()); });
+		window.addEventListener('pageshow', function () { moveLens(activeItem(), true); });
 	}
 
 	/* Vyhľadávanie cez celú obrazovku. */
@@ -87,6 +124,8 @@
 		doc.querySelectorAll('[data-search-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
 		setTimeout(function () { overlay.hidden = true; }, reduceMotion ? 0 : 200);
 		if (lastFocus) lastFocus.focus();
+		// Šošovka spodnej lišty sa vráti z „Hľadať“ na aktuálnu stránku.
+		if (window.sstNavReset) window.sstNavReset();
 	}
 
 	doc.addEventListener('click', function (e) {
