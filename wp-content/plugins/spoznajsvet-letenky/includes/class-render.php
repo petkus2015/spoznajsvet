@@ -319,8 +319,10 @@ class SVL_Render {
 				<div class="svl-exo__bottom">
 					<h3 class="svl-exo__city"><?php echo esc_html( $info['city'] ); ?></h3>
 					<?php if ( $min ) : ?>
-						<p class="svl-exo__from">spiatočná letenka od <strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong>
-						</p>
+						<div class="svl-exo__meta">
+							<p class="svl-exo__from"><span class="svl-rt">tam aj späť</span><strong><?php echo esc_html( SVL_Format::price( $min['price'] ) ); ?></strong></p>
+							<?php echo SVL_Weather::badge( $min, 'chip' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						</div>
 					<?php else : ?>
 						<p class="svl-exo__from">porovnajte aktuálne ceny</p>
 					<?php endif; ?>
@@ -420,18 +422,19 @@ class SVL_Render {
 					<?php if ( $nights ) : ?>
 						<span class="svl-tix__nights"><?php echo esc_html( $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) ); ?></span>
 					<?php endif; ?>
-					<?php echo SVL_Weather::badge( $d ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</span>
 				<span class="svl-tix__date svl-tix__date--end"><small>Späť</small><b><?php echo esc_html( SVL_Format::date( $d['return'] ) ); ?></b></span>
 			</div>
+			<?php echo SVL_Weather::badge( $d, 'strip' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<div class="svl-tix__foot">
 				<span class="svl-tix__airline">
 					<?php echo SVL_Format::airline_logo( $d['airline_code'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<span><b><?php echo esc_html( $airline ); ?></b><?php if ( SVL_Format::source_label( $d['source'] ) !== $airline ) : ?><small>cez <?php echo esc_html( SVL_Format::source_label( $d['source'] ) ); ?></small><?php endif; ?></span>
 				</span>
 				<span class="svl-tix__price">
-					<small>tam aj späť</small>
+					<small class="svl-rt">tam aj späť</small>
 					<strong><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></strong>
+					<small>za osobu</small>
 				</span>
 				<button type="button" class="svl-tix__go" data-svl-go="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( 'Zobraziť letenku ' . $d['origin'] . ' – ' . $d['dest_city'] . ' za ' . SVL_Format::price( $d['price'] ) ); ?>">
 					<span class="svl-tix__go-label">Zobraziť</span>
@@ -491,11 +494,12 @@ class SVL_Render {
 									<strong class="svl-city__name"><?php echo esc_html( $city[0] ); ?></strong>
 									<span class="svl-city__route"><?php echo esc_html( $d['origin'] . ' → ' . $d['destination'] . ( $d['airline'] ? ' · ' . $d['airline'] : '' ) ); ?></span>
 									<span class="svl-city__when"><?php echo esc_html( SVL_Format::date( $d['depart'] ) . ' – ' . SVL_Format::date( $d['return'] ) . ( $nights ? ' · ' . $nights . ' ' . SVL_Format::plural( $nights, 'noc', 'noci', 'nocí' ) : '' ) ); ?></span>
+									<?php echo SVL_Weather::badge( $d, 'chip' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 								</span>
 								<span class="svl-city__side">
-									<?php echo SVL_Weather::badge( $d ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+									<span class="svl-rt">tam aj späť</span>
 									<span class="svl-city__price"><?php echo esc_html( SVL_Format::price( $d['price'] ) ); ?></span>
-									<span class="svl-city__note">tam aj späť</span>
+									<span class="svl-city__note">za osobu</span>
 								</span>
 								<span class="svl-city__go" aria-hidden="true"></span>
 							</button>

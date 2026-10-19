@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.23.0
+Stable tag: 1.24.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.24.0 =
+* Letenky: prehľadnejšia cena a počasie. Cena má štítok „⇄ tam aj späť“ (celková cena spiatočnej letenky za osobu), počasie má na lístku vlastný farebný pás – ikona, teplota, popis a vysvetlivka („predpoveď na tvoj termín“ alebo „~ bežne v októbri“ pri odhade). Obľúbené mestá a exotika majú počasie ako farebný štítok.
 
 = 1.23.0 =
 * Spodná lišta v štýle Liquid Glass z iOS 27: vyhľadávanie je opäť v jednej kapsule s ostatnými položkami, jasnejšie sklo, „tekutá“ šošovka (pri presune sa natiahne a pruží), dá sa ťahať prstom – pustením sa otvorí položka pod prstom.

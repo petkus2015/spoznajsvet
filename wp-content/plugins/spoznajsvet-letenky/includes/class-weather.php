@@ -330,22 +330,43 @@ class SVL_Weather {
 		return $labels[ $cat ] ?? '';
 	}
 
-	/** HTML odznaku: ikona + teplota, pri odhade „~“. */
-	public static function badge( array $deal ) {
+	/** Kedy: „v októbri“ – mesiac odletu (pre odhad podľa minulých rokov). */
+	private static function month_in( $date ) {
+		$months = array( 1 => 'v januári', 'vo februári', 'v marci', 'v apríli', 'v máji', 'v júni', 'v júli', 'v auguste', 'v septembri', 'v októbri', 'v novembri', 'v decembri' );
+		return $months[ (int) gmdate( 'n', strtotime( $date . ' 12:00 UTC' ) ) ];
+	}
+
+	/**
+	 * HTML počasia: ikona + teplota, pri odhade „~“.
+	 *
+	 * @param array  $deal Ponuka.
+	 * @param string $mode badge (ikona + °), chip (+ popis) alebo strip (riadok na lístku s vysvetlivkou).
+	 */
+	public static function badge( array $deal, $mode = 'badge' ) {
 		$w = self::for_deal( $deal );
 		if ( ! $w ) {
 			return '';
 		}
 		$label = self::label( $w['cat'] );
+		$when  = self::month_in( $deal['depart'] );
 		$sr    = $w['exact']
 			? sprintf( 'Predpoveď počasia v destinácii: %s, %d °C', $label, $w['t'] )
 			: sprintf( 'Odhad počasia v destinácii (podľa minulých rokov): väčšinou %s, okolo %d °C', $label, $w['t'] );
+		$temp  = sprintf( '<b class="svl-wx__t">%s%d°</b>', $w['exact'] ? '' : '~', (int) $w['t'] );
+		$body  = $temp;
+		if ( 'chip' === $mode ) {
+			$body .= '<span class="svl-wx__label">' . esc_html( $label ) . '</span>';
+		} elseif ( 'strip' === $mode ) {
+			$body .= '<span class="svl-wx__label">' . esc_html( $w['exact'] ? $label : 'väčšinou ' . $label ) . '</span>'
+				. '<span class="svl-wx__hint">' . esc_html( $w['exact'] ? 'predpoveď na tvoj termín' : 'bežne ' . $when ) . '</span>';
+		}
 		return sprintf(
-			'<span class="svl-wx svl-wx--%1$s%2$s"><span class="svl-wx__icon" aria-hidden="true"></span><span aria-hidden="true">%3$s%4$d°</span><span class="svl-sr">%5$s</span></span>',
+			'<span class="svl-wx svl-wx--%1$s svl-wx--%2$s%3$s" title="%4$s"><span class="svl-wx__icon" aria-hidden="true"></span><span class="svl-wx__body" aria-hidden="true">%5$s</span><span class="svl-sr">%6$s</span></span>',
 			esc_attr( $w['cat'] ),
+			esc_attr( $mode ),
 			$w['exact'] ? '' : ' is-estimate',
-			$w['exact'] ? '' : '~',
-			(int) $w['t'],
+			esc_attr( $sr ),
+			$body,
 			esc_html( $sr )
 		);
 	}

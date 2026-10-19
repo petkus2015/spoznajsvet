@@ -73,8 +73,12 @@
 .svl-exo__top { display: flex; justify-content: space-between; gap: .5rem; align-items: flex-start; }
 .svl-glass { display: inline-flex; align-items: center; gap: .3rem; padding: .35rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 600; background: rgba(255,255,255,.18); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.25); }
 .svl-exo__city { margin: 0; color: #fff; font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.05; letter-spacing: .01em; }
-.svl-exo__from { margin: .25rem 0 0; font-size: .9rem; opacity: .9; }
-.svl-exo__from strong { font-size: 1.25rem; opacity: 1; }
+.svl-exo__meta { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .5rem .75rem; margin-top: .45rem; }
+.svl-exo__from { display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; margin: 0; font-size: .9rem; line-height: 1; }
+.svl-exo__from strong { font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.svl-exo__from .svl-rt { color: #fff; background: rgba(255,255,255,.18); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+.svl-exo__meta .svl-wx.svl-wx--chip { margin: 0; color: #fff; background: rgba(255,255,255,.18); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+.svl-exo__meta .svl-wx .svl-wx__label { color: rgba(255,255,255,.85); }
 
 .svl-badge { display: inline-block; padding: .3rem .6rem; border-radius: 999px; background: var(--svl-gold); color: #2a1d10; font-size: .7rem; font-weight: 700; letter-spacing: .02em; }
 
@@ -225,9 +229,22 @@
 .svl-tix__airline > span { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
 .svl-tix__airline b { color: var(--svl-text); font-size: .86rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .svl-tix__airline small { color: var(--svl-muted); font-size: .7rem; }
-.svl-tix__price { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.05; }
+.svl-tix__price { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; line-height: 1.05; }
 .svl-tix__price small { color: var(--svl-muted); font-size: .66rem; font-weight: 600; white-space: nowrap; }
-.svl-tix__price strong { color: var(--svl-accent); font-size: 1.5rem; font-weight: 800; letter-spacing: -.01em; white-space: nowrap; }
+.svl-tix__price strong { color: var(--svl-accent); font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Štítok „⇄ tam aj späť“ – cena je vždy celková za spiatočnú letenku */
+.svl-rt {
+	display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .5rem .18rem .4rem; border-radius: 999px;
+	background: color-mix(in srgb, var(--svl-accent) 10%, var(--svl-surface)); color: var(--svl-accent);
+	font-size: .64rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; line-height: 1; white-space: nowrap;
+}
+.svl-rt::before {
+	content: ""; width: 12px; height: 12px; flex: 0 0 auto; background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.svl-tix__price .svl-rt { color: var(--svl-accent); font-size: .62rem; }
 .svl-tix__go {
 	display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-height: 44px; padding: 0 1rem;
 	border: 0; border-radius: 999px; background: var(--svl-accent); color: var(--svl-accent-ink); font-size: .85rem; font-weight: 700;
@@ -253,10 +270,37 @@
 
 /* Počasie v destinácii (ikona + teplota; odhad so znakom ~) */
 .svl-tix__mid { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-.svl-wx { display: inline-flex; align-items: center; gap: .25rem; color: var(--svl-heading); font-size: .82rem; font-weight: 800; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.svl-wx { --wx: #f59e0b; display: inline-flex; align-items: center; gap: .3rem; color: var(--svl-heading); font-size: .82rem; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.svl-wx--partly { --wx: #eab308; }
+.svl-wx--cloud { --wx: #94a3b8; }
+.svl-wx--rain { --wx: #3b82f6; }
+.svl-wx--storm { --wx: #6366f1; }
+.svl-wx--snow { --wx: #38bdf8; }
 .svl-wx__icon { width: 20px; height: 20px; flex: 0 0 auto; background: center / contain no-repeat; }
-.svl-wx.is-estimate { color: var(--svl-text); font-weight: 700; }
-.svl-wx.is-estimate .svl-wx__icon { opacity: .8; }
+.svl-wx__body { display: inline-flex; align-items: baseline; gap: .35rem; min-width: 0; }
+.svl-wx__t { font-weight: 800; }
+.svl-wx__label { color: var(--svl-muted); font-weight: 600; }
+.svl-wx.is-estimate .svl-wx__t { font-weight: 700; }
+.svl-wx.is-estimate .svl-wx__icon { opacity: .85; }
+
+/* Chip: ikona, teplota, popis */
+.svl-wx--chip { align-self: flex-start; gap: .25rem; margin-top: .3rem; padding: .22rem .55rem .22rem .3rem; border-radius: 999px; font-size: .74rem; background: color-mix(in srgb, var(--wx) 13%, var(--svl-surface)); }
+.svl-wx--chip .svl-wx__icon { width: 18px; height: 18px; }
+.svl-wx--chip.is-estimate { background: transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wx) 35%, var(--svl-line)); }
+
+/* Pás na lístku: veľká ikona + teplota, popis a vysvetlivka (predpoveď / odhad) */
+.svl-wx--strip {
+	display: flex; gap: .6rem; margin-top: .55rem; padding: .5rem .8rem; border-radius: 14px; font-size: .82rem;
+	background: linear-gradient(100deg, color-mix(in srgb, var(--wx) 16%, var(--svl-surface)), color-mix(in srgb, var(--wx) 5%, var(--svl-surface)));
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wx) 22%, transparent);
+}
+.svl-wx--strip .svl-wx__icon { width: 30px; height: 30px; }
+.svl-wx--strip .svl-wx__body { flex: 1; flex-wrap: wrap; align-items: baseline; gap: .1rem .45rem; }
+.svl-wx--strip .svl-wx__t { font-size: 1.2rem; letter-spacing: -.01em; }
+.svl-wx--strip .svl-wx__label { color: var(--svl-text); font-weight: 700; }
+.svl-wx--strip .svl-wx__hint { margin-left: auto; color: var(--svl-muted); font-size: .7rem; font-weight: 600; }
+.svl-wx--strip.is-estimate { background: var(--svl-surface); border: 1px dashed color-mix(in srgb, var(--wx) 40%, var(--svl-line)); box-shadow: none; }
+@container (max-width: 330px) { .svl-wx--strip .svl-wx__hint { margin-left: 0; width: 100%; } }
 .svl-wx--sun .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><g stroke=%22%23F5A623%22 stroke-width=%222%22 stroke-linecap=%22round%22><path d=%22M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8%22/></g><circle cx=%2212%22 cy=%2212%22 r=%224.6%22 fill=%22%23FBBF24%22/></svg>"); }
 .svl-wx--partly .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><g stroke=%22%23F5A623%22 stroke-width=%221.8%22 stroke-linecap=%22round%22><path d=%22M9 1.8v2M2.6 8.4h2M4.4 3.8l1.4 1.4M13.6 3.8l-1.4 1.4%22/></g><circle cx=%229%22 cy=%228.6%22 r=%223.8%22 fill=%22%23FBBF24%22/><path d=%22M8 20h9.5a3.8 3.8 0 0 0 .4-7.58 5.2 5.2 0 0 0-9.9 1.05A3.3 3.3 0 0 0 8 20z%22 fill=%22%23E6ECEE%22 stroke=%22%2394A3A8%22 stroke-width=%221.3%22/></svg>"); }
 .svl-wx--cloud .svl-wx__icon { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M7 18h10a4 4 0 0 0 .4-7.98A5.5 5.5 0 0 0 6.9 11.1 3.5 3.5 0 0 0 7 18z%22 fill=%22%23CBD5D8%22 stroke=%22%238A9A9F%22 stroke-width=%221.4%22/></svg>"); }
@@ -313,11 +357,11 @@
 .svl-city__name { color: var(--svl-heading); font-size: 1.08rem; font-weight: 800; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .svl-city__route, .svl-city__when { color: var(--svl-muted); font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .svl-city__route { color: var(--svl-text); font-weight: 600; }
-.svl-city__side { display: flex; flex-direction: column; align-items: flex-end; gap: .2rem; line-height: 1.05; }
+.svl-city__side { display: flex; flex-direction: column; align-items: flex-end; gap: .25rem; line-height: 1.05; }
 .svl-city__price { color: var(--svl-accent); font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .svl-city__note { color: var(--svl-muted); font-size: .66rem; font-weight: 600; white-space: nowrap; }
-.svl-city__side .svl-wx { font-size: .74rem; }
-.svl-city__side .svl-wx__icon { width: 16px; height: 16px; }
+.svl-city__side .svl-rt { font-size: .58rem; padding: .15rem .42rem .15rem .34rem; }
+.svl-city__side .svl-rt::before { width: 10px; height: 10px; }
 .svl-city__go {
 	position: absolute; right: .85rem; top: 50%; width: 28px; height: 28px; margin-top: -14px; border-radius: 50%;
 	background: var(--svl-soft); transition: background .18s ease, transform .18s ease;
