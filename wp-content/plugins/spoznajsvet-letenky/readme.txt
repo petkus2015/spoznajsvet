@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,9 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.13.1 =
+* Oprava: letenky nezmiznú z webu (ani z úvodnej stránky), keď zdroje cien (Ryanair, Wizz Air, Aviasales) dlhšie neodpovedajú – ostávajú posledné platné ceny až 7 dní, len pre lety, ktoré ešte neodleteli (predtým len 24 h).
 
 = 1.13.0 =
 * Letenky: prehľadnejšia cena a počasie. Cena má štítok „⇄ tam aj späť“ (celková cena spiatočnej letenky za osobu), počasie má na lístku vlastný farebný pás – ikona, teplota, popis a vysvetlivka („predpoveď na tvoj termín“ alebo „~ bežne v októbri“ pri odhade). Obľúbené mestá a exotika majú počasie ako farebný štítok.

@@ -9,6 +9,8 @@ class SVL_Store {
 	const OPTION  = 'svl_deals';
 	const HISTORY = 'svl_price_history';
 	const GROUPS  = array( 'exotika', 'azia', 'europa' );
+	/** Ako dlho držíme posledné ponuky zdroja, ktorý práve nefunguje. */
+	const KEEP    = 7 * DAY_IN_SECONDS;
 
 	public static function providers() {
 		$providers = array(
@@ -79,11 +81,14 @@ class SVL_Store {
 						'msg'   => '',
 					);
 				} catch ( Throwable $e ) {
-					// Ponecháme posledné platné ponuky (max. 24 h).
+					// Ponecháme posledné platné ponuky (max. 7 dní a len lety, ktoré ešte neodleteli),
+					// aby pri dlhšom výpadku zdroja letenky z webu nezmizli.
+					$today = gmdate( 'Y-m-d' );
 					$prev  = array_filter(
 						$old['deals'],
-						static function ( $d ) use ( $p, $group ) {
-							return $d['source'] === $p->id() && $d['group'] === $group && $d['fetched'] > time() - DAY_IN_SECONDS;
+						static function ( $d ) use ( $p, $group, $today ) {
+							return $d['source'] === $p->id() && $d['group'] === $group
+								&& $d['fetched'] > time() - self::KEEP && $d['depart'] > $today;
 						}
 					);
 					$deals = array_merge( $deals, $prev );

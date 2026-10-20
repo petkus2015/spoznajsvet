@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.24.1
+Stable tag: 1.24.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.24.2 =
+* Oprava: letenky nezmiznú z webu (ani z úvodnej stránky), keď zdroje cien (Ryanair, Wizz Air, Aviasales) dlhšie neodpovedajú – ostávajú posledné platné ceny až 7 dní, len pre lety, ktoré ešte neodleteli (predtým len 24 h).
 
 = 1.24.1 =
 * Nový nadpis sekcie „O mne“: „Ahoj, som Petrém (Peter Miškus), sólo/squad cestovateľ, videografer a social media manager“. Starý uložený nadpis sa nahradí automaticky.
