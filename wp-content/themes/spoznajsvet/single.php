@@ -93,6 +93,7 @@ while ( have_posts() ) :
 			array(
 				'posts_per_page'      => 3,
 				'post__not_in'        => array( get_the_ID() ),
+				'category__not_in'    => sst_klook_exclude(),
 				'ignore_sticky_posts' => true,
 				'no_found_rows'       => true,
 				'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery
@@ -108,6 +109,7 @@ while ( have_posts() ) :
 				array(
 					'posts_per_page'      => 3,
 					'post__not_in'        => array( get_the_ID() ),
+					'category__not_in'    => sst_klook_exclude(),
 					'ignore_sticky_posts' => true,
 					'no_found_rows'       => true,
 					'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery

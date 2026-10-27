@@ -99,6 +99,16 @@ Na úvodnej stránke a na stránke *Destinácie* je mapa „Kde všade som bol�
 
 Mapa je v téme (`assets/map/`, Natural Earth 1:10m, štáty aj súostrovia): prehľadová verzia (~35 kB) sa načíta hneď, podrobná (~290 kB) až pri priblížení. Nový súbor vygeneruje `tools/map` (`npm install && npm run fetch && npm run build`).
 
+## Tipy na zážitky (Klook)
+
+Kategória **Tipy na zážitky** sa plní sama: pre každé mesto z Destinácií, o ktorom máš článok, sa raz denne pridá článok
+„Mesto: tipy na výlety, vstupenky a zážitky“ – vlastný úvod, aktuálna najlacnejšia letenka a dlaždice s odkazmi na Klook
+(výlety, vstupenky, transfer z letiska, jedlo, eSIM, doprava). Text z Klooku sa nekopíruje (autorské práva a podmienky Klooku).
+
+- **Články → Tipy na zážitky**: partnerské ID Klooku (`aid`, z affiliate.klook.com), hneď zverejniť alebo koncept, počet za deň, tlačidlo „pridať chýbajúce teraz“.
+- **Pri meste v Destináciách**: „Moje tipy z Klooku“ (odkazy na konkrétne zážitky, voliteľne `odkaz | názov`) a anglický názov pre vyhľadávanie.
+- Zmazaný článok sa znova nevytvorí. Na úvode a v zozname Článkov sa tieto články nezobrazujú – majú vlastný archív `/category/tipy-na-zazitky/`.
+
 ## Predvolené obrázky
 
 Téma obsahuje ilustrácie (`assets/img/destinacie/`) pre Taliansko, Rím, Florenciu, Benátky, Amalfi, Toskánsko, Sicíliu/Palermo, Thajsko, Bangkok, Phuket, SAE, Dubaj, Abu Dhabi, Chorvátsko, Island a Portugalsko a obrázok úvodného banneru (`assets/img/hero.jpg`).

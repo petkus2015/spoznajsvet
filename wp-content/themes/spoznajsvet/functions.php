@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SST_VERSION', '1.24.2' );
+define( 'SST_VERSION', '1.25.0' );
 define( 'SST_DIR', get_template_directory() );
 define( 'SST_URI', get_template_directory_uri() );
 
@@ -23,3 +23,4 @@ require SST_DIR . '/inc/legacy.php';
 require SST_DIR . '/inc/flights.php';
 require SST_DIR . '/inc/map.php';
 require SST_DIR . '/inc/map-admin.php';
+require SST_DIR . '/inc/klook.php';

@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.24.2
+Stable tag: 1.25.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.25.0 =
+* Nová kategória „Tipy na zážitky“: pre každé mesto z Destinácií, o ktorom máš článok, sa raz denne automaticky pridá článok s tipmi z Klooku – výlety, vstupenky, transfer z letiska, jedlo, eSIM a doprava, plus aktuálna najlacnejšia letenka. Nastavenia v Články → Tipy na zážitky (partnerské ID Klooku, hneď zverejniť / koncept, počet za deň). Pri meste v Destináciách môžeš pridať vlastné tipy (odkazy na zážitky z Klooku). Tieto články sa nezobrazujú na úvode ani v zozname Článkov – majú vlastný archív.
 
 = 1.24.2 =
 * Oprava: letenky nezmiznú z webu (ani z úvodnej stránky), keď zdroje cien (Ryanair, Wizz Air, Aviasales) dlhšie neodpovedajú – ostávajú posledné platné ceny až 7 dní, len pre lety, ktoré ešte neodleteli (predtým len 24 h).

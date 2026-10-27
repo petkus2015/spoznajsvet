@@ -239,6 +239,7 @@ function sst_hero_image_url() {
 			'fields'              => 'ids',
 			'post__in'            => $sticky ? $sticky : null,
 			'ignore_sticky_posts' => true,
+			'category__not_in'    => sst_klook_exclude(),
 			'meta_key'            => '_thumbnail_id', // phpcs:ignore WordPress.DB.SlowDBQuery
 		)
 	);

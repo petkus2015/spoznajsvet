@@ -211,6 +211,7 @@ add_action(
 		}
 		if ( $q->is_home() && ! $q->is_search() ) {
 			$q->set( 'posts_per_page', 13 ); // 1 zvýraznený + 4 rady po 3.
+			$q->set( 'category__not_in', sst_klook_exclude() ); // Automatické tipy majú vlastnú kategóriu.
 		}
 		if ( $q->is_search() ) {
 			$q->set( 'post_type', array( 'post', 'page' ) );

@@ -13,6 +13,7 @@ $latest    = new WP_Query(
 	array(
 		'posts_per_page'      => 7,
 		'ignore_sticky_posts' => true,
+		'category__not_in'    => sst_klook_exclude(),
 		'no_found_rows'       => true,
 	)
 );
