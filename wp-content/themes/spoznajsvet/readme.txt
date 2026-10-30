@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.29.0
+Stable tag: 1.30.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.30.0 =
+* Letenky na fotke: sekcie s letenkami (Európa, Obľúbené mestá, Exotika aj letenky na úvode) majú na pozadí celú fotku a lístky, mestá a karty exotiky sú matné sklenené boxy. Fotka sa berie z titulnej fotky krajiny (Európa pre európske letenky, Ázia a ostatné pre exotiku), inak z fotky na úvode.
 
 = 1.29.0 =
 * Matné (frosted) boxy na fotkách: úvod, stránka krajiny/mesta, článok, Letenky a Destinácie majú text v mliečnom sklenenom boxe; karty krajín a článkov majú popis v matnom boxe priamo na fotke; druhé tlačidlo je tmavá kapsula. (Verzia 1.28.0 s tmavým dizajnom bola vrátená.)

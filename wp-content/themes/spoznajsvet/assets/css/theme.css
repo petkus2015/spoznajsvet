@@ -350,6 +350,53 @@ button { font: inherit; }
 	.frost .hero__actions .btn { padding-inline: .6rem; font-size: .92rem; white-space: nowrap; }
 }
 
+/* ---------- Sekcie s fotkou na pozadí (letenky): obsah v matných boxoch ---------- */
+.section--photo {
+	position: relative; isolation: isolate; color: #fff;
+	background: var(--c-ink) var(--section-img, none) center / cover no-repeat;
+}
+.section--photo::before {
+	content: ""; position: absolute; inset: 0; z-index: -1;
+	background: linear-gradient(180deg, rgba(7, 18, 26, .62) 0%, rgba(7, 18, 26, .38) 35%, rgba(7, 18, 26, .38) 65%, rgba(7, 18, 26, .66) 100%);
+}
+.section--photo h2, .section--photo h3, .section--photo .section-title, .section--photo .svl-title { color: #fff; }
+.section--photo .section-lead, .section--photo .svl-lead { color: rgba(255, 255, 255, .8); }
+.section--photo .link-arrow { color: #fff; }
+.section--photo .svl {
+	--svl-surface: rgba(255, 255, 255, .14);
+	--svl-soft: rgba(255, 255, 255, .12);
+	--svl-line: rgba(255, 255, 255, .24);
+	--svl-heading: #fff;
+	--svl-text: rgba(255, 255, 255, .94);
+	--svl-muted: rgba(255, 255, 255, .72);
+	--svl-accent: #6fdcc9;
+	--svl-accent-ink: #062521;
+	--svl-shadow: 0 24px 60px -28px rgba(0, 0, 0, .6);
+	color: var(--svl-text);
+}
+/* Lístky, mestá, exotika, stav: mliečne sklo s rozmazanou fotkou. */
+.section--photo .svl-tix,
+.section--photo .svl-city__main,
+.section--photo .svl-exo,
+.section--photo .svl-flight,
+.section--photo .svl-status,
+.section--photo .svl-empty {
+	border-color: rgba(255, 255, 255, .26);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 24px 60px -30px rgba(0, 0, 0, .6);
+	-webkit-backdrop-filter: blur(20px) saturate(135%); backdrop-filter: blur(20px) saturate(135%);
+}
+.section--photo .svl-chip, .section--photo .svl-status__btn, .section--photo .svl-more, .section--photo .svl-link { background: rgba(255, 255, 255, .14); color: #fff; border-color: rgba(255, 255, 255, .28); }
+.section--photo .svl-chip.is-active { background: #fff; color: #10262b; border-color: #fff; }
+.section--photo .svl-tix__stops.is-direct { background: rgba(134, 239, 172, .2); color: #c7f9d4; }
+.section--photo .svl-note, .section--photo .svl-top-missing { color: rgba(255, 255, 255, .75); }
+.section--photo .svl-note a, .section--photo .svl-compare__btn { color: #fff; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.section--photo .svl { --svl-surface: rgba(20, 34, 40, .86); --svl-soft: rgba(255, 255, 255, .1); }
+}
+@media (prefers-reduced-transparency: reduce) {
+	.section--photo .svl { --svl-surface: rgba(20, 34, 40, .94); }
+}
+
 /* ---------- Úvodný hero ---------- */
 .hero {
 	position: relative; isolation: isolate; color: #fff;
@@ -416,7 +463,7 @@ button { font: inherit; }
 .section { padding-block: clamp(2.5rem, 7vw, 5rem); }
 .section--tight { padding-block: clamp(1.75rem, 5vw, 3.25rem); }
 .section--soft { background: var(--c-soft); }
-.section--flights { background: var(--c-soft); }
+.section--flights:not(.section--photo) { background: var(--c-soft); }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
 .section-title { margin: 0; font-size: clamp(1.6rem, 5vw, 2.5rem); }
 .section-lead { margin: .4rem 0 0; color: var(--c-muted); }

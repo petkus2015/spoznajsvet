@@ -22,7 +22,7 @@ get_header();
 	</div>
 </section>
 
-<section class="section section--tight" id="europa">
+<section class="section section--tight section--photo" id="europa"<?php echo sst_photo_section_attr( sst_flights_bg( 'europa', 0 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="container">
 		<?php
 		sst_flights(
@@ -35,7 +35,7 @@ get_header();
 	</div>
 </section>
 
-<section class="section section--tight" id="oblubene">
+<section class="section section--tight section--photo" id="oblubene"<?php echo sst_photo_section_attr( sst_flights_bg( 'europa', 1 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="container">
 		<?php
 		sst_flights(
@@ -49,7 +49,7 @@ get_header();
 	</div>
 </section>
 
-<section class="section section--tight section--soft" id="exotika">
+<section class="section section--tight section--photo" id="exotika"<?php echo sst_photo_section_attr( sst_flights_bg( 'exotika', 0 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="container">
 		<?php sst_flights( array( 'skupina' => 'exotika', 'stav' => '0' ) ); ?>
 	</div>

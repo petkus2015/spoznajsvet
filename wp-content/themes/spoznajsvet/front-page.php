@@ -94,7 +94,7 @@ $latest    = new WP_Query(
 <?php endif; ?>
 
 <?php if ( sst_mod( 'sst_home_flights' ) ) : ?>
-	<section class="section section--flights">
+	<section class="section section--flights section--photo"<?php echo sst_photo_section_attr( sst_flights_bg( 'europa', 0 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 		<div class="container">
 			<header class="section-head">
 				<div>
