@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.26.0
+Stable tag: 1.26.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.26.1 =
+* Nový text v sekcii „O mne“ (prečo cestujem sám). Starší predvolený text uložený v Prispôsobení sa nahradí automaticky.
 
 = 1.26.0 =
 * Dizajn bez typických „AI“ prvkov: preč sú malé nadtitulky VEĽKÝMI písmenami nad sekciami, slová kurzívou v nadpisoch, emoji ako ikony, nefunkčné ikonky „uložiť“ na kartách, dekoratívne bodky a počítadlo v úvode a farebné žiary v pozadí. Úvodný nadpis je jednoduchý, texty na úvode a v „O mne“ sú prirodzenejšie a bez fráz, Tipy na zážitky majú jednoduché ikony.

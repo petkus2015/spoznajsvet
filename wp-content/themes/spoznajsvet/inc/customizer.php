@@ -13,7 +13,7 @@ function sst_mod_defaults() {
 		'sst_hero_accent'   => 'svet',
 		'sst_hero_text'     => 'Píšem o miestach, kde som bol: čo tam robiť, kde spať, koľko to stálo a ako sa tam dostať lacno. Väčšinou cestujem sám, občas so squadom.',
 		'sst_about_title'   => 'Ahoj, som Petrém (Peter Miškus), sólo/squad cestovateľ, videografer a social media manager',
-		'sst_about_text'    => 'Natáčam videá a spravujem sociálne siete, a keď sa dá, cestujem. Najčastejšie sám, lebo si určujem tempo a ľahšie sa dám do reči s miestnymi, no rád idem aj so squadom. Na blogu píšem, koľko čo stálo, kde sa oplatilo spať a ako som letel lacno.',
+		'sst_about_text'    => 'Natáčam videá, spravujem sociálne siete a keď sa dá, balím batoh. Najčastejšie cestujem sám. Tak najlepšie vypnem, naberiem skúsenosti a zistím, čo zvládnem mimo komfortnej zóny, keď je každá situácia len na mne. A mesto spoznám tak, ako v ňom žijú miestni. Rád však vyrazím aj so squadom. Na blogu píšem, koľko čo stálo, kde sa oplatilo spať a ako som letel lacno.',
 		'sst_about_tags'    => 'Sólo, Squad, Lacné letenky, Video',
 		'sst_footer_text'   => 'Cestovateľský blog Petra Miškusa. Články, itineráre a lacné letenky zo Slovenska.',
 		'sst_home_flights'  => 1,
@@ -26,6 +26,11 @@ add_action(
 	static function () {
 		if ( 'Ahoj, som cestovateľ, ktorý sa nebojí vyraziť aj sám' === get_theme_mod( 'sst_about_title' ) ) {
 			remove_theme_mod( 'sst_about_title' );
+		}
+		// Starší predvolený text „O mne“ uložený v Prispôsobení nahradíme novým.
+		$about = (string) get_theme_mod( 'sst_about_text', '' );
+		if ( 0 === strpos( $about, 'Najčastejšie cestujem sólo.' ) || 0 === strpos( $about, 'Natáčam videá a spravujem sociálne siete, a keď sa dá, cestujem.' ) ) {
+			remove_theme_mod( 'sst_about_text' );
 		}
 	}
 );
