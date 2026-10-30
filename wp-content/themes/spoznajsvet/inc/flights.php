@@ -90,32 +90,3 @@ function sst_cheapest_flight_to( $term ) {
 		'url'   => sst_flights_url() ? sst_flights_url() : $best['url'],
 	);
 }
-
-/**
- * Fotka na pozadie sekcie s letenkami: titulná fotka krajiny z daného kontinentu
- * (Európa pre európske letenky, ostatné pre exotiku), inak fotka z úvodu.
- *
- * @param string $where europa|exotika.
- * @param int    $nth   Koľkatá krajina v poradí (aby mali sekcie rôzne fotky).
- */
-function sst_flights_bg( $where = 'europa', $nth = 0 ) {
-	$pick = array();
-	foreach ( sst_countries( array( 'orderby' => 'count', 'order' => 'DESC' ) ) as $c ) {
-		$is_eu = 'europa' === get_term_meta( $c->term_id, 'sst_continent', true );
-		if ( ( 'europa' === $where ) === $is_eu ) {
-			$pick[] = $c;
-		}
-	}
-	if ( $pick ) {
-		$url = sst_term_cover_url( $pick[ $nth % count( $pick ) ], 'sst-hero' );
-		if ( $url ) {
-			return $url;
-		}
-	}
-	return sst_hero_image_url();
-}
-
-/** Atribúty sekcie s fotkou na pozadí. */
-function sst_photo_section_attr( $url ) {
-	return $url ? ' style="--section-img:url(' . esc_url( $url ) . ')"' : '';
-}
