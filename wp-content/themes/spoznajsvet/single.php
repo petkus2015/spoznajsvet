@@ -127,8 +127,7 @@ while ( have_posts() ) :
 				<div class="container">
 					<header class="section-head">
 						<div>
-							<p class="eyebrow">Pokračuj v čítaní</p>
-							<h2 class="section-title">Ďalšie z krajiny <em><?php echo esc_html( $places['country']->name ); ?></em></h2>
+							<h2 class="section-title">Ďalšie z krajiny <?php echo esc_html( $places['country']->name ); ?></h2>
 						</div>
 						<a class="link-arrow" href="<?php echo esc_url( get_term_link( $places['country'] ) ); ?>">Všetko <?php echo sst_icon( 'arrow-right', 18 ); // phpcs:ignore ?></a>
 					</header>

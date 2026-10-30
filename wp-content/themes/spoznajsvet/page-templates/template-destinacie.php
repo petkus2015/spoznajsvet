@@ -25,7 +25,6 @@ foreach ( $countries as $c ) {
 
 <section class="page-hero page-hero--dest"<?php echo $hero ? ' style="--hero-img:url(' . esc_url( $hero ) . ')"' : ''; ?>>
 	<div class="container page-hero__inner">
-		<p class="eyebrow eyebrow--light">Destinácie</p>
 		<h1 class="page-hero__title"><?php the_title(); ?></h1>
 		<ul class="stats">
 			<li><strong><?php echo count( $countries ); ?></strong> <?php echo esc_html( sst_plural( count( $countries ), 'krajina', 'krajiny', 'krajín' ) ); ?></li>

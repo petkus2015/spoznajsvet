@@ -1289,8 +1289,7 @@ function sst_world_map( $args = array() ) {
 		<?php if ( $args['title'] ) : ?>
 			<header class="section-head world-map__head">
 				<div>
-					<p class="eyebrow">Mapa ciest</p>
-					<h2 class="section-title">Kde všade som <em>bol</em></h2>
+					<h2 class="section-title">Kde som bol</h2>
 				</div>
 				<?php if ( $args['link'] ) : ?>
 					<a class="link-arrow" href="<?php echo esc_url( sst_destinations_url() ); ?>">Všetky destinácie <?php echo sst_icon( 'arrow-right', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>

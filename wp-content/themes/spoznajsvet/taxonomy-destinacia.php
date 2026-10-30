@@ -47,8 +47,7 @@ $deal    = sst_cheapest_flight_to( $term );
 		<div class="container">
 			<header class="section-head">
 				<div>
-					<p class="eyebrow"><?php echo esc_html( $country->name ); ?></p>
-					<h2 class="section-title"><?php echo $is_city ? 'Ďalšie <em>miesta</em>' : 'Miesta, ktoré som <em>navštívil</em>'; // phpcs:ignore ?></h2>
+					<h2 class="section-title"><?php echo esc_html( $is_city ? 'Ďalšie miesta v krajine ' . $country->name : 'Miesta, kde som bol' ); ?></h2>
 				</div>
 			</header>
 			<div class="chips chips--scroll">
@@ -74,7 +73,6 @@ $deal    = sst_cheapest_flight_to( $term );
 	<div class="container">
 		<header class="section-head">
 			<div>
-				<p class="eyebrow">Články</p>
 				<h2 class="section-title"><?php echo esc_html( $is_city ? $term->name : 'Všetko o krajine ' . $term->name ); ?></h2>
 			</div>
 		</header>

@@ -21,7 +21,6 @@ $about = get_page_by_path( 'o-mne' );
 				?>
 			</div>
 			<div class="about__text">
-				<p class="eyebrow">O mne</p>
 				<h2 class="section-title"><?php echo esc_html( sst_mod( 'sst_about_title' ) ); ?></h2>
 				<p><?php echo esc_html( sst_mod( 'sst_about_text' ) ); ?></p>
 				<?php $sst_tags = array_filter( array_map( 'trim', explode( ',', (string) sst_mod( 'sst_about_tags' ) ) ) ); ?>

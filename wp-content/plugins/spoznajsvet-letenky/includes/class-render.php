@@ -133,7 +133,7 @@ class SVL_Render {
 			}
 			?>
 			<p class="svl-note">
-				Všetky ceny sú celkové ceny spiatočnej letenky (tam aj späť) za 1 osobu v EUR. Menia sa každú chvíľu – pred kúpou ich vždy overte.
+				Ceny sú za spiatočnú letenku pre 1 osobu v EUR. Často sa menia, pred kúpou ich over.
 				<?php if ( SVL_Weather::enabled() ) : ?>
 					Počasie v destinácii počas pobytu (najvyššia denná teplota): pri odlete do 16 dní predpoveď, pri neskoršom odlete <strong>~</strong> odhad podľa rovnakého obdobia v minulých rokoch (Open-Meteo).
 				<?php endif; ?>
@@ -210,7 +210,6 @@ class SVL_Render {
 		<div class="svl-block svl-block--exotic">
 			<?php if ( $heading ) : ?>
 				<header class="svl-head">
-					<p class="svl-eyebrow">Ázia a exotika</p>
 					<h2 class="svl-title">Najlacnejšie spiatočné letenky za teplom</h2>
 					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> do Ázie a exotiky. Do každého mesta tá najvýhodnejšia.</p>
 				</header>
@@ -474,9 +473,8 @@ class SVL_Render {
 		<div class="svl-block svl-block--top">
 			<?php if ( $heading ) : ?>
 				<header class="svl-head">
-					<p class="svl-eyebrow">Obľúbené mestá</p>
 					<h2 class="svl-title">Najnavštevovanejšie mestá Európy</h2>
-					<p class="svl-lead">Londýn, Paríž, Rím, Barcelona… – najlacnejšie spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>.</p>
+					<p class="svl-lead">Londýn, Paríž, Rím, Barcelona a ďalšie. Najlacnejšie spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?>.</p>
 				</header>
 			<?php endif; ?>
 			<?php if ( $list ) : ?>
@@ -509,7 +507,7 @@ class SVL_Render {
 			<?php endif; ?>
 			<?php if ( $missing ) : ?>
 				<div class="svl-top-missing">
-					<span>Ďalšie obľúbené mestá – porovnať ceny:</span>
+					<span>Ďalšie mestá na porovnanie:</span>
 					<?php
 					foreach ( $missing as $city ) {
 						$code = $city[2][0];
@@ -540,7 +538,6 @@ class SVL_Render {
 		<div class="svl-block svl-block--europe" data-svl-eu data-limit="<?php echo esc_attr( $limit ); ?>">
 			<?php if ( $heading ) : ?>
 				<header class="svl-head">
-					<p class="svl-eyebrow">Európa</p>
 					<h2 class="svl-title">Najlacnejšie mestá na víkend</h2>
 					<p class="svl-lead">Spiatočné letenky <?php echo esc_html( self::origin_sentence( $origins ) ); ?> na <?php echo esc_html( SVL_Settings::get( 'europe_min_nights' ) . ' – ' . SVL_Settings::get( 'europe_max_nights' ) ); ?> nocí – zoradené od najlacnejšej.</p>
 				</header>

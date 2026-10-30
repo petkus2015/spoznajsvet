@@ -4,11 +4,11 @@
 
 .klook-flight {
 	display: flex; align-items: center; gap: .85rem; padding: .9rem 1.1rem; border-radius: var(--radius-m);
-	background: linear-gradient(120deg, var(--c-ink), var(--c-accent)); color: #fff; text-decoration: none;
+	background: var(--c-ink); color: #fff; text-decoration: none;
 	box-shadow: var(--shadow-card); transition: transform .18s var(--ease);
 }
 .klook-flight:hover { transform: translateY(-2px); color: #fff; }
-.klook-flight__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.16); font-size: 1.3rem; }
+.klook-flight__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.12); }
 .klook-flight__text { display: flex; flex-direction: column; flex: 1; line-height: 1.2; }
 .klook-flight__text small { opacity: .8; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
 .klook-flight__text b { font-size: 1.15rem; }
@@ -24,7 +24,7 @@
 	transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s;
 }
 .klook-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); border-color: color-mix(in srgb, var(--c-accent) 35%, var(--c-line)); color: var(--c-text); }
-.klook-card__icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: .3rem; border-radius: 14px; background: var(--c-soft); font-size: 1.35rem; }
+.klook-card__icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: .3rem; border-radius: 14px; background: var(--c-soft); color: var(--c-accent); }
 .klook-card b { color: var(--c-heading); font-size: 1.02rem; }
 .klook-card small { color: var(--c-muted); font-size: .86rem; line-height: 1.45; }
 .klook-card__go { margin-top: auto; padding-top: .45rem; color: var(--c-accent); font-size: .85rem; font-weight: 700; }

@@ -9,14 +9,13 @@ defined( 'ABSPATH' ) || exit;
 
 function sst_mod_defaults() {
 	return array(
-		'sst_hero_eyebrow'  => 'Najčastejšie sólo · rád aj so squadom',
 		'sst_hero_title'    => 'Spoznaj',
 		'sst_hero_accent'   => 'svet',
-		'sst_hero_text'     => 'Batoh, letenka za pár eur a chuť zablúdiť. Väčšinou cestujem sám, no rád vyrazím s kýmkoľvek alebo so svojím squadom. Tu nájdeš príbehy, itineráre a tipy z miest, kde som bol, aj to, ako sa tam dostať lacno.',
+		'sst_hero_text'     => 'Píšem o miestach, kde som bol: čo tam robiť, kde spať, koľko to stálo a ako sa tam dostať lacno. Väčšinou cestujem sám, občas so squadom.',
 		'sst_about_title'   => 'Ahoj, som Petrém (Peter Miškus), sólo/squad cestovateľ, videografer a social media manager',
-		'sst_about_text'    => 'Najčastejšie cestujem sólo. Sám si určujem tempo, ľahšie sa dám do reči s miestnymi a zažijem veci, ktoré by som v skupine prehliadol. Nie som však samotár: rád cestujem s kýmkoľvek, kto má chuť objavovať, aj s malým squadom. Na blogu nájdeš úprimné tipy pre sólo cestovateľov aj celé squady. Koľko čo stojí, kde je bezpečne, kde sa oplatí prespať a ako lacno letieť.',
-		'sst_about_tags'    => 'Najčastejšie sólo, Rád aj so squadom, Lacné letenky, Overené tipy',
-		'sst_footer_text'   => 'Sólo aj so squadom. Príbehy, itineráre a lacné letenky zo Slovenska do celého sveta.',
+		'sst_about_text'    => 'Natáčam videá a spravujem sociálne siete, a keď sa dá, cestujem. Najčastejšie sám, lebo si určujem tempo a ľahšie sa dám do reči s miestnymi, no rád idem aj so squadom. Na blogu píšem, koľko čo stálo, kde sa oplatilo spať a ako som letel lacno.',
+		'sst_about_tags'    => 'Sólo, Squad, Lacné letenky, Video',
+		'sst_footer_text'   => 'Cestovateľský blog Petra Miškusa. Články, itineráre a lacné letenky zo Slovenska.',
 		'sst_home_flights'  => 1,
 	);
 }
@@ -65,9 +64,8 @@ add_action(
 		}
 
 		$text = array(
-			'sst_hero_eyebrow' => array( 'sst_hero', 'Nadtitulok', 'text' ),
 			'sst_hero_title'   => array( 'sst_hero', 'Nadpis', 'text' ),
-			'sst_hero_accent'  => array( 'sst_hero', 'Nadpis – kurzíva', 'text' ),
+			'sst_hero_accent'  => array( 'sst_hero', 'Nadpis – druhé slovo', 'text' ),
 			'sst_hero_text'    => array( 'sst_hero', 'Text', 'textarea' ),
 			'sst_about_title'  => array( 'sst_about', 'Nadpis', 'text' ),
 			'sst_about_text'   => array( 'sst_about', 'Text', 'textarea' ),

@@ -32,7 +32,6 @@ $cities = $term->parent ? array() : sst_cities( $term );
 		<?php else : ?>
 			<span class="dest-card__img img-placeholder" aria-hidden="true"><?php echo sst_icon( 'compass', 48 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 		<?php endif; ?>
-		<span class="dest-card__save" aria-hidden="true"><?php echo sst_icon( 'bookmark', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 		<span class="dest-card__body">
 			<?php if ( $kicker ) : ?>
 				<span class="dest-card__kicker"><?php echo esc_html( $kicker ); ?></span>

@@ -14,15 +14,12 @@ $is_blog   = is_home() && ! is_search();
 $countries = $is_blog ? sst_countries( array( 'orderby' => 'count', 'order' => 'DESC' ) ) : array();
 
 if ( is_search() ) {
-	$kick  = 'Hľadanie';
 	$title = 'Výsledky pre „' . get_search_query() . '“';
 	$lead  = $total ? $total . ' ' . sst_plural( $total, 'výsledok', 'výsledky', 'výsledkov' ) : '';
 } elseif ( is_archive() ) {
-	$kick  = 'Archív';
 	$title = get_the_archive_title();
 	$lead  = wp_strip_all_tags( get_the_archive_description() );
 } else {
-	$kick       = 'Denník';
 	$title      = get_option( 'page_for_posts' ) ? get_the_title( get_option( 'page_for_posts' ) ) : 'Články';
 	$posts_all  = (int) wp_count_posts()->publish;
 	$n_country  = count( sst_countries() );
@@ -30,7 +27,7 @@ if ( is_search() ) {
 	if ( $n_country ) {
 		$lead .= ' z ' . $n_country . ' ' . sst_plural( $n_country, 'krajiny', 'krajín', 'krajín' );
 	}
-	$lead .= ' – itineráre, ceny a tipy z ciest, väčšinou sólo.';
+	$lead .= '. Itineráre, ceny a tipy z ciest.';
 }
 // Na každej strane je prvý článok zvýraznený (13 na stranu = 1 veľký + 4 rady po 3).
 $featured = $is_blog && have_posts();
@@ -40,7 +37,6 @@ $featured = $is_blog && have_posts();
 	<div class="container">
 		<div class="blog-head__row">
 			<div class="blog-head__text">
-				<p class="eyebrow"><?php echo esc_html( $kick ); ?></p>
 				<h1 class="blog-head__title">
 					<?php echo wp_kses_post( $title ); ?>
 					<?php if ( $paged > 1 ) : ?>

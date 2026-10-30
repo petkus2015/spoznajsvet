@@ -148,12 +148,12 @@ function sst_klook_picks( WP_Term $term ) {
 /** Kategórie tipov pre mesto. */
 function sst_klook_sections( $q ) {
 	return array(
-		array( '🧭', 'Výlety a túry', 'Poldenné aj celodenné výlety s miestnym sprievodcom.', $q . ' tours' ),
-		array( '🎟️', 'Vstupenky a atrakcie', 'Múzeá, vyhliadky a atrakcie – často bez čakania v rade.', $q . ' tickets' ),
-		array( '🚕', 'Transfer z letiska', 'Z letiska do centra bez stresu a naťahovania s taxikármi.', $q . ' airport transfer' ),
-		array( '🍜', 'Jedlo a zážitky', 'Food tour, kurz varenia alebo večer, na ktorý nezabudneš.', $q . ' food tour' ),
-		array( '📶', 'eSIM a internet', 'Dáta na cesty hneď po prílete, bez hľadania SIM karty.', $q . ' eSIM' ),
-		array( '🚆', 'Pasy a doprava', 'Mestské karty, vlaky a MHD výhodnejšie.', $q . ' pass' ),
+		array( 'compass', 'Výlety a túry', 'Poldenné aj celodenné výlety so sprievodcom.', $q . ' tours' ),
+		array( 'ticket', 'Vstupenky', 'Múzeá, vyhliadky a atrakcie, často s rezervovaným časom vstupu.', $q . ' tickets' ),
+		array( 'car', 'Transfer z letiska', 'Odvoz z letiska do centra s pevnou cenou.', $q . ' airport transfer' ),
+		array( 'food', 'Jedlo', 'Food tour alebo kurz varenia s miestnymi.', $q . ' food tour' ),
+		array( 'wifi', 'eSIM a internet', 'Mobilné dáta, ktoré si aktivuješ ešte pred odletom.', $q . ' eSIM' ),
+		array( 'train', 'Doprava', 'Mestské karty, vlaky a MHD.', $q . ' pass' ),
 	);
 }
 
@@ -177,7 +177,7 @@ add_shortcode(
 		<div class="klook">
 			<?php if ( $flight ) : ?>
 				<a class="klook-flight" href="<?php echo esc_url( $flight['url'] ); ?>">
-					<span class="klook-flight__icon" aria-hidden="true">✈️</span>
+					<span class="klook-flight__icon" aria-hidden="true"><?php echo sst_icon( 'plane', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 					<span class="klook-flight__text"><small>Letenka tam aj späť</small><b><?php echo esc_html( $term->name ); ?> od <?php echo esc_html( $flight['price'] ); ?></b></span>
 					<span class="klook-flight__go" aria-hidden="true">→</span>
 				</a>
@@ -187,7 +187,7 @@ add_shortcode(
 				<h2>Moje tipy</h2>
 				<ol class="klook-picks">
 					<?php foreach ( $picks as $i => $p ) : ?>
-						<li><a href="<?php echo esc_url( sst_klook_url( $p['url'] ) ); ?>" target="_blank" rel="<?php echo esc_attr( $rel ); ?>"><span class="klook-picks__n"><?php echo (int) $i + 1; ?></span><span><?php echo esc_html( $p['title'] ); ?></span><span class="klook-picks__go" aria-hidden="true">↗</span></a></li>
+						<li><a href="<?php echo esc_url( sst_klook_url( $p['url'] ) ); ?>" target="_blank" rel="<?php echo esc_attr( $rel ); ?>"><span class="klook-picks__n"><?php echo (int) $i + 1; ?></span><span><?php echo esc_html( $p['title'] ); ?></span><span class="klook-picks__go" aria-hidden="true"><?php echo sst_icon( 'arrow-up-right', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span></a></li>
 					<?php endforeach; ?>
 				</ol>
 			<?php endif; ?>
@@ -197,15 +197,15 @@ add_shortcode(
 				<?php foreach ( sst_klook_sections( $q ) as $s ) : ?>
 					<li>
 						<a class="klook-card" href="<?php echo esc_url( sst_klook_search( $s[3] ) ); ?>" target="_blank" rel="<?php echo esc_attr( $rel ); ?>">
-							<span class="klook-card__icon" aria-hidden="true"><?php echo esc_html( $s[0] ); ?></span>
+							<span class="klook-card__icon" aria-hidden="true"><?php echo sst_icon( $s[0], 22 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 							<b><?php echo esc_html( $s[1] ); ?></b>
 							<small><?php echo esc_html( $s[2] ); ?></small>
-							<span class="klook-card__go">Pozrieť ponuky <span aria-hidden="true">↗</span></span>
+							<span class="klook-card__go">Pozrieť na Klooku</span>
 						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<p class="klook-note">Odkazy vedú na Klook. Niektoré sú partnerské – ak cez ne niečo kúpiš, dostanem malú províziu, teba to nestojí nič navyše. Ceny a dostupnosť si vždy over priamo na Klooku.</p>
+			<p class="klook-note">Odkazy vedú na Klook a niektoré sú partnerské. Ak cez ne niečo kúpiš, dostanem malú províziu a cena sa pre teba nemení.</p>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -249,9 +249,9 @@ function sst_klook_cities() {
 function sst_klook_intro( WP_Term $term, WP_Term $country ) {
 	$name  = $term->name;
 	$intro = array(
-		'%1$s je na tvojom zozname? Dal som dokopy tipy, čo tam zažiť – od výletov a vstupeniek bez čakania v rade až po transfer z letiska a internet hneď po prílete.',
-		'%1$s (%2$s) sa oplatí zažiť naplno. Tu nájdeš výlety, vstupenky na atrakcie, transfer z letiska aj eSIM, aby si na mieste nestrácal čas.',
-		'Tipy na %1$s v jednom článku: čo si rezervovať vopred, ako sa dostať z letiska do centra a kde nájsť najlepšie výlety v okolí.',
+		'Čo sa oplatí v meste %1$s rezervovať vopred: výlety, vstupenky, odvoz z letiska a internet na cestu.',
+		'Ak ideš do mesta %1$s (%2$s), tu sú výlety, vstupenky a doprava, ktoré si môžeš zariadiť ešte z domu.',
+		'%1$s: výlety v okolí, vstupenky, cesta z letiska do centra a dáta do mobilu.',
 	);
 	$tpl = $intro[ $term->term_id % count( $intro ) ];
 	return sprintf( $tpl, $name, $country->name );
@@ -281,7 +281,7 @@ function sst_klook_create_post( WP_Term $term ) {
 			'post_type'     => 'post',
 			'post_status'   => 'draft' === sst_klook_settings()['status'] ? 'draft' : 'publish',
 			'post_title'    => sprintf( '%s: tipy na výlety, vstupenky a zážitky', $term->name ),
-			'post_excerpt'  => sprintf( 'Čo zažiť – %s: výlety, vstupenky, transfer z letiska a internet na cesty.', $term->name ),
+			'post_excerpt'  => sprintf( '%s: výlety, vstupenky, transfer z letiska a internet na cestu.', $term->name ),
 			'post_content'  => $content,
 			'post_author'   => $author ? (int) $author[0] : 0,
 			'post_category' => array( $cat ),
