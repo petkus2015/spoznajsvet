@@ -1,25 +1,24 @@
 /* ==========================================================================
    Spoznaj Svet – téma
-   Mobile-first · tmavý web (nočná modrá, zelená, oranžová), veľké fotky, sklenené (glass) prvky
+   Mobile-first · tmavé „teal“ hero, svetlý obsah, sklenené (glass) prvky
    ========================================================================== */
 
 :root {
-	/* Tmavá paleta: nočná modrá, zelená (akcent) a oranžová (zvýraznenie). */
-	--c-ink: #07121a;
-	--c-ink-2: #0f2230;
-	--c-accent: #2fbf87;
-	--c-accent-2: #46d39b;
-	--c-on-accent: #04170f;
-	--c-gold: #f29a4a;
-	--c-blue: #4a9fe0;
-	--c-bg: #0b1721;
-	--c-surface: #112230;
-	--c-soft: #172c3c;
-	--c-text: #d6e2ea;
-	--c-heading: #f3f7fa;
-	--c-muted: #8ea3b2;
-	--c-line: #213749;
+	--c-ink: #0e2a30;
+	--c-ink-2: #15404a;
+	--c-accent: #1f7a73;
+	--c-accent-2: #2a9d8f;
+	--c-on-accent: #fff;
+	--c-gold: #d9b77e;
+	--c-bg: #f3f6f5;
+	--c-surface: #fff;
+	--c-soft: #e9f0ef;
+	--c-text: #1a2e33;
+	--c-heading: #0e2a30;
+	--c-muted: #5e7277;
+	--c-line: #dfe7e6;
 
+	/* Písmo sa dá zmeniť v Prispôsobení (inc/setup.php prepíše tieto premenné). */
 	--font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 	--serif-weight: 400;
@@ -28,30 +27,77 @@
 	--radius-s: 12px;
 	--radius-m: 18px;
 	--radius-l: 24px;
-	--shadow-card: 0 14px 34px -16px rgba(0, 0, 0, .7);
-	--shadow-float: 0 22px 54px -14px rgba(0, 0, 0, .75);
+	--shadow-card: 0 12px 32px -14px rgba(14, 42, 48, .35);
+	--shadow-float: 0 18px 50px -12px rgba(4, 20, 24, .45);
 
 	--header-h: 68px;
 	--bottom-nav-h: 84px;
 
 	/* Liquid Glass (spodná navigácia) */
-	--glass-tint: rgba(18, 32, 44, .5);
-	--glass-tint-27: rgba(18, 32, 44, .42);
-	--glass-lens: rgba(255, 255, 255, .16);
-	--glass-spec: rgba(255, 255, 255, .32);
-	--glass-edge: rgba(255, 255, 255, .26);
-	--glass-sheen: .16;
-	--glass-text: #eef4f8;
-	--glass-active: #5be0a8;
-	--glass-ring: rgba(255, 255, 255, .06);
-	--glass-lens-tint: rgba(255, 255, 255, 0);
+	--glass-tint: rgba(255, 255, 255, .42);
+	--glass-tint-27: rgba(255, 255, 255, .3);
+	--glass-lens: rgba(255, 255, 255, .7);
+	--glass-spec: rgba(255, 255, 255, .85);
+	--glass-edge: rgba(255, 255, 255, .7);
+	--glass-sheen: .45;
+	--glass-text: #12292e;
+	--glass-active: #16675f;
+	--glass-ring: rgba(10, 30, 35, .08);
+	--glass-lens-tint: rgba(16, 60, 64, .07);
 	--gutter: 16px;
 	--container: 1240px;
 	--ease: cubic-bezier(.2, .7, .2, 1);
 
-	color-scheme: dark;
+	color-scheme: light;
 }
 
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--c-bg: #0a1a1e;
+		--c-surface: #102429;
+		--c-soft: #16323a;
+		--c-text: #dfe9e8;
+		--c-heading: #f1f6f5;
+		--c-muted: #94aaae;
+		--c-line: #1f3b42;
+		--c-accent: #36b3a4;
+		--c-on-accent: #04211d;
+		--shadow-card: 0 12px 32px -14px rgba(0, 0, 0, .6);
+		--glass-tint: rgba(22, 34, 38, .46);
+		--glass-tint-27: rgba(22, 34, 38, .36);
+		--glass-lens: rgba(255, 255, 255, .16);
+		--glass-spec: rgba(255, 255, 255, .32);
+		--glass-edge: rgba(255, 255, 255, .28);
+		--glass-sheen: .16;
+		--glass-text: #eef5f4;
+		--glass-active: #6fe0d1;
+		--glass-ring: rgba(255, 255, 255, .06);
+		--glass-lens-tint: rgba(255, 255, 255, 0);
+		color-scheme: dark;
+	}
+}
+:root[data-theme="dark"] {
+	--c-bg: #0a1a1e;
+	--c-surface: #102429;
+	--c-soft: #16323a;
+	--c-text: #dfe9e8;
+	--c-heading: #f1f6f5;
+	--c-muted: #94aaae;
+	--c-line: #1f3b42;
+	--c-accent: #36b3a4;
+	--c-on-accent: #04211d;
+	--glass-tint: rgba(22, 34, 38, .46);
+	--glass-tint-27: rgba(22, 34, 38, .36);
+	--glass-lens: rgba(255, 255, 255, .16);
+	--glass-spec: rgba(255, 255, 255, .32);
+	--glass-edge: rgba(255, 255, 255, .28);
+	--glass-sheen: .16;
+	--glass-text: #eef5f4;
+	--glass-active: #6fe0d1;
+	--glass-ring: rgba(255, 255, 255, .06);
+	--glass-lens-tint: rgba(255, 255, 255, 0);
+	color-scheme: dark;
+}
 
 @media (min-width: 768px) {
 	:root { --gutter: 28px; --header-h: 80px; }
@@ -283,8 +329,8 @@ button { font: inherit; }
 .hero::before {
 	content: ""; position: absolute; inset: 0; z-index: -1;
 	background:
-		linear-gradient(90deg, rgba(7, 18, 26, .82) 0%, rgba(7, 18, 26, .45) 45%, rgba(7, 18, 26, .05) 100%),
-		linear-gradient(180deg, rgba(7, 18, 26, .5) 0%, rgba(7, 18, 26, 0) 30%, rgba(7, 18, 26, .65) 85%, var(--c-bg) 100%);
+		linear-gradient(90deg, rgba(8, 28, 33, .88) 0%, rgba(8, 28, 33, .55) 45%, rgba(8, 28, 33, .15) 100%),
+		linear-gradient(180deg, rgba(8, 28, 33, .55) 0%, rgba(8, 28, 33, 0) 30%, rgba(8, 28, 33, .75) 100%);
 }
 .hero__grid { display: grid; gap: 2.5rem; align-items: end; }
 .hero__title { margin: 0 0 1rem; color: #fff; font-size: clamp(2.6rem, 10vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -.03em; }
@@ -297,49 +343,37 @@ button { font: inherit; }
 	margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 8px; scroll-padding-inline: var(--gutter);
 }
 .hero__carousel-track::-webkit-scrollbar { display: none; }
-.hero__slide { flex: 0 0 min(58vw, 220px); scroll-snap-align: start; }
-.hero__controls { display: flex; align-items: center; gap: .6rem; margin-top: 1.1rem; }
-.hero__progress { position: relative; flex: 1; max-width: 360px; height: 2px; margin-left: .75rem; border-radius: 2px; background: rgba(255, 255, 255, .22); overflow: hidden; }
-.hero__progress span { position: absolute; inset: 0; background: var(--c-gold); transform-origin: left; transform: scaleX(.3); transition: transform .3s var(--ease); }
-.hero__place { display: inline-flex; align-items: center; gap: .4rem; margin: 0 0 .9rem; color: rgba(255, 255, 255, .85); font-size: .95rem; font-weight: 600; }
-.hero__place .icon { color: var(--c-gold); }
+.hero__slide { flex: 0 0 min(64vw, 250px); scroll-snap-align: start; }
+.hero__controls { display: flex; align-items: center; gap: .6rem; margin-top: 1rem; }
 
 @media (min-width: 960px) {
 	.hero { min-height: min(100vh, 860px); display: flex; align-items: center; padding-bottom: 4rem; }
 	.hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 3rem; }
 	.hero__carousel-track { margin-inline: 0; padding-inline: 0; margin-right: calc((100vw - min(100vw, var(--container))) / -2 - var(--gutter)); padding-right: 4rem; }
-	.hero__slide { flex-basis: 230px; }
-	.hero__grid { align-items: end; }
-	.hero__copy { align-self: center; }
+	.hero__slide { flex-basis: 250px; }
 }
 
-/* ---------- Karta destinácie (fotka, názov, dole tmavý pás s cenou letenky) ---------- */
+/* ---------- Karta destinácie ---------- */
 .dest-card { position: relative; }
 .dest-card__link {
-	position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; border-radius: 28px;
-	aspect-ratio: 3 / 4.2; color: #fff; text-decoration: none; background: var(--c-ink);
+	position: relative; display: block; overflow: hidden; border-radius: var(--radius-m);
+	aspect-ratio: 3 / 4; color: #fff; text-decoration: none; background: var(--c-ink-2);
 	box-shadow: var(--shadow-float); transform: translateZ(0);
 }
 .dest-card__link:hover { color: #fff; }
 .dest-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
-.dest-card__link:hover .dest-card__img { transform: scale(1.05); }
-.dest-card__link::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 18, 26, 0) 40%, rgba(7, 18, 26, .7) 72%, var(--c-ink) 100%); }
-.dest-card__body { position: relative; z-index: 2; display: flex; flex-direction: column; gap: .2rem; padding: 1.1rem 1.15rem .6rem; }
-.dest-card__name { font-size: 1.4rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; }
-.dest-card__kicker { font-size: .85rem; color: rgba(255, 255, 255, .78); }
-.dest-card__foot {
-	position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: .75rem;
-	padding: .85rem 1.15rem 1.05rem; background: var(--c-ink); font-size: .9rem; font-weight: 600;
-}
-.dest-card__foot svg { flex: 0 0 auto; transition: transform .2s var(--ease); }
-.dest-card__link:hover .dest-card__foot svg { transform: translateX(4px); }
-.dest-card__link:hover .dest-card__foot { color: var(--c-gold); }
+.dest-card__link:hover .dest-card__img { transform: scale(1.06); }
+.dest-card__link::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(3, 18, 22, .85) 100%); }
+.dest-card__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column; padding: 1rem; }
+.dest-card__kicker { font-size: .82rem; font-weight: 600; opacity: .85; }
+.dest-card__name { font-size: 1.45rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; }
+.dest-card__meta { font-size: .82rem; opacity: .85; }
 
-.dest-card--compact .dest-card__link { aspect-ratio: 4 / 5.2; box-shadow: var(--shadow-card); }
-.dest-card--compact .dest-card__name { font-size: 1.15rem; }
+.dest-card--compact .dest-card__link { aspect-ratio: 4 / 5; box-shadow: var(--shadow-card); }
+.dest-card--compact .dest-card__name { font-size: 1.15rem; text-transform: none; }
 
-.dest-card--row .dest-card__link { aspect-ratio: 4 / 3.2; box-shadow: var(--shadow-card); }
-.dest-card--row .dest-card__name { font-size: 1.3rem; }
+.dest-card--row .dest-card__link { aspect-ratio: auto; display: flex; align-items: flex-end; min-height: 150px; box-shadow: var(--shadow-card); }
+.dest-card--row .dest-card__name { font-size: 1.3rem; text-transform: none; }
 
 .img-placeholder { display: grid; place-items: center; width: 100%; height: 100%; min-height: 160px; color: rgba(255, 255, 255, .45); background: linear-gradient(135deg, var(--c-ink) 0%, var(--c-accent) 120%); }
 
@@ -391,46 +425,6 @@ button { font: inherit; }
 .rail__track::-webkit-scrollbar { display: none; }
 .rail__track > * { scroll-snap-align: start; }
 
-/* ---------- Krajina / mesto: fotka cez celú obrazovku, hore počasie, dole názov a čísla ---------- */
-.place-hero {
-	position: relative; isolation: isolate; display: flex; color: #fff;
-	min-height: calc(100svh - var(--bottom-nav-h) - env(safe-area-inset-bottom));
-	padding: calc(var(--header-h) + env(safe-area-inset-top) + 1rem) 0 2rem;
-	background: var(--c-ink) var(--hero-img, none) center / cover no-repeat;
-}
-.place-hero::before {
-	content: ""; position: absolute; inset: 0; z-index: -1;
-	background: linear-gradient(180deg, rgba(7, 18, 26, .55) 0%, rgba(7, 18, 26, 0) 28%, rgba(7, 18, 26, .25) 50%, rgba(7, 18, 26, .92) 82%, var(--c-bg) 100%);
-}
-.place-hero__inner { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
-.place-hero__wx { display: flex; align-items: flex-start; gap: .9rem; }
-.place-hero__temp { font-size: clamp(3.4rem, 14vw, 5rem); font-weight: 800; line-height: .9; letter-spacing: -.04em; }
-.place-hero__wind { display: flex; flex-direction: column; gap: .2rem; padding-top: .45rem; }
-.place-hero__wind b { font-size: 1.15rem; font-weight: 700; }
-.place-hero__wind small { font-size: .78rem; opacity: .8; font-variant-numeric: tabular-nums; }
-.place-hero__body { max-width: 38rem; }
-.place-hero__title { margin: .2rem 0 1rem; color: #fff; font-size: clamp(2.4rem, 10vw, 4.4rem); font-weight: 800; line-height: 1; letter-spacing: -.03em; }
-.place-hero__flag { display: inline-block; font-size: .6em; vertical-align: .12em; }
-.place-hero__stats { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, max-content); gap: 1.75rem; margin: 0 0 1rem; }
-.place-hero__stats div { min-width: 0; }
-.place-hero__stats dt { font-size: 1rem; font-weight: 700; color: #fff; }
-.place-hero__stats dd { margin: .15rem 0 0; font-size: 1rem; color: rgba(255, 255, 255, .78); white-space: nowrap; }
-.place-hero__text { color: rgba(255, 255, 255, .86); font-size: 1rem; }
-.place-hero__text p { margin: 0 0 .5rem; }
-.place-hero__text.is-clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
-.place-hero__more { display: inline-flex; align-items: center; gap: .25rem; margin: -.15rem 0 0; padding: .25rem 0; border: 0; background: none; color: #fff; font: inherit; font-weight: 700; font-size: .9rem; cursor: pointer; }
-.place-hero__more[aria-expanded="true"] svg { transform: rotate(180deg); }
-.place-hero__actions { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, max-content); gap: .6rem; margin-top: 1.4rem; }
-@media (max-width: 559px) {
-	.place-hero__actions { grid-auto-columns: minmax(0, 1fr); }
-	.place-hero__actions .btn { padding-inline: .7rem; font-size: .9rem; white-space: nowrap; }
-	.place-hero__actions .btn .icon { display: none; }
-}
-@media (min-width: 960px) {
-	.place-hero { min-height: min(92vh, 900px); padding-bottom: 3.5rem; }
-	.place-hero::before { background: linear-gradient(90deg, rgba(7, 18, 26, .75) 0%, rgba(7, 18, 26, .2) 60%, rgba(7, 18, 26, 0) 100%), linear-gradient(180deg, rgba(7, 18, 26, .5) 0%, rgba(7, 18, 26, 0) 25%, rgba(7, 18, 26, .55) 80%, var(--c-bg) 100%); }
-}
-
 /* ---------- Page hero (krajina, článok, letenky) ---------- */
 .page-hero {
 	position: relative; isolation: isolate; color: #fff;
@@ -474,26 +468,13 @@ button { font: inherit; }
 
 .filter-input {
 	display: flex; align-items: center; gap: .6rem; max-width: 480px; margin-top: 1.25rem; padding: 0 1rem; min-height: 52px;
-	border-radius: 16px; background: var(--c-surface); color: var(--c-muted); box-shadow: var(--shadow-float); border: 1px solid var(--c-line);
+	border-radius: 16px; background: rgba(255, 255, 255, .95); color: var(--c-muted); box-shadow: var(--shadow-float);
 }
-.filter-input input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; color: var(--c-text); outline: none; }
+.filter-input input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; color: #10262b; outline: none; }
 
 /* ---------- Destinácie – prehľad ---------- */
 .continent + .continent { margin-top: 2.5rem; }
-/* Destinácie: kontinenty ako zvislé záložky na boku (na väčšej obrazovke), karty vpravo. */
-@media (min-width: 760px) {
-	.dest-browse.has-tabs { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: 1.5rem; align-items: start; }
-	.dest-tabs { position: sticky; top: calc(var(--header-h) + 1.5rem); flex-direction: column; gap: 1.6rem; overflow: visible; margin: 0; padding: 0; }
-	.dest-tabs .chip {
-		writing-mode: vertical-rl; transform: rotate(180deg); min-height: 0; padding: .2rem 0; border: 0; border-radius: 0;
-		background: none; color: var(--c-muted); font-size: .95rem; font-weight: 600; white-space: nowrap;
-	}
-	.dest-tabs .chip:hover { color: var(--c-heading); background: none; }
-	.dest-tabs .chip.is-active { color: var(--c-heading); background: none; }
-	.dest-tabs .chip.is-active::before { content: ""; width: 6px; height: 6px; margin-bottom: .55rem; border-radius: 50%; background: var(--c-gold); }
-	.dest-tabs .chip__count { display: none; }
-}
-.continent__title { font-size: 1.35rem; color: var(--c-heading); margin: 1.5rem 0 1rem; }
+.continent__title { font-size: 1.1rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-muted); margin: 1.5rem 0 1rem; }
 .country-list { display: grid; gap: 1rem; grid-template-columns: 1fr; }
 @media (min-width: 560px) { .country-list { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .country-list { grid-template-columns: repeat(3, 1fr); } }
@@ -517,7 +498,7 @@ button { font: inherit; }
 }
 
 .blog-list { padding: clamp(1.25rem, 4vw, 2.5rem) 0 clamp(2.5rem, 7vw, 4.5rem); }
-.blog-list__title { margin: clamp(2rem, 5vw, 3rem) 0 1rem; font-size: 1.35rem; color: var(--c-heading); }
+.blog-list__title { margin: clamp(2rem, 5vw, 3rem) 0 1rem; font-size: 1.05rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-muted); }
 
 /* Karta článku */
 .article-card { position: relative; display: flex; flex-direction: column; min-width: 0; }
@@ -526,7 +507,7 @@ button { font: inherit; }
 .article-card:hover .article-card__media img { transform: scale(1.04); }
 .article-card__badge {
 	position: absolute; top: .9rem; left: .9rem; padding: .35rem .75rem; border-radius: 999px; font-size: .75rem; font-weight: 700;
-	background: rgba(7, 18, 26, .72); color: #fff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+	background: rgba(255, 255, 255, .9); color: var(--c-ink); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 .article-card__body { display: flex; flex-direction: column; gap: .45rem; padding: .9rem .1rem 0; min-width: 0; }
 .article-card__top { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .75rem; font-size: .8rem; color: var(--c-muted); }
@@ -596,7 +577,7 @@ button { font: inherit; }
 }
 a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); }
 .trip-facts__icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--c-soft); color: var(--c-accent); font-size: 1.25rem; }
-.trip-facts__item small { display: block; font-size: .75rem; color: var(--c-muted); line-height: 1.2; }
+.trip-facts__item small { display: block; font-size: .7rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .08em; line-height: 1.2; }
 .trip-facts__item strong { display: block; font-size: .92rem; line-height: 1.25; color: var(--c-heading); }
 
 /* Článok v jednom centrovanom stĺpci (fotky „široké“ a „na celú šírku“ sa tak dajú presne vycentrovať). */
@@ -679,7 +660,7 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .site-footer .brand { color: #fff; margin-bottom: .75rem; }
 .site-footer__grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
 @media (min-width: 760px) { .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
-.site-footer__title { color: #fff; font-size: 1rem; margin-bottom: .75rem; }
+.site-footer__title { color: #fff; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .75rem; }
 .site-footer__list, .site-footer .menu { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
 .social--footer a { background: rgba(255, 255, 255, .08); }
 .site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .82rem; }
@@ -805,7 +786,7 @@ a.trip-facts__item:hover { border-color: var(--c-accent); color: var(--c-text); 
 .search-overlay.is-open .search-overlay__panel { transform: none; }
 .search-overlay__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; color: var(--c-heading); }
 .search-overlay__title { margin: 0; font-family: var(--font-serif); font-weight: var(--serif-weight); font-size: calc(1.5rem * var(--serif-scale)); }
-.search-overlay__label { margin: 1.25rem 0 .5rem; font-size: .85rem; font-weight: 700; color: var(--c-muted); }
+.search-overlay__label { margin: 1.25rem 0 .5rem; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c-muted); }
 @media (min-width: 960px) { .search-overlay { padding-top: 12vh; } }
 @media (max-width: 959px) {
 	.search-overlay { z-index: 65; align-items: flex-end; padding: 12px 10px calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + var(--kb, 0px)); }

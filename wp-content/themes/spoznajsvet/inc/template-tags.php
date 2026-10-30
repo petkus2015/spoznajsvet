@@ -225,42 +225,6 @@ function sst_post_image( $size = 'sst-card', $attr = array() ) {
 	}
 }
 
-/** Článok, ktorého fotka je v úvode (ak nie je nastavená vlastná fotka). */
-function sst_hero_post_id() {
-	if ( (int) get_theme_mod( 'sst_hero_image' ) ) {
-		return 0;
-	}
-	$sticky = get_option( 'sticky_posts' );
-	$posts  = get_posts(
-		array(
-			'posts_per_page'      => 1,
-			'fields'              => 'ids',
-			'post__in'            => $sticky ? $sticky : null,
-			'ignore_sticky_posts' => true,
-			'category__not_in'    => sst_klook_exclude(),
-			'meta_key'            => '_thumbnail_id', // phpcs:ignore WordPress.DB.SlowDBQuery
-		)
-	);
-	return $posts ? (int) $posts[0] : 0;
-}
-
-/** Kde je fotka z úvodu odfotená: „Rím, Taliansko“ (z článku) alebo text z Prispôsobenia. */
-function sst_hero_place() {
-	$own = trim( (string) get_theme_mod( 'sst_hero_place', '' ) );
-	if ( '' !== $own ) {
-		return $own;
-	}
-	$post = sst_hero_post_id();
-	if ( ! $post ) {
-		return '';
-	}
-	$p = sst_post_places( $post );
-	if ( ! $p['country'] ) {
-		return '';
-	}
-	return $p['city'] ? $p['city']->name . ', ' . $p['country']->name : $p['country']->name;
-}
-
 /** Hero obrázok úvodnej stránky. */
 function sst_hero_image_url() {
 	$id = (int) get_theme_mod( 'sst_hero_image' );
