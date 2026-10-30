@@ -1,31 +1,14 @@
 /* Spoznaj Svet – mapa „Kde všade som bol“ (front aj administrácia). Farby preberá z témy. */
-.world-map {
-	/* Obyčajné farby pre staršie prehliadače (iOS < 16.2 nepozná color-mix) – inak by bola mapa čierna/prázdna. */
-	--map-sea: #f2f7f7;
-	--map-land: #e4e8e8;
-	--map-border: var(--c-surface);
-	--map-l1: #a5c5c3;
-	--map-l2: #72a8a4;
-	--map-l3: var(--c-accent);
-	--map-l4: #145650;
-	--map-dot: var(--c-gold);
-}
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme="light"]) .world-map { --map-sea: #122d30; --map-land: #26383c; --map-l1: #2b5f5d; --map-l2: #2f7f78; --map-l4: #85d5ca; --map-border: var(--c-bg); }
-}
-:root[data-theme="dark"] .world-map { --map-sea: #122d30; --map-land: #26383c; --map-l1: #2b5f5d; --map-l2: #2f7f78; --map-l4: #85d5ca; --map-border: var(--c-bg); }
+/* Web je tmavý: mapa má vždy tmavé farby. */
+.world-map { --map-l3: var(--c-accent); --map-dot: var(--c-gold); --map-sea: #0e1d29; --map-land: #213444; --map-l1: #2a6650; --map-l2: #2f9a6e; --map-l4: #7fe6b8; --map-border: var(--c-bg); }
 @supports (color: color-mix(in srgb, red, blue)) {
 	.world-map {
-		--map-sea: color-mix(in srgb, var(--c-accent) 6%, var(--c-surface));
-		--map-land: color-mix(in srgb, var(--c-ink) 11%, var(--c-surface));
-		--map-l1: color-mix(in srgb, var(--c-accent) 32%, var(--map-land));
-		--map-l2: color-mix(in srgb, var(--c-accent) 58%, var(--map-land));
-		--map-l4: color-mix(in srgb, var(--c-accent) 62%, #031a17);
+		--map-sea: color-mix(in srgb, var(--c-blue) 8%, var(--c-bg));
+		--map-land: color-mix(in srgb, #fff 10%, var(--c-surface));
+		--map-l1: color-mix(in srgb, var(--c-accent) 35%, var(--map-land));
+		--map-l2: color-mix(in srgb, var(--c-accent) 65%, var(--map-land));
+		--map-l4: color-mix(in srgb, var(--c-accent) 55%, #eafff5);
 	}
-	@media (prefers-color-scheme: dark) {
-		:root:not([data-theme="light"]) .world-map { --map-sea: color-mix(in srgb, var(--c-accent) 6%, var(--c-surface)); --map-land: color-mix(in srgb, #fff 9%, var(--c-surface)); --map-l4: color-mix(in srgb, var(--c-accent) 55%, #e6fff9); }
-	}
-	:root[data-theme="dark"] .world-map { --map-sea: color-mix(in srgb, var(--c-accent) 6%, var(--c-surface)); --map-land: color-mix(in srgb, #fff 9%, var(--c-surface)); --map-l4: color-mix(in srgb, var(--c-accent) 55%, #e6fff9); }
 }
 .world-map__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin: 0 0 1rem; padding: 0; list-style: none; }
 .world-map__stats li { display: flex; flex-direction: column; gap: .15rem; padding: .9rem 1.1rem; border-radius: var(--radius-m, 18px); background: var(--c-surface); border: 1px solid var(--c-line); }

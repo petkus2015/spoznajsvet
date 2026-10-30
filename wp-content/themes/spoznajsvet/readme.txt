@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.27.0
+Stable tag: 1.28.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,14 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.28.0 =
+* Tmavý web v odtieňoch nočnej modrej, zelenej a oranžovej (aj mapa, letenky a panely).
+* Úvod ako Globe Express: miesto, kde je fotka odfotená (z článku alebo z Prispôsobenia), veľký nadpis, vpravo karusel kariet krajín so šípkami a čiarou postupu.
+* Karty destinácií ako v appke: vysoká fotka so zaoblením, názov a kontinent/počet miest, dole tmavý pás „Letenka od … €“ (alebo počet článkov) so šípkou.
+* Stránka krajiny/mesta ako v appke: fotka cez celú obrazovku, hore aktuálna teplota, vietor a súradnice (Open-Meteo), dole názov, čísla (články, miesta/krajina, letenka od), popis s „Celý popis“ a tlačidlá Letenky / Čítať články.
+* Destinácie: kontinenty ako zvislé záložky na boku (na väčšej obrazovke), krajiny ako karty.
+* Bez nadpisov VEĽKÝMI písmenami aj v pätičke a zoznamoch.
 
 = 1.27.0 =
 * Mobil: všetko ovládanie je dole. Horná lišta má len logo; posledná položka spodnej lišty je „Menu“, ktoré sa vysunie zospodu nad lištou a vyhľadávanie má úplne dole pri palci (pri otvorenej klávesnici sa panel posunie nad ňu). Vyhľadávanie sa na mobile tiež otvára zospodu. Pri mape sú oblasti pod mapou a priblíženie vpravo dole.

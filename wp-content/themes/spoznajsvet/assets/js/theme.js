@@ -204,6 +204,7 @@
 		var prev = car.querySelector('[data-carousel-prev]');
 		var next = car.querySelector('[data-carousel-next]');
 		var current = car.querySelector('[data-carousel-current]');
+		var bar = car.querySelector('[data-carousel-progress]');
 
 		function step() {
 			var first = track.firstElementChild;
@@ -214,6 +215,11 @@
 		function update() {
 			var i = Math.round(track.scrollLeft / step());
 			if (current) current.textContent = String(Math.min(i + 1, track.children.length)).padStart(2, '0');
+			if (bar) {
+				var max = track.scrollWidth - track.clientWidth;
+				var seen = (track.clientWidth + Math.max(0, track.scrollLeft)) / track.scrollWidth;
+				bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, seen) : 1) + ')';
+			}
 			if (prev) prev.disabled = track.scrollLeft < 4;
 			if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
 		}
@@ -259,6 +265,17 @@
 			applyDest();
 		});
 	}
+
+	/* Krajina / mesto: rozbalenie dlhého popisu. */
+	doc.addEventListener('click', function (e) {
+		var btn = e.target.closest('[data-clamp-toggle]');
+		if (!btn) return;
+		var box = btn.previousElementSibling;
+		if (!box || !box.hasAttribute('data-clamp')) return;
+		var open = box.classList.toggle('is-clamped') === false;
+		btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+		btn.firstChild.textContent = open ? 'Menej ' : 'Celý popis ';
+	});
 
 	/* Zdieľanie článku. */
 	doc.addEventListener('click', function (e) {

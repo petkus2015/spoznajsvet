@@ -56,9 +56,9 @@ endwhile;
 </section>
 
 <section class="section section--tight">
-	<div class="container">
+	<div class="container dest-browse<?php echo count( $grouped ) > 1 ? ' has-tabs' : ''; ?>">
 		<?php if ( count( $grouped ) > 1 ) : ?>
-			<div class="chips chips--scroll" data-continent-tabs>
+			<div class="chips chips--scroll dest-tabs" data-continent-tabs role="group" aria-label="Kontinenty">
 				<button type="button" class="chip is-active" data-continent="">Všetko</button>
 				<?php foreach ( $order as $k ) : ?>
 					<?php if ( ! empty( $grouped[ $k ] ) ) : ?>
@@ -68,6 +68,7 @@ endwhile;
 			</div>
 		<?php endif; ?>
 
+		<div class="dest-browse__list">
 		<?php if ( ! $countries ) : ?>
 			<p class="empty">Zatiaľ tu nie sú žiadne destinácie. V administrácii pridajte krajiny a mestá v <em>Články → Destinácie</em>.</p>
 		<?php endif; ?>
@@ -100,6 +101,7 @@ endwhile;
 			</div>
 		<?php endforeach; ?>
 		<p class="empty" data-dest-empty hidden>Nič sa nenašlo.</p>
+		</div>
 	</div>
 </section>
 

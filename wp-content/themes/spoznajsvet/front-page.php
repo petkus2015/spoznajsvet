@@ -22,6 +22,10 @@ $latest    = new WP_Query(
 <section class="hero"<?php echo $hero ? ' style="--hero-img:url(' . esc_url( $hero ) . ')"' : ''; ?>>
 	<div class="container hero__grid">
 		<div class="hero__copy">
+			<?php $sst_place = sst_hero_place(); ?>
+			<?php if ( $sst_place ) : ?>
+				<p class="hero__place"><?php echo sst_icon( 'pin', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?> <?php echo esc_html( $sst_place ); ?></p>
+			<?php endif; ?>
 			<h1 class="hero__title"><?php echo esc_html( trim( sst_mod( 'sst_hero_title' ) . ' ' . sst_mod( 'sst_hero_accent' ) ) ); ?></h1>
 			<p class="hero__text"><?php echo esc_html( sst_mod( 'sst_hero_text' ) ); ?></p>
 			<div class="hero__actions">
@@ -37,13 +41,14 @@ $latest    = new WP_Query(
 				<div class="hero__carousel-track" data-carousel-track>
 					<?php foreach ( array_slice( $countries, 0, 8 ) as $c ) : ?>
 						<div class="hero__slide">
-							<?php get_template_part( 'template-parts/card-destination', null, array( 'term' => $c ) ); ?>
+							<?php get_template_part( 'template-parts/card-destination', null, array( 'term' => $c, 'variant' => 'compact' ) ); ?>
 						</div>
 					<?php endforeach; ?>
 				</div>
 				<div class="hero__controls">
 					<button type="button" class="round-btn" data-carousel-prev aria-label="Predchádzajúca krajina"><?php echo sst_icon( 'arrow-left', 18 ); // phpcs:ignore ?></button>
 					<button type="button" class="round-btn" data-carousel-next aria-label="Ďalšia krajina"><?php echo sst_icon( 'arrow-right', 18 ); // phpcs:ignore ?></button>
+					<span class="hero__progress" aria-hidden="true"><span data-carousel-progress></span></span>
 				</div>
 			</div>
 		<?php endif; ?>

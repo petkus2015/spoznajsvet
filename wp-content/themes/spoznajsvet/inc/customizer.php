@@ -72,6 +72,7 @@ add_action(
 			'sst_hero_title'   => array( 'sst_hero', 'Nadpis', 'text' ),
 			'sst_hero_accent'  => array( 'sst_hero', 'Nadpis – druhé slovo', 'text' ),
 			'sst_hero_text'    => array( 'sst_hero', 'Text', 'textarea' ),
+			'sst_hero_place'   => array( 'sst_hero', 'Miesto na fotke (prázdne = z článku)', 'text' ),
 			'sst_about_title'  => array( 'sst_about', 'Nadpis', 'text' ),
 			'sst_about_text'   => array( 'sst_about', 'Text', 'textarea' ),
 			'sst_about_tags'   => array( 'sst_about', 'Štítky (oddelené čiarkou)', 'text' ),

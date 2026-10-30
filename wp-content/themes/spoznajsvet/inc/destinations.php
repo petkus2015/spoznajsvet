@@ -464,3 +464,75 @@ function sst_plural( $n, $one, $few, $many ) {
 	}
 	return ( $n >= 2 && $n <= 4 ) ? $few : $many;
 }
+
+/* ---------- Počasie a poloha pre úvod stránky krajiny/mesta ---------- */
+
+/** Poloha destinácie: mesto podľa súradníc, krajina podľa svojho najnavštevovanejšieho mesta. */
+function sst_term_coords( WP_Term $term ) {
+	if ( ! function_exists( 'sst_city_coords' ) ) {
+		return null;
+	}
+	if ( $term->parent ) {
+		return sst_city_coords( $term );
+	}
+	foreach ( sst_cities( $term ) as $city ) {
+		$ll = sst_city_coords( $city );
+		if ( $ll ) {
+			return $ll;
+		}
+	}
+	return null;
+}
+
+/** Súradnice ako „41.9028°N, 12.4964°E“. */
+function sst_format_coords( array $ll ) {
+	return sprintf(
+		'%.4f°%s, %.4f°%s',
+		abs( $ll[0] ),
+		$ll[0] >= 0 ? 'N' : 'S',
+		abs( $ll[1] ),
+		$ll[1] >= 0 ? 'E' : 'W'
+	);
+}
+
+/**
+ * Aktuálne počasie v destinácii (Open-Meteo, bez kľúča), hodinu v cache.
+ *
+ * @return array{t:int,wind:int,dir:string}|null
+ */
+function sst_term_weather( WP_Term $term ) {
+	$ll = sst_term_coords( $term );
+	if ( ! $ll ) {
+		return null;
+	}
+	$key    = 'sst_wx_' . md5( round( $ll[0], 2 ) . ',' . round( $ll[1], 2 ) );
+	$cached = get_transient( $key );
+	if ( false !== $cached ) {
+		return is_array( $cached ) ? $cached : null;
+	}
+	$res = wp_remote_get(
+		add_query_arg(
+			array(
+				'latitude'        => round( $ll[0], 3 ),
+				'longitude'       => round( $ll[1], 3 ),
+				'current'         => 'temperature_2m,wind_speed_10m,wind_direction_10m',
+				'wind_speed_unit' => 'kmh',
+			),
+			'https://api.open-meteo.com/v1/forecast'
+		),
+		array( 'timeout' => 4 )
+	);
+	$cur = is_wp_error( $res ) ? null : ( json_decode( wp_remote_retrieve_body( $res ), true )['current'] ?? null );
+	if ( ! $cur || ! isset( $cur['temperature_2m'] ) ) {
+		set_transient( $key, 'x', 15 * MINUTE_IN_SECONDS ); // Chyba: skúsime neskôr, stránka sa nezdrží.
+		return null;
+	}
+	$dirs = array( 'S', 'SV', 'V', 'JV', 'J', 'JZ', 'Z', 'SZ' );
+	$out  = array(
+		't'    => (int) round( $cur['temperature_2m'] ),
+		'wind' => (int) round( $cur['wind_speed_10m'] ?? 0 ),
+		'dir'  => $dirs[ (int) round( ( (float) ( $cur['wind_direction_10m'] ?? 0 ) ) / 45 ) % 8 ],
+	);
+	set_transient( $key, $out, HOUR_IN_SECONDS );
+	return $out;
+}

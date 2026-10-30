@@ -16,29 +16,62 @@ $flag    = sst_term_flag( $term );
 $deal    = sst_cheapest_flight_to( $term );
 ?>
 
-<section class="page-hero page-hero--dest"<?php echo $cover ? ' style="--hero-img:url(' . esc_url( $cover ) . ')"' : ''; ?>>
-	<div class="container page-hero__inner">
-		<?php sst_breadcrumbs( $term ); ?>
-		<h1 class="page-hero__title">
-			<?php if ( $flag ) : ?>
-				<span class="page-hero__flag" aria-hidden="true"><?php echo esc_html( $flag ); ?></span>
-			<?php endif; ?>
-			<?php echo esc_html( $term->name ); ?>
-		</h1>
-		<?php if ( $term->description ) : ?>
-			<div class="page-hero__text"><?php echo wp_kses_post( wpautop( $term->description ) ); ?></div>
+<?php
+$coords  = sst_term_coords( $term );
+$weather = sst_term_weather( $term );
+$n_city  = $is_city ? 0 : count( $cities );
+$desc    = trim( wp_strip_all_tags( $term->description ) );
+?>
+<section class="place-hero"<?php echo $cover ? ' style="--hero-img:url(' . esc_url( $cover ) . ')"' : ''; ?>>
+	<div class="container place-hero__inner">
+		<?php if ( $weather || $coords ) : ?>
+			<div class="place-hero__wx">
+				<?php if ( $weather ) : ?>
+					<span class="place-hero__temp" title="Teraz v destinácii"><?php echo (int) $weather['t']; ?>°</span>
+				<?php endif; ?>
+				<span class="place-hero__wind">
+					<?php if ( $weather ) : ?>
+						<b><?php echo esc_html( $weather['dir'] . ' ' . $weather['wind'] . ' km/h' ); ?></b>
+					<?php endif; ?>
+					<?php if ( $coords ) : ?>
+						<small><?php echo esc_html( sst_format_coords( $coords ) ); ?></small>
+					<?php endif; ?>
+				</span>
+			</div>
 		<?php endif; ?>
-		<ul class="stats">
-			<li><strong><?php echo (int) $term->count; ?></strong> <?php echo esc_html( sst_plural( $term->count, 'článok', 'články', 'článkov' ) ); ?></li>
-			<?php if ( ! $is_city && $cities ) : ?>
-				<li><strong><?php echo count( $cities ); ?></strong> <?php echo esc_html( sst_plural( count( $cities ), 'navštívené miesto', 'navštívené miesta', 'navštívených miest' ) ); ?></li>
+
+		<div class="place-hero__body">
+			<?php sst_breadcrumbs( $term ); ?>
+			<h1 class="place-hero__title">
+				<?php echo esc_html( $term->name ); ?>
+				<?php if ( $flag ) : ?>
+					<span class="place-hero__flag" aria-hidden="true"><?php echo esc_html( $flag ); ?></span>
+				<?php endif; ?>
+			</h1>
+			<dl class="place-hero__stats">
+				<div><dt>Články</dt><dd><?php echo (int) $term->count; ?></dd></div>
+				<?php if ( $is_city ) : ?>
+					<div><dt>Krajina</dt><dd><?php echo esc_html( $country->name ); ?></dd></div>
+				<?php elseif ( $n_city ) : ?>
+					<div><dt>Miesta</dt><dd><?php echo (int) $n_city; ?></dd></div>
+				<?php endif; ?>
+				<?php if ( $deal ) : ?>
+					<div><dt>Letenka od</dt><dd><?php echo esc_html( $deal['price'] ); ?></dd></div>
+				<?php endif; ?>
+			</dl>
+			<?php if ( $desc ) : ?>
+				<div class="place-hero__text<?php echo mb_strlen( $desc ) > 220 ? ' is-clamped' : ''; ?>" data-clamp><?php echo wp_kses_post( wpautop( $term->description ) ); ?></div>
+				<?php if ( mb_strlen( $desc ) > 220 ) : ?>
+					<button type="button" class="place-hero__more" data-clamp-toggle aria-expanded="false">Celý popis <?php echo sst_icon( 'chevron-down', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
+				<?php endif; ?>
 			<?php endif; ?>
-			<?php if ( $deal ) : ?>
-				<li class="stats__deal">
-					<a href="<?php echo esc_url( $deal['url'] ); ?>"><?php echo sst_icon( 'plane', 16 ); // phpcs:ignore ?> letenka tam aj späť od <strong><?php echo esc_html( $deal['price'] ); ?></strong></a>
-				</li>
-			<?php endif; ?>
-		</ul>
+			<div class="place-hero__actions">
+				<?php if ( $deal ) : ?>
+					<a class="btn btn--primary" href="<?php echo esc_url( $deal['url'] ); ?>"><?php echo sst_icon( 'plane', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?> Letenky od <?php echo esc_html( $deal['price'] ); ?></a>
+				<?php endif; ?>
+				<a class="btn <?php echo $deal ? 'btn--glass' : 'btn--primary'; ?>" href="#clanky"><?php echo sst_icon( 'book', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?> Čítať články</a>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -69,11 +102,11 @@ $deal    = sst_cheapest_flight_to( $term );
 	</section>
 <?php endif; ?>
 
-<section class="section section--tight">
+<section class="section section--tight" id="clanky">
 	<div class="container">
 		<header class="section-head">
 			<div>
-				<h2 class="section-title"><?php echo esc_html( $is_city ? $term->name : 'Všetko o krajine ' . $term->name ); ?></h2>
+				<h2 class="section-title"><?php echo esc_html( $is_city ? 'Články: ' . $term->name : 'Všetko o krajine ' . $term->name ); ?></h2>
 			</div>
 		</header>
 		<?php if ( have_posts() ) : ?>
