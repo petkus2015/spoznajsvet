@@ -25,6 +25,7 @@ foreach ( $countries as $c ) {
 
 <section class="page-hero page-hero--dest"<?php echo $hero ? ' style="--hero-img:url(' . esc_url( $hero ) . ')"' : ''; ?>>
 	<div class="container page-hero__inner">
+		<div class="frost page-hero__box">
 		<h1 class="page-hero__title"><?php the_title(); ?></h1>
 		<ul class="stats">
 			<li><strong><?php echo count( $countries ); ?></strong> <?php echo esc_html( sst_plural( count( $countries ), 'krajina', 'krajiny', 'krajín' ) ); ?></li>
@@ -35,6 +36,7 @@ foreach ( $countries as $c ) {
 			<span class="screen-reader-text">Filtrovať krajiny a mestá</span>
 			<input type="search" placeholder="Hľadať krajinu alebo mesto…" data-dest-filter autocomplete="off">
 		</label>
+		</div>
 	</div>
 </section>
 

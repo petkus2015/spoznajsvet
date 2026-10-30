@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.27.0
+Stable tag: 1.29.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.29.0 =
+* Matné (frosted) boxy na fotkách: úvod, stránka krajiny/mesta, článok, Letenky a Destinácie majú text v mliečnom sklenenom boxe; karty krajín a článkov majú popis v matnom boxe priamo na fotke; druhé tlačidlo je tmavá kapsula. (Verzia 1.28.0 s tmavým dizajnom bola vrátená.)
 
 = 1.27.0 =
 * Mobil: všetko ovládanie je dole. Horná lišta má len logo; posledná položka spodnej lišty je „Menu“, ktoré sa vysunie zospodu nad lištou a vyhľadávanie má úplne dole pri palci (pri otvorenej klávesnici sa panel posunie nad ňu). Vyhľadávanie sa na mobile tiež otvára zospodu. Pri mape sú oblasti pod mapou a priblíženie vpravo dole.

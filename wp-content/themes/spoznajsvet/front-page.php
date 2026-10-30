@@ -21,7 +21,7 @@ $latest    = new WP_Query(
 
 <section class="hero"<?php echo $hero ? ' style="--hero-img:url(' . esc_url( $hero ) . ')"' : ''; ?>>
 	<div class="container hero__grid">
-		<div class="hero__copy">
+		<div class="hero__copy frost">
 			<h1 class="hero__title"><?php echo esc_html( trim( sst_mod( 'sst_hero_title' ) . ' ' . sst_mod( 'sst_hero_accent' ) ) ); ?></h1>
 			<p class="hero__text"><?php echo esc_html( sst_mod( 'sst_hero_text' ) ); ?></p>
 			<div class="hero__actions">

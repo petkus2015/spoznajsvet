@@ -10,6 +10,7 @@ get_header();
 
 <section class="page-hero page-hero--flights">
 	<div class="container page-hero__inner">
+		<div class="frost page-hero__box">
 		<h1 class="page-hero__title"><?php the_title(); ?></h1>
 		<p class="page-hero__text">Najlacnejšie európske mestá na víkend a letenky do Bangkoku, Dubaja a Abu Dhabi z Viedne, Bratislavy a Budapešti. Ceny z Ryanair, Wizz Air a vyhľadávačov sa obnovujú každých 30 minút.</p>
 		<nav class="chips chips--scroll chips--glass" aria-label="Sekcie">
@@ -17,6 +18,7 @@ get_header();
 			<a class="chip" href="#oblubene">Obľúbené mestá</a>
 			<a class="chip" href="#exotika">Exotika</a>
 		</nav>
+		</div>
 	</div>
 </section>
 

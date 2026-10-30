@@ -18,6 +18,7 @@ $deal    = sst_cheapest_flight_to( $term );
 
 <section class="page-hero page-hero--dest"<?php echo $cover ? ' style="--hero-img:url(' . esc_url( $cover ) . ')"' : ''; ?>>
 	<div class="container page-hero__inner">
+		<div class="frost page-hero__box">
 		<?php sst_breadcrumbs( $term ); ?>
 		<h1 class="page-hero__title">
 			<?php if ( $flag ) : ?>
@@ -39,6 +40,7 @@ $deal    = sst_cheapest_flight_to( $term );
 				</li>
 			<?php endif; ?>
 		</ul>
+		</div>
 	</div>
 </section>
 
