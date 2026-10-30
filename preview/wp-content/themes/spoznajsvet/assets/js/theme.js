@@ -145,36 +145,57 @@
 		}
 	});
 
-	/* Mobilné menu (hamburger). */
+	/* Mobilné menu: otvára sa zospodu z položky „Menu“ v spodnej lište (vyhľadávanie je v ňom dole). */
 	var menu = doc.querySelector('[data-mobile-menu]');
-	var menuBtn = doc.querySelector('[data-menu-toggle]');
+	var menuBtns = doc.querySelectorAll('[data-menu-toggle]');
+	var menuFrom = null;
 
 	function setMenu(open) {
-		if (!menu || !menuBtn) return;
+		if (!menu || !menuBtns.length) return;
 		if (open === !menu.hidden) return;
 		root.classList.toggle('menu-open', open);
 		root.classList.toggle('no-scroll', open);
-		menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-		menuBtn.setAttribute('aria-label', open ? 'Zavrieť menu' : 'Otvoriť menu');
+		menuBtns.forEach(function (b) {
+			b.setAttribute('aria-expanded', open ? 'true' : 'false');
+			if (b.classList.contains('menu-toggle')) b.setAttribute('aria-label', open ? 'Zavrieť menu' : 'Otvoriť menu');
+		});
 		if (open) {
 			menu.hidden = false;
 			window.requestAnimationFrame(function () { menu.classList.add('is-open'); });
 		} else {
 			menu.classList.remove('is-open');
 			setTimeout(function () { if (!root.classList.contains('menu-open')) menu.hidden = true; }, reduceMotion ? 0 : 200);
+			// Šošovka spodnej lišty sa vráti z „Menu“ na aktuálnu stránku.
+			if (window.sstNavReset) window.sstNavReset();
+			if (menuFrom && menuFrom.focus) menuFrom.focus();
 		}
 	}
-	if (menuBtn) menuBtn.addEventListener('click', function () { setMenu(menu.hidden); });
+	menuBtns.forEach(function (b) {
+		b.addEventListener('click', function () { menuFrom = b; setMenu(menu.hidden); });
+	});
 	if (menu) {
 		menu.addEventListener('click', function (e) {
 			if (e.target === menu || e.target.closest('a')) setMenu(false);
 		});
 	}
 	doc.addEventListener('keydown', function (e) {
-		if (e.key === 'Escape' && menu && !menu.hidden) { setMenu(false); menuBtn.focus(); }
+		if (e.key === 'Escape' && menu && !menu.hidden) setMenu(false);
 	});
 	window.matchMedia('(min-width: 960px)').addEventListener('change', function (m) { if (m.matches) setMenu(false); });
 	doc.addEventListener('click', function (e) { if (e.target.closest('[data-search-open]')) setMenu(false); }, true);
+
+	/* Klávesnica na mobile: panely zospodu (menu, vyhľadávanie) sa posunú nad ňu. */
+	if (window.visualViewport) {
+		var vv = window.visualViewport;
+		var fitKeyboard = function () {
+			var kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+			kb = kb > 80 ? Math.round(kb) : 0;
+			root.style.setProperty('--kb', kb + 'px');
+			root.classList.toggle('kb-open', kb > 0);
+		};
+		vv.addEventListener('resize', fitKeyboard);
+		vv.addEventListener('scroll', fitKeyboard);
+	}
 
 	/* Karusely (scroll-snap + šípky + počítadlo). */
 	doc.querySelectorAll('[data-carousel]').forEach(function (car) {

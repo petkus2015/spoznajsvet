@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.2
+Stable tag: 1.13.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,9 @@ Najlacnejšie aktuálne letenky (Ryanair, Wizz Air, Aviasales/Travelpayouts + po
 * WP-CLI: wp letenky refresh, wp letenky status.
 
 == Changelog ==
+
+= 1.13.3 =
+* Letenky na užších displejoch (napr. rozložený iPhone Duo) v dvoch stĺpcoch, obľúbené mestá a exotika v dvoch stĺpcoch už od 560 px; v úzkom lístku sa neskracuje názov aerolinky.
 
 = 1.13.2 =
 * Bez nadtitulkov nad sekciami, kratšie a prirodzenejšie texty, jednofarebné pozadie počasia.

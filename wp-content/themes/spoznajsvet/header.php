@@ -62,7 +62,8 @@
 </header>
 
 <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
-	<div class="mobile-menu__panel">
+	<div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Menu">
+		<span class="mobile-menu__grip" aria-hidden="true"></span>
 		<nav class="mobile-menu__nav" aria-label="Menu">
 			<?php
 			wp_nav_menu(
@@ -85,10 +86,8 @@
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
-		<?php if ( sst_flights_url() ) : ?>
-			<a class="btn btn--primary mobile-menu__cta" href="<?php echo esc_url( sst_flights_url() ); ?>"><?php echo sst_icon( 'plane', 18 ); // phpcs:ignore ?> Lacné letenky</a>
-		<?php endif; ?>
 		<?php sst_social_links(); ?>
+		<div class="mobile-menu__search"><?php get_search_form(); ?></div>
 	</div>
 </div>
 

@@ -65,6 +65,7 @@ function sst_bottom_nav_items() {
 					'icon'   => $icon,
 					'active' => untrailingslashit( $item->url ) === untrailingslashit( home_url( add_query_arg( array() ) ) ),
 					'search' => 'search' === $icon,
+					'menu'   => 'menu' === $icon,
 				);
 			}
 			return $out;
@@ -101,12 +102,13 @@ function sst_bottom_nav_items() {
 		'icon'   => 'book',
 		'active' => is_home() || is_singular( 'post' ) || is_category() || is_tag(),
 	);
+	// Menu a vyhľadávanie sa na mobile otvárajú zospodu, nad lištou (bližšie k palcu).
 	$items[] = array(
-		'label'  => 'Hľadať',
+		'label'  => 'Menu',
 		'url'    => home_url( '/?s=' ),
-		'icon'   => 'search',
+		'icon'   => 'menu',
 		'active' => is_search(),
-		'search' => true,
+		'menu'   => true,
 	);
 	return $items;
 }

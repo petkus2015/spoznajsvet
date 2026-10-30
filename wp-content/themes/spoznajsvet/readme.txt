@@ -3,7 +3,7 @@ Contributors: spoznajsvet
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.26.1
+Stable tag: 1.27.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,10 @@ Moderná téma pre osobný cestovateľský blog spoznajsvet.sk.
 3. Vzhľad → Prispôsobiť → Spoznaj Svet (úvodný obrázok, texty, O mne, sociálne siete).
 
 == Changelog ==
+
+= 1.27.0 =
+* Mobil: všetko ovládanie je dole. Horná lišta má len logo; posledná položka spodnej lišty je „Menu“, ktoré sa vysunie zospodu nad lištou a vyhľadávanie má úplne dole pri palci (pri otvorenej klávesnici sa panel posunie nad ňu). Vyhľadávanie sa na mobile tiež otvára zospodu. Pri mape sú oblasti pod mapou a priblíženie vpravo dole.
+* iPhone Duo a iné skladacie telefóny: na rozloženom displeji dvojstĺpcové mriežky (články, letenky, obľúbené mestá, exotika) už od 560 px, okraje rešpektujú výrez displeja na šírku, pri ohnutom displeji (Viewport Segments) sa panely zospodu držia jednej polovice.
 
 = 1.26.1 =
 * Nový text v sekcii „O mne“ (prečo cestujem sám). Starší predvolený text uložený v Prispôsobení sa nahradí automaticky.

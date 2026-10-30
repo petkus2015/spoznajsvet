@@ -38,6 +38,12 @@
 
 .world-map__frame { overflow: hidden; border: 1px solid var(--c-line); border-radius: var(--radius-l); background: var(--map-sea); box-shadow: var(--shadow-card); }
 .world-map__bar { padding: .75rem .75rem 0; }
+/* Na mobile je ovládanie mapy dole: oblasti pod mapou, priblíženie vpravo dole. */
+@media (max-width: 959px) {
+	.world-map__frame { display: flex; flex-direction: column; }
+	.world-map__bar { order: 2; padding: .6rem .6rem .1rem; background: var(--c-surface); border-top: 1px solid var(--c-line); }
+	.world-map__legend { order: 3; border-top: 0; padding-top: .35rem; }
+}
 .world-map__regions { display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; padding: 2px; }
 .world-map__regions::-webkit-scrollbar { display: none; }
 .world-map__regions .chip { flex: 0 0 auto; min-height: 36px; padding: .35rem .85rem; font-size: .82rem; }

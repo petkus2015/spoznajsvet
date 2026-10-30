@@ -57,7 +57,7 @@
 
 /* Exotika */
 .svl-exo-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
-@media (min-width: 760px) { .svl-exo-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
+@media (min-width: 560px) { .svl-exo-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
 
 .svl-exo { display: flex; flex-direction: column; background: var(--svl-surface); border-radius: var(--svl-radius); box-shadow: var(--svl-shadow); overflow: hidden; border: 1px solid var(--svl-line); }
 .svl-exo__hero {
@@ -163,7 +163,7 @@
 }
 
 /* ===== Letenka ako palubný lístok ===== */
-.svl-tix-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.svl-tix-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 272px), 1fr)); }
 .svl-rank { margin-bottom: 1.75rem; }
 .svl-tix {
 	position: relative; display: flex; flex-direction: column; min-width: 0;
@@ -263,6 +263,7 @@
 .svl-tix__compare .svl-compare__btn { min-height: 24px; }
 
 @container (max-width: 330px) {
+	.svl-tix__airline .svl-airline__logo { display: none; }
 	.svl-tix__go { width: 44px; padding: 0; }
 	.svl-tix__go-label { display: none; }
 	.svl-tix__price strong { font-size: 1.35rem; }
@@ -337,7 +338,7 @@
 
 /* Najnavštevovanejšie mestá Európy – prehľadný zoznam ako „Explore“ */
 .svl-cities { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; grid-template-columns: 1fr; }
-@media (min-width: 720px) { .svl-cities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 560px) { .svl-cities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .svl-cities { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .svl-city { margin: 0; }
 .svl-city__main {
