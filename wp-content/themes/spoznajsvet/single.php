@@ -19,7 +19,6 @@ while ( have_posts() ) :
 	<article <?php post_class( 'article' ); ?>>
 		<header class="page-hero page-hero--post"<?php echo $cover ? ' style="--hero-img:url(' . esc_url( $cover ) . ')"' : ''; ?>>
 			<div class="container page-hero__inner">
-		<div class="frost page-hero__box">
 				<?php
 				if ( $places['city'] ) {
 					sst_breadcrumbs( $places['city'] );
@@ -32,7 +31,6 @@ while ( have_posts() ) :
 					<span><?php echo sst_icon( 'calendar', 16 ); // phpcs:ignore ?> <?php echo esc_html( get_the_date( 'j. n. Y' ) ); ?></span>
 					<span><?php echo sst_icon( 'clock', 16 ); // phpcs:ignore ?> <?php echo (int) sst_reading_time(); ?> min čítania</span>
 				</p>
-				</div>
 			</div>
 		</header>
 
